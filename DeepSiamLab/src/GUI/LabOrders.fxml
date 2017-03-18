@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="529.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LabOrdersController">
+   <children>
+      <TableView fx:id="ordersTableView" layoutX="40.0" layoutY="14.0" onMouseClicked="#onNoDate" onMousePressed="#onRelease" prefHeight="360.0" prefWidth="570.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="מספר הזמנה" />
+          <TableColumn prefWidth="75.0" text="מספר לקוח" />
+            <TableColumn prefWidth="134.0" text="תיאור" />
+            <TableColumn prefWidth="147.0" text="תאריך" />
+            <TableColumn prefWidth="142.0" text="הערות" />
+        </columns>
+      </TableView>
+      <TextField fx:id="orderNumTextField" layoutX="67.0" layoutY="405.0" onMouseClicked="#onNoDate" promptText="מספר הזמנה" />
+      <TextField fx:id="custIDTextField" layoutX="262.0" layoutY="405.0" onMouseClicked="#onNoDate" promptText="מספר לקוח" />
+      <TextField fx:id="dateTextField" layoutX="447.0" layoutY="405.0" onMouseClicked="#onDate" promptText="תאריך" />
+      <Button layoutX="283.0" layoutY="467.0" mnemonicParsing="false" onAction="#onSearch" prefHeight="37.0" prefWidth="89.0" text="חפש" />
+      <Button layoutX="41.0" layoutY="479.0" mnemonicParsing="false" onAction="#onBack" text="חזור" />
+      <Text fx:id="dateText" layoutX="447.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dd/mm/yyyy or hh/mm/ss" wrappingWidth="148.5078125" />
+      <Button layoutX="497.0" layoutY="461.0" mnemonicParsing="false" onAction="#onSelect" prefHeight="37.0" prefWidth="89.0" text="בחר" />
+   </children>
+</Pane>

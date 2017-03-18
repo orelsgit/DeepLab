@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="638.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OpenCardController">
+   <children>
+      <Button fx:id="newOrderButton" layoutX="269.0" layoutY="527.0" mnemonicParsing="false" onAction="#onIssueOrder" prefHeight="80.0" prefWidth="148.0" text="בצע הזמנה" />
+      <CheckBox fx:id="regulatorCheckBox" layoutX="101.0" layoutY="117.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="124.0" text="וסת">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="ccrCheckBox" layoutX="416.0" layoutY="238.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="155.0" text="מערכת סגורה">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="tankCheckBox" layoutX="101.0" layoutY="238.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="124.0" text="מאזן">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="bcdCheckBox" layoutX="416.0" layoutY="109.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="124.0" text="מאזן">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </CheckBox>
+      <TextArea fx:id="commentsTextArea" layoutX="243.0" layoutY="428.0" prefHeight="80.0" prefWidth="201.0" promptText="Comments" />
+      <Text layoutX="203.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="110.13671875" />
+      <Text layoutX="130.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer ID:">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Text>
+      <TextField fx:id="idTextField" editable="false" layoutX="275.0" layoutY="372.0" promptText="ID Number" />
+      <Text layoutX="247.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Comments:" />
+      <CheckBox fx:id="deepCheckBox" layoutX="130.0" layoutY="24.0" mnemonicParsing="false" onAction="#onDeepSelection" prefHeight="28.0" prefWidth="191.0" selected="true" text="Deep Equipment">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="privateCheckBox" layoutX="349.0" layoutY="24.0" mnemonicParsing="false" onAction="#onPrivateSelection" prefHeight="16.0" prefWidth="191.0" text="Private Equipment">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </CheckBox>
+      <TextField fx:id="regManuTextField" layoutX="102.0" layoutY="158.0" promptText="Manufacturer" />
+      <TextField fx:id="regDeepNumTextField" layoutX="102.0" layoutY="196.0" promptText="Deep Number" />
+      <TextField fx:id="bcdModelTextField" layoutX="417.0" layoutY="158.0" promptText="Model" />
+      <TextField fx:id="bcdDeepNumTextField" layoutX="417.0" layoutY="196.0" promptText="Deep Number" />
+      <TextField fx:id="tankManuTextField" layoutX="101.0" layoutY="282.0" promptText="Manufacturer" />
+      <TextField fx:id="tankDeepNumTextField" layoutX="101.0" layoutY="319.0" promptText="Deep Number" />
+      <TextField fx:id="ccrOwnerTextField" layoutX="417.0" layoutY="282.0" promptText="Owner" />
+      <TextField fx:id="ccrDeepNumTextField" layoutX="417.0" layoutY="319.0" promptText="Deep Number" />
+      <Button layoutX="31.0" layoutY="572.0" mnemonicParsing="false" onAction="#onBack" prefHeight="35.0" prefWidth="60.0" text="חזור" />
+      <Button layoutX="466.0" layoutY="372.0" mnemonicParsing="false" onAction="#onSearch" text="חפש לקוח" />
+      <Button layoutX="511.0" layoutY="577.0" mnemonicParsing="false" text="נקה מסך" />
+      <Button layoutX="269.0" layoutY="158.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
+      <Button layoutX="269.0" layoutY="196.0" mnemonicParsing="false" text="בחר" />
+      <Button layoutX="269.0" layoutY="319.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
+      <Button layoutX="269.0" layoutY="282.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
+      <Button layoutX="571.0" layoutY="158.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
+      <Button layoutX="575.0" layoutY="196.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
+      <Button layoutX="575.0" layoutY="319.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
+      <Button layoutX="575.0" layoutY="282.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
+   </children>
+</AnchorPane>

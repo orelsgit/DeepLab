@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="427.0" prefWidth="541.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginWorkerScreenController">
+   <children>
+      <Button fx:id="orderButton" layoutX="64.0" layoutY="351.0" mnemonicParsing="false" onAction="#onIssueOrder" text="בצע הזמנה" />
+      <Button layoutX="345.0" layoutY="351.0" mnemonicParsing="false" onAction="#onLogout" text="התנתק" />
+      <Button fx:id="ticketsButton" layoutX="362.0" layoutY="37.0" mnemonicParsing="false" onAction="#onTickets" prefHeight="59.0" prefWidth="128.0" text="כרטיסים" />
+      <ImageView fx:id="redotImageView" fitHeight="16.0" fitWidth="10.0" layoutX="373.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../redot.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

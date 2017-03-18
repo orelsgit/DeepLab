@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#afterSend" prefHeight="514.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EmailController">
+   <children>
+      <TextArea fx:id="msgTextArea" layoutX="64.0" layoutY="201.0" onMouseClicked="#afterSend" prefHeight="236.0" prefWidth="468.0" />
+      <TextField fx:id="toTextField" layoutX="64.0" layoutY="163.0" onMouseClicked="#afterSend" prefHeight="25.0" prefWidth="207.0" />
+      <TextField fx:id="subjectTextField" layoutX="64.0" layoutY="121.0" onMouseClicked="#afterSend" prefHeight="25.0" prefWidth="198.0" />
+      <Text layoutX="19.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subject:" />
+      <Text layoutX="40.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To:" />
+      <Text layoutX="9.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Message:" />
+      <TextField fx:id="emailTextField" layoutX="463.0" layoutY="89.0" onMouseClicked="#afterSend" />
+      <TextField fx:id="passwordTextField" layoutX="463.0" layoutY="127.0" onMouseClicked="#afterSend" />
+      <Text layoutX="404.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From:" />
+      <Text fx:id="passwordText" layoutX="393.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
+      <ProgressBar fx:id="emailProgressBar" layoutX="188.0" layoutY="169.0" prefHeight="44.0" prefWidth="266.0" progress="0.0" />
+      <ProgressIndicator fx:id="emailProgressIndicator" layoutX="274.0" layoutY="226.0" prefHeight="81.0" prefWidth="92.0" progress="0.0" />
+      <CheckBox fx:id="fromCheckBox" layoutX="453.0" layoutY="44.0" mnemonicParsing="false" onAction="#onFrom" onMouseClicked="#afterSend" prefHeight="25.0" prefWidth="120.0" text="From(optional)" />
+      <Button layoutX="533.0" layoutY="451.0" mnemonicParsing="false" onAction="#onSend" prefHeight="37.0" prefWidth="65.0" text="שלח" />
+      <Button layoutX="45.0" layoutY="451.0" mnemonicParsing="false" onAction="#onBack" onMouseClicked="#afterSend" prefHeight="37.0" prefWidth="65.0" text="חזור" />
+   </children>
+</Pane>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane fx:id="allTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CheckEquipmentScreenController">
+  <tabs>
+    <Tab fx:id="compTab" text="Compressor">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <CheckBox fx:id="cleanBox" layoutX="61.0" layoutY="42.0" mnemonicParsing="false" text="Cleanliness" />
+                  <CheckBox fx:id="oilBox" layoutX="61.0" layoutY="79.0" mnemonicParsing="false" text="Oil" />
+                  <TextField fx:id="hoursTextField" layoutX="287.0" layoutY="109.0" />
+                  <Text fx:id="hoursText" layoutX="61.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount of hours the engine has worked:" />
+                  <Button layoutX="482.0" layoutY="314.0" mnemonicParsing="false" onAction="#onContinue" text="Continue" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab fx:id="regTab" text="Regulator">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+    </Tab>
+      <Tab fx:id="tankTab" text="Tank">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </Tab>
+      <Tab fx:id="BCDTab" text="BCD">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </Tab>
+      <Tab fx:id="CCRTab" text="CCR">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </Tab>
+  </tabs>
+</TabPane>

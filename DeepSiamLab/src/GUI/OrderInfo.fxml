@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OrderInfoController">
+   <children>
+      <TextArea fx:id="descriptionTextArea" layoutX="255.0" layoutY="78.0" prefHeight="200.0" prefWidth="200.0" />
+      <TextArea fx:id="commentsTextArea" layoutX="515.0" layoutY="78.0" prefHeight="200.0" prefWidth="200.0" />
+      <Text fx:id="nameText" layoutX="46.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="58.13671875" />
+      <Text layoutX="255.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="תיאור" />
+      <Text layoutX="515.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="הערות" />
+      <Button layoutX="589.0" layoutY="341.0" mnemonicParsing="false" text="בדיקה שנתית" />
+      <Button layoutX="506.0" layoutY="341.0" mnemonicParsing="false" onAction="#onFix" text="תקלה" />
+      <Button layoutX="372.0" layoutY="341.0" mnemonicParsing="false" onAction="#onMail" text="צור קשר במייל" />
+      <Button layoutX="229.0" layoutY="341.0" mnemonicParsing="false" onAction="#onPhone" text="קבל מספר פלאפון" />
+      <TextField fx:id="phoneTextField" layoutX="223.0" layoutY="366.0" />
+      <Button layoutX="89.0" layoutY="448.0" mnemonicParsing="false" onAction="#onBack" text="חזור" />
+      <CheckBox fx:id="regCheckBox" layoutX="97.0" layoutY="84.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" text="וסת">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="bcdCheckBox" layoutX="97.0" layoutY="125.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" text="מאזן">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="ccrCheckBox" layoutX="97.0" layoutY="165.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="138.0" text="מערכת סגורה">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="tankCheckBox" layoutX="97.0" layoutY="209.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" text="מיכל">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </CheckBox>
+   </children>
+</Pane>
