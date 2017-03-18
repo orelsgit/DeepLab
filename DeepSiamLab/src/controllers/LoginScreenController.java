@@ -1,9 +1,10 @@
 package controllers;
 
-import java.io.IOException;
-
 import entities.GeneralMethods;
+import entities.Order;
 import entities.Worker;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -22,6 +23,7 @@ public class LoginScreenController {
 
 
 	public void initialize(){
+
 		GM = new GeneralMethods();
 		idTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -39,6 +41,15 @@ public class LoginScreenController {
 				}
 			}
 		});
+
+		Thread thread = new Thread(){
+			public void run(){
+				System.out.println("here");
+				Order order = new Order();
+				GM.sendServerThread(order, "GetNewOrders");
+			}
+		};thread.start();
+
 	}
 
 
@@ -76,10 +87,36 @@ public class LoginScreenController {
 
 		Worker.setCurrentWorker(null);
 		GM.sendServer(worker, "Login");
-		while(Worker.getCurrentWorker()==null) GM.Sleep(2);
-		if(Worker.getCurrentWorker().actionNow==null)
-			return;
-		Main.showMenu("LoginWorkerScreen");
+		/*Thread thread = new Thread(){
+			public void run(){
+				while(Worker.getCurrentWorker()==null)
+					GM.Sleep(2);
+				if(Worker.getCurrentWorker().actionNow==null)
+					return;
+				Main.showMenu("LoginWorkerScreen");
+			}
+		};thread.start();*/
+		
+		/*WITH THE FOLLOWING CODE I CAN CHANGE ANY UI THAT I WANT WITH THREADS! :D*/
+		 Task<Void> task = new Task<Void>() {
+		     @Override protected Void call() throws Exception {
+		          for (int i=0; i<1; i++) {                
+		             Platform.runLater(new Runnable() {
+		                 @Override 			public void run(){
+		     				while(Worker.getCurrentWorker()==null)
+		    					GM.Sleep(2);
+		    				if(Worker.getCurrentWorker().actionNow==null)
+		    					return;
+		    				Main.showMenu("LoginWorkerScreen");
+		    			}
+		             });
+		         }
+		         return null;
+		     }
+		 };
+		 task.run();
+		System.out.println("authenticating...");
+
 	}
 
 

@@ -96,10 +96,6 @@ public class OpenCardController {
 	public void onIssueOrder(){
 		String description="";//This String will be shown to the tech when he opens the ticket.
 		if(privateCheckBox.isSelected()){//Private Equipment
-
-
-
-
 			if(regulatorCheckBox.isSelected())
 				description+="Regulator:\n -Serial Num: " + regDeepNumTextField.getText() + "\n -Manufacturer: " + regManuTextField.getText() + "\n";
 			if(bcdCheckBox.isSelected())
@@ -108,17 +104,13 @@ public class OpenCardController {
 				description+="Tank:\n -Serial Num: " + tankDeepNumTextField.getText() + "\n -Manufacturer: " + tankManuTextField.getText() + "\n";
 			if(ccrCheckBox.isSelected())
 				description+="CCR:\n -Owner: "+ ccrOwnerTextField.getText() + "\n -Serial Number: " + ccrDeepNumTextField.getText() + "\n";
-
+			System.out.println("yo");
 			if(idTextField.getText().equals("")){
 				Windows.warning("You forget the customer's id!");
 				return;
 			}
 
-
-
-
 		}else if(deepCheckBox.isSelected()){//Deep Equipment
-
 			if(regulatorCheckBox.isSelected())
 				description+="Regulator:\n -Deep Number: " + regDeepNumTextField.getText() + "\n -Manufacturer: " + regManuTextField.getText() + "\n";
 			if(bcdCheckBox.isSelected())
@@ -127,7 +119,6 @@ public class OpenCardController {
 				description+="Tank:\n -Deep Number: " + tankDeepNumTextField.getText() + "\n -Manufacturer: " + tankManuTextField.getText() + "\n";
 			if(ccrCheckBox.isSelected())
 				description+="CCR:\n -Owner: "+ ccrOwnerTextField.getText() + "\n -Serial Number: " + ccrDeepNumTextField.getText() + "\n";
-
 		}
 
 		if(!(deepCheckBox.isSelected()||privateCheckBox.isSelected())){
@@ -136,15 +127,13 @@ public class OpenCardController {
 		if(!(ccrCheckBox.isSelected()&&tankCheckBox.isSelected()&&bcdCheckBox.isSelected()&&regulatorCheckBox.isSelected()))//Nothing is ticked
 			if(Windows.yesNo("Are you sure you want nothing ticked?", "Sure?")==1)
 				return;
-
-
-
 			else if(Windows.yesNo("Are you sure that you've TICKED everything needed?", "Be completely sure!")==1)
 				return;
+		
 		Order order = new Order(-1, idTextField.getText(), description,commentsTextArea.getText(), df.format(calobj.getTime()));
-		GM.sendServer(order, "IssueOrder");
 		Order.currentOrder = new Order();
 		Order.currentOrder.actionNow="IssueOrder";
+		GM.sendServer(order, "IssueOrder");
 		while(Order.currentOrder.actionNow.equals("IssueOrder")) GM.Sleep(2);
 		Windows.threadMessage("Order has been issued and will be soon reviewed by the tech.", "ORDER DISPATCHED!");
 

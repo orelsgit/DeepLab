@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="294.0" prefWidth="577.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FixController">
+   <children>
+      <TextArea fx:id="fixTextArea" layoutX="267.0" layoutY="45.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="176.0" prefWidth="295.0" promptText="פירוט">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TextArea>
+      <Button layoutX="461.0" layoutY="243.0" mnemonicParsing="false" onAction="#onBack" prefHeight="37.0" prefWidth="87.0" text="חזור" />
+      <Button layoutX="59.0" layoutY="243.0" mnemonicParsing="false" onAction="#onContinue" prefHeight="37.0" prefWidth="87.0" text="המשך" />
+      <TextField fx:id="costTextField" layoutX="32.0" layoutY="96.0" />
+      <Text layoutX="191.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":עלות סופית" wrappingWidth="76.13671875" />
+      <Text layoutX="481.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":פירוט תיקון">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>

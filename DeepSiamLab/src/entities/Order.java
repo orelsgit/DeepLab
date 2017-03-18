@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 
 public class Order extends GeneralMessage {
 
@@ -10,6 +11,7 @@ public class Order extends GeneralMessage {
 	private int orderNum, handled;//handled -1 - Not handled, 0 - Is being handled, 1-finished and prepared
 	private String custID, description, Comments,date, name, lastName;
 	public static Order currentOrder;
+	private static ArrayList<Order> unHandledOrderList;
 	
 	public Order(int handled, String custID, String description, String comments, String date, int orderNum) {
 		super();
@@ -79,6 +81,12 @@ public class Order extends GeneralMessage {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	public static ArrayList<Order> getUnhandledOrderList() {
+		return unHandledOrderList;
+	}
+	public static void setUnhandledOrderList(ArrayList<Order> unHandledOrderList) {
+		Order.unHandledOrderList = unHandledOrderList;
 	}
 
 	

@@ -39,14 +39,14 @@ public class Client extends AbstractClient {
 			switch(((ArrayList<GeneralMessage>)msg).get(0).actionNow){
 			case "OrderListReady":
 				for(Order order : (ArrayList<Order>)msg)
-				LabOrdersController.orderList.add(order);
+					LabOrdersController.orderList.add(order);
 				LabOrdersController.isBackFromServer=true;break;
 			case "GotCustomers":
 				CustomerSearchController.customerList = new ArrayList<Customer>((ArrayList<Customer>)msg);
 				CustomerSearchController.isBackFromServer = true;
 			}
 		}
-		
+
 		else
 			switch(((GeneralMessage)msg).actionNow){
 			case "Incorrect"://Incorrect login information

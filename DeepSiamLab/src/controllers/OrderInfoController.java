@@ -3,11 +3,11 @@ package controllers;
 import entities.Customer;
 import entities.GeneralMethods;
 import entities.Order;
-import entities.Windows;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.text.Text;
 import main.Main;
 
@@ -25,8 +25,12 @@ public class OrderInfoController {
 	@FXML
 	private TextField phoneTextField;
 	@FXML
-	private CheckBox regCheckBox, bcdCheckBox, ccrCheckBox, tankCheckBox;
+	private ToggleButton fixToggleButton, annualToggleButton;
+	@FXML
+	private Button regButton, bcdButton, tankButton, ccrButton;
+
 	public static boolean regCheck, bcdCheck, ccrCheck,tankCheck;//According to these attributes the fixing windows will be made
+
 
 
 
@@ -37,7 +41,6 @@ public class OrderInfoController {
 		tankCheck=false;
 		GM = new GeneralMethods();
 		orderSelected = LabOrdersController.orderSelected;
-		checkCheckBox();
 		nameText.setText(orderSelected.getName());
 		descriptionTextArea.setText(orderSelected.getDescription());
 		commentsTextArea.setText(orderSelected.getComments());
@@ -45,19 +48,21 @@ public class OrderInfoController {
 	}
 
 	public void checkCheckBox(){
-		bcdCheckBox.setVisible(false);
-		tankCheckBox.setVisible(false);
-		ccrCheckBox.setVisible(false);
-		regCheckBox.setVisible(false);
+		bcdButton.setVisible(false);
+		tankButton.setVisible(false);
+		ccrButton.setVisible(false);
+		regButton.setVisible(false);
 		if(orderSelected.getDescription().contains("BCD"))
-			bcdCheckBox.setVisible(true);
+			bcdButton.setVisible(true);
 		if(orderSelected.getDescription().contains("Regulator"))
-			regCheckBox.setVisible(true);
+			regButton.setVisible(true);
 		if(orderSelected.getDescription().contains("Tank"))
-			tankCheckBox.setVisible(true);
+			tankButton.setVisible(true);
 		if(orderSelected.getDescription().contains("CCR"))
-			ccrCheckBox.setVisible(true);
+			ccrButton.setVisible(true);
 	}
+
+
 
 	public static Customer getCustomerSelected() {
 		return customerSelected;
@@ -92,20 +97,58 @@ public class OrderInfoController {
 		OrderInfoController.orderSelected = orderSelected;
 	}
 
+	public void onAnnual(){
+		if(fixToggleButton.isSelected())
+			fixToggleButton.setSelected(false);
+	}
+
 	public void onFix(){
-		if(!((ccrCheckBox.isVisible()&&ccrCheckBox.isSelected())||(tankCheckBox.isVisible()&&tankCheckBox.isSelected())||(regCheckBox.isVisible()
-				&&regCheckBox.isSelected())||(bcdCheckBox.isVisible()&&bcdCheckBox.isSelected())))
-			Windows.warning("סמן את אחת האפשרויות לפניי שתמשיך");
-		if(ccrCheckBox.isVisible()&&ccrCheckBox.isSelected())
-			ccrCheck=true;
-		if((tankCheckBox.isVisible()&&tankCheckBox.isSelected()))
-			tankCheck=true;
-		if((regCheckBox.isVisible()&&regCheckBox.isSelected()))
-			regCheck=true;
-		if((bcdCheckBox.isVisible()&&bcdCheckBox.isSelected()))
-			bcdCheck=true;
+		if(annualToggleButton.isSelected())
+			annualToggleButton.setSelected(false);
+	}	
+
+	public void onReg(){
+		if(fixToggleButton.isSelected()){
+			GM.getPopup(Main.popup2, "Fix", "תיקון וסת");
+			return;
+		}
+		else if(annualToggleButton.isSelected()){
+			return;
+		}
 
 	}
+
+	public void onBCD(){
+		if(fixToggleButton.isSelected()){
+			GM.getPopup(Main.popup2, "Fix", "תיקון כמאזן");
+			return;
+		}
+		else if(annualToggleButton.isSelected()){
+			return;
+		}
+	}
+
+	public void onCCR(){
+		if(fixToggleButton.isSelected()){
+			GM.getPopup(Main.popup2, "Fix", "תיקון מערכת סגורה");
+			return;
+		}
+		else if(annualToggleButton.isSelected()){
+			return;
+		}
+	}
+
+	public void onTank(){
+		if(fixToggleButton.isSelected()){
+			GM.getPopup(Main.popup2, "Fix", "תיקון מיכל");
+			return;
+		}
+		else if(annualToggleButton.isSelected()){
+			return;
+		}
+	}
+
+
 
 	public void onBackPhone(){
 		GM.closePopup(Main.popup2);
