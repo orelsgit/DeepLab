@@ -13,6 +13,7 @@ import controllers.RegisterController;
 import entities.Customer;
 import entities.GeneralMessage;
 import entities.Order;
+import entities.Regulator;
 import entities.Windows;
 import entities.Worker;
 import ocsf.client.AbstractClient;
@@ -79,6 +80,11 @@ public class Client extends AbstractClient {
 				OrderInfoController.getCustomerSelected().setPhone(((Customer)msg).getPhone());OrderInfoController.isBackFromServer=true;break;
 			case "NoPhone":
 				OrderInfoController.getCustomerSelected().setPhone(null);OrderInfoController.isBackFromServer=true;break;
+			case "InterFound":
+				OrderInfoController.regChosen.actionNow = "InterFound";OrderInfoController.regChosen.setInterPressure(((Regulator)msg).getInterPressure());
+				OrderInfoController.isGotEquipments = true;break;
+			case "InterNotFound":
+				OrderInfoController.regChosen.actionNow="InterNotFound";OrderInfoController.isGotEquipments = true;break;
 			}
 	}
 

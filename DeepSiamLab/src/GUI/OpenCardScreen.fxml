@@ -19,7 +19,7 @@
             <Font size="19.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="tankCheckBox" layoutX="101.0" layoutY="238.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="124.0" text="מאזן">
+      <CheckBox fx:id="tankCheckBox" layoutX="101.0" layoutY="238.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="124.0" text="מיכל">
          <font>
             <Font size="19.0" />
          </font>
@@ -48,7 +48,7 @@
             <Font size="19.0" />
          </font>
       </CheckBox>
-      <TextField fx:id="regManuTextField" layoutX="102.0" layoutY="158.0" promptText="Manufacturer" />
+      <TextField fx:id="regManuTextField" layoutX="102.0" layoutY="158.0" promptText="Model" />
       <TextField fx:id="regDeepNumTextField" layoutX="102.0" layoutY="196.0" promptText="Deep Number" />
       <TextField fx:id="bcdModelTextField" layoutX="417.0" layoutY="158.0" promptText="Model" />
       <TextField fx:id="bcdDeepNumTextField" layoutX="417.0" layoutY="196.0" promptText="Deep Number" />

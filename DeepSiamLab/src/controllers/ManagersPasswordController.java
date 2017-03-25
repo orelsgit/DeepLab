@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import entities.GeneralMessage;
 import entities.GeneralMethods;
+import entities.Windows;
 import entities.Worker;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,23 +24,23 @@ public class ManagersPasswordController {
 	TextField passTextField;
 	private GeneralMethods GM;
 
-	
-	
+
+
 	public void initialize(){
 		GM = new GeneralMethods();
 		worker = new Worker();
-		  passTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-		      @Override
-		      public void handle(KeyEvent keyEvent) {
-		          if (keyEvent.getCode() == KeyCode.ENTER)  {
-		              onContinue();
-		          }
-		      }
-		  });
+		passTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				if (keyEvent.getCode() == KeyCode.ENTER)  {
+					onContinue();
+				}
+			}
+		});
 	}
-	
+
 	public void onContinue(){
-		
+
 		if(passTextField.getText().equals(""))
 			return;
 		worker.setManagerPassword(passTextField.getText());
@@ -47,18 +48,22 @@ public class ManagersPasswordController {
 		while(worker.actionNow.equals("ManagerPassword"))
 			GM.Sleep(2);	
 		if(worker.actionNow.equals("Incorrect")){
-			GM.closePopup(Main.popup);
+			Windows.warning("סיסמא שגויה! נסה שנית");
 			return;
 		}
-		
-		GM.setPopup(Main.popup, "Register", "רישום משתמש");
-		
-		
+		switch(GeneralMessage.currentWindow){
+		case "LoginScreen":
+			GM.setPopup(Main.popup, "Register", "רישום משתמש");break;
+		case "AnnualScreen":
+			Windows.message("הבדיקה אושרה עי המנהל ותועבר לארכיון לאחר לחיצת המשך בחלון הבא", "סיום טיפול");AnnualController.isManagerApprove = true;GM.closePopup(Main.popup3);break;
+		}
+
+
 	}
-	
+
 	public void onBack(){
 		GM.closePopup(Main.popup);
 	}
-	
-	
+
+
 }

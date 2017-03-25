@@ -2,18 +2,22 @@ package entities;
 
 public class Regulator extends GeneralMessage{
 	private String model,manufacturer,serialNum,KitChangeDate;
-	private int deepNum,interPressure;
+	private int deepNum;
+	float interPressure;
 	
 	
-	public Regulator(String model, String manufacturer, String serialNum, String kitChangeDate, int deepNum,
-			int interPressure) {
+	public Regulator(String model, String manufacturer, String serialNum, int deepNum, String kitChangeDate) {
 		super();
 		this.model = model;
 		this.manufacturer = manufacturer;
 		this.serialNum = serialNum;
 		KitChangeDate = kitChangeDate;
 		this.deepNum = deepNum;
-		this.interPressure = interPressure;
+	}
+	
+	
+	
+	public Regulator() {
 	}
 	public String getModel() {
 		return model;
@@ -45,11 +49,11 @@ public class Regulator extends GeneralMessage{
 	public void setDeepNum(int deepNum) {
 		this.deepNum = deepNum;
 	}
-	public int getInterPressure() {
+	public float getInterPressure() {
 		return interPressure;
 	}
-	public void setInterPressure(int interPressure) {
-		this.interPressure = interPressure;
+	public void setInterPressure(float f) {
+		this.interPressure = f;
 	}
 	
 }

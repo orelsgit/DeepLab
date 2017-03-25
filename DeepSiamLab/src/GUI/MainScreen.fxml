@@ -9,18 +9,18 @@
 
 <Pane fx:id="mainScreenLPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginScreenController">
    <children>
-      <ImageView fitHeight="145.0" fitWidth="622.0" layoutX="59.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Deep%20Logo.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="238.0" layoutY="297.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="25.0" prefWidth="102.0" text="התחבר" />
       <TextField fx:id="idTextField" alignment="TOP_RIGHT" layoutX="222.0" layoutY="194.0" promptText="שם משתמש">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </TextField>
       <TextField fx:id="passTextField" alignment="TOP_RIGHT" layoutX="222.0" layoutY="229.0" promptText="סיסמא" />
+      <ImageView fitHeight="145.0" fitWidth="622.0" layoutX="59.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Deep%20Logo.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="238.0" layoutY="297.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="25.0" prefWidth="102.0" text="התחבר" />
       <Button layoutX="262.0" layoutY="386.0" mnemonicParsing="false" onAction="#onClose" prefHeight="25.0" prefWidth="54.0" text="סגור" />
       <Button fx:id="registerButton" layoutX="238.0" layoutY="342.0" mnemonicParsing="false" onAction="#onRegister" prefHeight="25.0" prefWidth="102.0" text="רישום עובד" />
    </children>

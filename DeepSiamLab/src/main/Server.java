@@ -9,10 +9,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import controllers.CustomerSearchController;
+import entities.BCD;
+import entities.CCR;
 import entities.Customer;
 import entities.GeneralMessage;
 import entities.Order;
+import entities.Regulator;
+import entities.Tank;
 import entities.Windows;
 import entities.Worker;
 import ocsf.server.AbstractServer;
@@ -56,8 +59,81 @@ public class Server extends AbstractServer {
 			getPhone((Customer)msg, client);break;
 		case "GetCustomers":
 			getCustomers((Customer)msg, client);break;
+		case "FindInterPressure":
+			findInterPressure((Regulator)msg, client);break;
+		case "GetReg":
+			getReg(client);break;
+		case "GetBCD":
+			getBCD(client);break;
+		case "GetTank":
+			getTank(client);break;
+		case "GetCCR":
+			getCCR(client);break;
 			
 		}
+	}
+	
+	public void getReg(ConnectionToClient client){
+		ArrayList<Regulator> regList = new ArrayList<Regulator>();
+		try{
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("Select * From Regulators");
+		while(rs.next())
+			regList.add(new Regulator(rs.getString(1), rs.getString(2), rs.getString(3),rs.getInt(4), rs.getString(5) ));
+		regList.get(0).actionNow = "gotRegs";
+		client.sendToClient(regList);
+		}catch(Exception e){e.printStackTrace();}
+	}
+	
+	public void getBCD(ConnectionToClient client){
+		ArrayList<BCD> bcdList = new ArrayList<BCD>();
+		try{
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("Select * From BCDS");
+			while(rs.next())
+				bcdList.add(new BCD(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+			bcdList.get(0).actionNow = "gotBCDs";
+			client.sendToClient(bcdList);
+		}catch(Exception e){e.printStackTrace();}
+	}
+	
+	public void getTank(ConnectionToClient client){
+		ArrayList<Tank> tankList = new ArrayList<Tank>();
+		try{
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("Select * From Tanks");
+			while(rs.next())
+				tankList.add(new Tank(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+			tankList.get(0).actionNow = "GotTanks";
+			client.sendToClient(tankList);
+		}catch(Exception e){e.printStackTrace();}
+	}
+	
+	public void getCCR(ConnectionToClient client){
+		ArrayList<CCR> ccrList = new ArrayList<CCR>();
+		try{
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("Select * From CCR");
+			while(rs.next())
+				ccrList.add(new CCR(rs.getString(1), rs.getString(2), rs.getString(3)));
+			ccrList.get(0).actionNow = "gotCCR";
+			client.sendToClient(ccrList);
+			}catch(Exception e){e.printStackTrace();}
+	}
+	
+	public void findInterPressure(Regulator reg, ConnectionToClient client){
+		try{
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT InterPressure FROM RegModel WHERE Model = '" + reg.getModel() + "';");
+			if(rs.next()){
+				reg.setInterPressure(rs.getFloat(1));
+				reg.actionNow="InterFound";
+			}
+			else
+				reg.actionNow="InterNotFound";
+			client.sendToClient(reg);
+		}catch(Exception e){e.printStackTrace();}
+		
 	}
 	
 	public void getCustomers(Customer customer, ConnectionToClient client){

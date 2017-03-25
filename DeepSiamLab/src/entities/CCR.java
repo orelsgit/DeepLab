@@ -1,11 +1,16 @@
 package entities;
 
 public class CCR extends GeneralMessage{
-/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 private String serialNum, manufacturer, owner;
+
+public CCR(String serialNum, String manufacturer, String owner) {
+	super();
+	this.serialNum = serialNum;
+	this.manufacturer = manufacturer;
+	this.owner = owner;
+}
 
 public String getSerialNum() {
 	return serialNum;

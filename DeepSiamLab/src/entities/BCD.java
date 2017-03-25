@@ -7,6 +7,16 @@ public class BCD extends GeneralMessage {
 	private static final long serialVersionUID = 1L;
 private String deepNum, size, model, manufacturer;
 
+
+
+public BCD(String deepNum, String size, String model, String manufacturer) {
+	super();
+	this.deepNum = deepNum;
+	this.size = size;
+	this.model = model;
+	this.manufacturer = manufacturer;
+}
+
 public String getDeepNum() {
 	return deepNum;
 }

@@ -26,7 +26,7 @@ public class OpenCardController {
 	@FXML
 	private TextArea commentsTextArea;
 	@FXML
-	private TextField regManuTextField, regDeepNumTextField, bcdModelTextField,bcdDeepNumTextField, tankDeepNumTextField, tankManuTextField,
+	private TextField /*Change to Model*/regManuTextField, regDeepNumTextField, bcdModelTextField,bcdDeepNumTextField, tankDeepNumTextField, tankManuTextField,
 	ccrOwnerTextField, ccrDeepNumTextField, idTextField;
 
 	private GeneralMethods GM;
@@ -97,14 +97,17 @@ public class OpenCardController {
 		String description="";//This String will be shown to the tech when he opens the ticket.
 		if(privateCheckBox.isSelected()){//Private Equipment
 			if(regulatorCheckBox.isSelected())
-				description+="Regulator:\n -Serial Num: " + regDeepNumTextField.getText() + "\n -Manufacturer: " + regManuTextField.getText() + "\n";
+				description+="Regulator:\n -Serial Num: " + regDeepNumTextField.getText() + "\n -Model: " + regManuTextField.getText() + "\n";
+		
 			if(bcdCheckBox.isSelected())
 				description+="BCD:\n -Model: " + bcdModelTextField.getText() + "\n";
+			
 			if(tankCheckBox.isSelected())
 				description+="Tank:\n -Serial Num: " + tankDeepNumTextField.getText() + "\n -Manufacturer: " + tankManuTextField.getText() + "\n";
+			
 			if(ccrCheckBox.isSelected())
-				description+="CCR:\n -Owner: "+ ccrOwnerTextField.getText() + "\n -Serial Number: " + ccrDeepNumTextField.getText() + "\n";
-			System.out.println("yo");
+			description+="CCR:\n -Owner: "+ ccrOwnerTextField.getText() + "\n -Serial Number: " + ccrDeepNumTextField.getText() + "\n";
+			
 			if(idTextField.getText().equals("")){
 				Windows.warning("You forget the customer's id!");
 				return;
@@ -112,7 +115,7 @@ public class OpenCardController {
 
 		}else if(deepCheckBox.isSelected()){//Deep Equipment
 			if(regulatorCheckBox.isSelected())
-				description+="Regulator:\n -Deep Number: " + regDeepNumTextField.getText() + "\n -Manufacturer: " + regManuTextField.getText() + "\n";
+				description+="Regulator:\n -Deep Number: " + regDeepNumTextField.getText() + "\n -Model: " + regManuTextField.getText() + "\n";
 			if(bcdCheckBox.isSelected())
 				description+="BCD:\n -Model: " + bcdModelTextField.getText() + "\n";
 			if(tankCheckBox.isSelected())
@@ -133,8 +136,10 @@ public class OpenCardController {
 		Order order = new Order(-1, idTextField.getText(), description,commentsTextArea.getText(), df.format(calobj.getTime()));
 		Order.currentOrder = new Order();
 		Order.currentOrder.actionNow="IssueOrder";
+		
 		GM.sendServer(order, "IssueOrder");
-		while(Order.currentOrder.actionNow.equals("IssueOrder")) GM.Sleep(2);
+		while(Order.currentOrder.actionNow.equals("IssueOrder"))
+			GM.Sleep(2);
 		Windows.threadMessage("Order has been issued and will be soon reviewed by the tech.", "ORDER DISPATCHED!");
 
 	}

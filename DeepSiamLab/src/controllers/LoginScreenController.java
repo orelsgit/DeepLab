@@ -1,8 +1,6 @@
 package controllers;
 
-import entities.GeneralMethods;
-import entities.Order;
-import entities.Worker;
+import entities.*;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -25,6 +23,7 @@ public class LoginScreenController {
 	public void initialize(){
 
 		GM = new GeneralMethods();
+		GeneralMessage.currentWindow = "LoginScreen";
 		idTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
@@ -44,9 +43,12 @@ public class LoginScreenController {
 
 		Thread thread = new Thread(){
 			public void run(){
-				System.out.println("here");
 				Order order = new Order();
 				GM.sendServerThread(order, "GetNewOrders");
+				GM.sendServer(order, "GetReg");
+				GM.sendServer(order, "GetBCD");
+				GM.sendServer(order, "GetTank");
+				GM.sendServer(order, "GetCCR");
 			}
 		};thread.start();
 

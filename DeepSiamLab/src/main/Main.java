@@ -15,7 +15,7 @@ import javafx.stage.WindowEvent;
 
 public class Main extends Application {
 
-	public static Stage popup, popup2;
+	public static Stage popup, popup2, popup3;
 	private static Stage primaryStage;
 	public static Parent mainLayout;
 	public static int port=3307;
@@ -38,6 +38,9 @@ public class Main extends Application {
 		popup2 = new Stage(); 
 		popup2.initModality(Modality.APPLICATION_MODAL);
 		popup2.initOwner(popup);
+		popup3 = new Stage(); 
+		popup3.initModality(Modality.APPLICATION_MODAL);
+		popup3.initOwner(popup2);
 		showMenu("MainScreen");
 	}
 
