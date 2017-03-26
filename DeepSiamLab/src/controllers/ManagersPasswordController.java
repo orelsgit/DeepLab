@@ -16,7 +16,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import main.Client;
 import main.Main;
-
+/**
+ * The class is used to assure some only-manager allows/approvals will be allowed/approved by the manager.(Replaces a paper signature)
+ * @author orels
+ *
+ */
 public class ManagersPasswordController {
 
 	public static Worker worker;
@@ -25,7 +29,10 @@ public class ManagersPasswordController {
 	private GeneralMethods GM;
 
 
-
+/**
+ * Sets a key(ENTER) listener for the password.
+ * @author orels
+ */
 	public void initialize(){
 		GM = new GeneralMethods();
 		worker = new Worker();
@@ -39,30 +46,46 @@ public class ManagersPasswordController {
 		});
 	}
 
+	/**
+	 * Accesses the server and checks if the password that was inserted actually fits any of the manager's password and reacts according
+	 * to the current window.
+	 */
 	public void onContinue(){
 
 		if(passTextField.getText().equals(""))
 			return;
+		if(!(GM.checkText(passTextField.getText())))
+			return;
+
 		worker.setManagerPassword(passTextField.getText());
 		GM.sendServer(worker, "ManagerPassword");
 		while(worker.actionNow.equals("ManagerPassword"))
 			GM.Sleep(2);	
 		if(worker.actionNow.equals("Incorrect")){
-			Windows.warning("סיסמא שגויה! נסה שנית");
+			Windows.threadMessage("סיסמא שגויה! נסה שנית", "wrong pass");
 			return;
 		}
 		switch(GeneralMessage.currentWindow){
 		case "LoginScreen":
 			GM.setPopup(Main.popup, "Register", "רישום משתמש");break;
 		case "AnnualScreen":
-			Windows.message("הבדיקה אושרה עי המנהל ותועבר לארכיון לאחר לחיצת המשך בחלון הבא", "סיום טיפול");AnnualController.isManagerApprove = true;GM.closePopup(Main.popup3);break;
+			Windows.message("הבדיקה אושרה עי המנהל", "סיום טיפול");AnnualController.isManagerApprove = true;GM.closePopup(Main.popup3);break;
 		}
 
 
 	}
-
+/**
+ * Closes the current window.
+ * @author orels
+ */
 	public void onBack(){
-		GM.closePopup(Main.popup);
+		switch(GeneralMessage.currentWindow){
+		case "LoginScreen":
+		GM.closePopup(Main.popup);break;
+		case "AnnualScreen":
+			GM.closePopup(Main.popup3);break;
+			
+		}
 	}
 
 

@@ -1,8 +1,9 @@
 package entities;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
@@ -15,10 +16,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import entities.Windows;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import main.Client;
@@ -28,7 +27,14 @@ import main.Main;
 public class GeneralMethods {
 
 	private static Thread thread;
+	
+	private final  DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+	private final Calendar calobj = Calendar.getInstance();
 
+	public String getCurrentDate(){
+		return df.format(calobj.getTime());
+	}
+	
 	public void sendMail(String to, String subject, String content, String fr, String pass){
 		thread = new Thread(){
 			public void run(){

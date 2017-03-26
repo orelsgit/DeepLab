@@ -1,9 +1,6 @@
 package controllers;
 
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import entities.Customer;
 import entities.GeneralMethods;
@@ -31,8 +28,6 @@ public class OpenCardController {
 
 	private GeneralMethods GM;
 
-	private final  DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
-	private final Calendar calobj = Calendar.getInstance();
 	public static boolean isBackFromSearch;
 	
 	public static Customer customerChosen;
@@ -59,7 +54,7 @@ public class OpenCardController {
 		Thread thread = new Thread(){
 			public void run(){
 				while(!isBackFromSearch)
-					GM.Sleep(500);
+					GM.Sleep(2);
 				isBackFromSearch=false;
 				idTextField.setText(customerChosen.getCustID());			
 			}
@@ -68,7 +63,8 @@ public class OpenCardController {
 	}
 
 	/**
-	 * This method removes/changes/adds fields to the order window, depending on wether it's private equipment or deep's
+	 * Removes/changes/adds fields to the order window, depending on wether it's private equipment or deep's
+	 * @author orels
 	 */
 	public void onDeepSelection(){
 		privateCheckBox.setSelected(false);
@@ -79,7 +75,8 @@ public class OpenCardController {
 
 	}
 	/**
-	 * This method removes/changes/adds fields to the order window, depending on wether it's private equipment or deep's
+	 * Removes/changes/adds fields to the order window, depending on wether it's private equipment or deep's
+	 *  @author orels
 	 */
 	public void onPrivateSelection(){
 		deepCheckBox.setSelected(false);
@@ -90,11 +87,12 @@ public class OpenCardController {
 	}
 
 	/**
-	 * This method checks the order fields and issues an order by writing the information into the description String
-	 * which will later be shown to the tech
+	 * Checks the order fields and issues an order by writing the information into the description String which will later be shown to the tech
+	 *  @author orels
 	 */
 	public void onIssueOrder(){
 		String description="";//This String will be shown to the tech when he opens the ticket.
+		
 		if(privateCheckBox.isSelected()){//Private Equipment
 			if(regulatorCheckBox.isSelected())
 				description+="Regulator:\n -Serial Num: " + regDeepNumTextField.getText() + "\n -Model: " + regManuTextField.getText() + "\n";
@@ -128,12 +126,12 @@ public class OpenCardController {
 			Windows.threadWarning("Tick the private/deep equipment before you proceed.");return;
 		}
 		if(!(ccrCheckBox.isSelected()&&tankCheckBox.isSelected()&&bcdCheckBox.isSelected()&&regulatorCheckBox.isSelected()))//Nothing is ticked
-			if(Windows.yesNo("Are you sure you want nothing ticked?", "Sure?")==1)
+			if(!Windows.yesNo("Are you sure you want nothing ticked?", "Sure?"))
 				return;
-			else if(Windows.yesNo("Are you sure that you've TICKED everything needed?", "Be completely sure!")==1)
+			else if(!Windows.yesNo("Are you sure that you've TICKED everything needed?", "Be completely sure!"))
 				return;
 		
-		Order order = new Order(-1, idTextField.getText(), description,commentsTextArea.getText(), df.format(calobj.getTime()));
+		Order order = new Order(-1, idTextField.getText(), description,commentsTextArea.getText(), GM.getCurrentDate());
 		Order.currentOrder = new Order();
 		Order.currentOrder.actionNow="IssueOrder";
 		
@@ -151,6 +149,19 @@ public class OpenCardController {
 	 */
 	public void onBack(){
 		Main.showMenu("LoginWorkerScreen");
+	}
+	
+	public void onClean(){
+		commentsTextArea.setText("");
+		regManuTextField.setText("");
+		regDeepNumTextField.setText("");
+		bcdModelTextField.setText("");
+		bcdDeepNumTextField.setText("");
+		tankDeepNumTextField.setText("");
+		tankManuTextField.setText("");
+		ccrOwnerTextField.setText("");
+		idTextField.setText("");
+		ccrDeepNumTextField.setText("");
 	}
 
 

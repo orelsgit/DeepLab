@@ -28,7 +28,7 @@
       <Text layoutX="690.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":תעודת זהות" />
       <Text layoutX="691.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":מספר לקוח" />
       <Text layoutX="243.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":שם משפחה" />
-      <Button layoutX="7.0" layoutY="296.0" mnemonicParsing="false" text="refresh" />
+      <Button layoutY="281.0" mnemonicParsing="false" onAction="#onRefresh" prefHeight="25.0" prefWidth="49.0" text="רענן" />
       <Button layoutX="358.0" layoutY="420.0" mnemonicParsing="false" onAction="#onSelect" prefHeight="38.0" prefWidth="92.0" text="בחר" />
    </children>
 </Pane>

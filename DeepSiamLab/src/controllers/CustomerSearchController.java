@@ -32,6 +32,11 @@ public class CustomerSearchController {
 	private static HashMap<Integer, Integer> custToDelete;
 	private static int doubleClick, selectedLine;
 
+
+	/**
+	 * Sets ENTER listeners, removes spaces from the information from the server and sets it into the tableview.
+	 * @author orels
+	 */
 	public void initialize(){
 
 		doubleClick=0;
@@ -72,7 +77,11 @@ public class CustomerSearchController {
 	}//End initialize
 
 
-
+	/**
+	 * Sets a key(ENTER) listener for a certain TextField.
+	 * @param textField is the TextField that the listener is assigned to.
+	 * @author orels
+	 */
 	public void setListener(TextField textField){
 		textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -85,7 +94,10 @@ public class CustomerSearchController {
 	}//end setListener
 
 
-
+	/**
+	 * Initializes the TableView with a Customer class.
+	 * @author orels
+	 */
 	@SuppressWarnings("unchecked")
 	public void initTableView(){
 		TableColumn<Customer, String> name = (TableColumn<Customer, String>) customersTableView.getColumns().get(0);
@@ -102,6 +114,11 @@ public class CustomerSearchController {
 		phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
 	}
 
+	
+	/**
+	 * Searches through the customer's list according to the user's filled fields, using a HashMap for low complexity.
+	 * @author orels
+	 */
 	public void onSearch(){
 
 		custToDelete = new HashMap<Integer, Integer>();
@@ -124,15 +141,14 @@ public class CustomerSearchController {
 
 		if(!name.equals("")&&GM.checkText(name))
 			for(int i=0;i<customerList.size();i++)
-				if(!customerList.get(i).getName().equals(name)){
-					System.out.println("here" + i);
+				if(!customerList.get(i).getName().contains(name))
 					custToDelete.put(i, i);
-				}
+				
 
 
 		if(!lastName.equals("")&&GM.checkText(lastName))
 			for(int i=0;i<customerList.size();i++)
-				if(!customerList.get(i).getLastName().equals(lastName))
+				if(!customerList.get(i).getLastName().contains(lastName))
 					custToDelete.put(i, i);
 
 
@@ -158,12 +174,20 @@ public class CustomerSearchController {
 
 
 	}
-
+	
+	
+	/**
+	 * Closes the customer search window.
+	 * @author orels
+	 */
 	public void onBack(){
 		GM.closePopup(Main.popup);
 	}
 
-
+	/**
+	 * Sends back to OpenCardController information about the chosen customer, which will later be used to get the customer's id.
+	 * @author orels
+	 */
 	public void onSelect(){
 		OpenCardController.customerChosen = new Customer();
 		OpenCardController.isBackFromSearch = true;
@@ -171,7 +195,11 @@ public class CustomerSearchController {
 			GM.closePopup(Main.popup);
 		return;
 	}
-
+	
+/**
+ * Used to assure the double click safetly.
+ * @author orels
+ */
 	public void onRelease(){
 		if(doubleClick == 1&&selectedLine == customersTableView.getSelectionModel().getSelectedIndex())
 			onSelect();
@@ -179,6 +207,11 @@ public class CustomerSearchController {
 			setDoubleClickThread();
 	}
 
+	
+	/**
+	 * Sets a double click thread with a timer, to make the double click accurate.
+	 * @author orels
+	 */
 	public void setDoubleClickThread(){
 		doubleClick=0;
 		doubleClick++;
@@ -189,6 +222,20 @@ public class CustomerSearchController {
 				doubleClick=0;
 			}
 		};doubleClickThread.start();
+	}
+
+	/**
+	 * Clears all the fields on the window, for comfort.
+	 * @author orels
+	 */
+	public void onRefresh(){//	private TextField idTextField, nameTextField, lastNameTextField, custIDTextField; 
+		idTextField.setText("");
+		nameTextField.setText("");
+		lastNameTextField.setText("");
+		custIDTextField.setText("");
+		ObservableList<Customer> customers = FXCollections.observableArrayList(customerList);
+		customersTableView.setItems(customers);
+
 	}
 
 

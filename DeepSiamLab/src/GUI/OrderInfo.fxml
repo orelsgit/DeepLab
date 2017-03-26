@@ -13,10 +13,19 @@
       <Text fx:id="nameText" layoutX="46.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם מלא" wrappingWidth="58.13671875" />
       <Text layoutX="255.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="תיאור" />
       <Text layoutX="515.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="הערות" />
-      <Button layoutX="372.0" layoutY="341.0" mnemonicParsing="false" onAction="#onMail" text="צור קשר במייל" />
-      <Button layoutX="229.0" layoutY="341.0" mnemonicParsing="false" onAction="#onPhone" text="קבל מספר פלאפון" />
-      <TextField fx:id="phoneTextField" layoutX="223.0" layoutY="366.0" />
-      <Button layoutX="89.0" layoutY="448.0" mnemonicParsing="false" onAction="#onBack" text="חזור" />
+      <Button layoutX="514.0" layoutY="372.0" mnemonicParsing="false" onAction="#onMail" prefHeight="45.0" prefWidth="123.0" text="צור קשר במייל">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button layoutX="315.0" layoutY="372.0" mnemonicParsing="false" onAction="#onPhone" prefHeight="45.0" prefWidth="149.0" text="קבל מספר פלאפון">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <TextField fx:id="phoneTextField" layoutX="315.0" layoutY="423.0" />
+      <Button layoutX="46.0" layoutY="448.0" mnemonicParsing="false" onAction="#onBack" prefHeight="38.0" prefWidth="83.0" text="חזור">
+         <font>
+            <Font size="17.0" />
+         </font></Button>
       <Button fx:id="regButton" layoutX="87.0" layoutY="78.0" mnemonicParsing="false" onAction="#onReg" prefHeight="36.0" prefWidth="123.0" text="וסת">
          <font>
             <Font name="System Bold Italic" size="15.0" />

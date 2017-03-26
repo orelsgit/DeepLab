@@ -82,7 +82,7 @@ public class RegisterController {
 	}
 
 	public void onManagerCheckBox(){
-		if(Windows.yesNo("?האם אתה בטוח שברצונך ליצור משתמש מנהל", "מנהל משתמש")==1){//false
+		if(!Windows.yesNo("?האם אתה בטוח שברצונך ליצור משתמש מנהל", "מנהל משתמש")){
 			managerCheckBox.setSelected(false);
 			return;
 		}

@@ -58,7 +58,7 @@
       <TextField fx:id="ccrDeepNumTextField" layoutX="417.0" layoutY="319.0" promptText="Deep Number" />
       <Button layoutX="31.0" layoutY="572.0" mnemonicParsing="false" onAction="#onBack" prefHeight="35.0" prefWidth="60.0" text="חזור" />
       <Button layoutX="466.0" layoutY="372.0" mnemonicParsing="false" onAction="#onSearch" text="חפש לקוח" />
-      <Button layoutX="511.0" layoutY="577.0" mnemonicParsing="false" text="נקה מסך" />
+      <Button layoutX="511.0" layoutY="577.0" mnemonicParsing="false" onAction="#onClean" text="נקה מסך" />
       <Button layoutX="269.0" layoutY="158.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
       <Button layoutX="269.0" layoutY="196.0" mnemonicParsing="false" text="בחר" />
       <Button layoutX="269.0" layoutY="319.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />

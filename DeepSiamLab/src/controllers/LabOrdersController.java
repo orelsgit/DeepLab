@@ -33,6 +33,10 @@ public class LabOrdersController {
 	private static int doubleClick, selectedLine;
 	private static Thread doubleClickThread;
 
+	/**
+	 * Initializes the TableView with orders that are yet to be reviewed and sets listeners for the search fields.
+	 * @author orels
+	 */
 	public void initialize(){
 
 		doubleClick=0;
@@ -58,6 +62,10 @@ public class LabOrdersController {
 
 	}
 
+	/**
+	 * Initializes the TableView with Order class.
+	 * @author orels
+	 */
 	@SuppressWarnings("unchecked")
 	public void initTableView(){
 		TableColumn<Order, Integer> orderNum = (TableColumn<Order, Integer>) ordersTableView.getColumns().get(0);
@@ -73,7 +81,10 @@ public class LabOrdersController {
 	}
 
 
-
+	/**
+	 * Searches through the order's list, according to the filled fields.
+	 * @author orels
+	 */
 	public void onSearch(){
 		onNoDate();
 		ArrayList<Order> orderL = new ArrayList<Order>(orderList);
@@ -108,7 +119,10 @@ public class LabOrdersController {
 
 	}
 
-
+	/**
+	 * Initializes the listeners on the searching fields.
+	 * @author orels
+	 */
 	public void initListeners(){
 
 		orderNumTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -145,7 +159,10 @@ public class LabOrdersController {
 			}
 		});
 	}
-
+/**
+ * Sets a static Order object that will contain information about the order that was chosen from the TableView.
+ * @author orels
+ */
 	public void onSelect(){
 		doubleClick = 0;
 		if((orderSelected = ordersTableView.getSelectionModel().getSelectedItem())==null)
@@ -153,6 +170,10 @@ public class LabOrdersController {
 		Main.showMenu("OrderInfo");
 	}
 
+	/**
+	 * Assures the doubleclick happened safetly and correctly.
+	 * @author orels
+	 */
 	public void onRelease(){
 		if(doubleClick == 1&&selectedLine == ordersTableView.getSelectionModel().getSelectedIndex())
 			onSelect();
@@ -160,6 +181,10 @@ public class LabOrdersController {
 			setDoubleClickThread();
 	}
 
+	/**
+	 * Sets a double click thread timer, to assure an accurate double click.
+	 * @author orels
+	 */
 	public void setDoubleClickThread(){
 		doubleClick=0;
 		doubleClick++;
@@ -171,14 +196,27 @@ public class LabOrdersController {
 			}
 		};doubleClickThread.start();
 	}
-
+	
+	/**
+	 * Sets the date text, to provide the tech with the date format.
+	 * @author orels
+	 */
 	public void onDate(){
 		dateText.setVisible(true);
 	}
+	
+	/**
+	 * removes the date text that provides the tech with the date format.
+	 * @author orels
+	 */
 	public void onNoDate(){
 		dateText.setVisible(false);
 	}
-
+	
+	/**
+	 * Closes the orders window.
+	 * @author orels
+	 */
 	public void onBack(){
 		Main.showMenu("LoginWorkerScreen");
 	}

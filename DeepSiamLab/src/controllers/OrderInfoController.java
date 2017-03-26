@@ -18,7 +18,7 @@ public class OrderInfoController {
 	private static Order orderSelected;
 	private static Customer customerSelected;
 	private static GeneralMethods GM;
-	public static boolean isBackFromServer=false,regCheck, bcdCheck, ccrCheck,tankCheck, isFixOrAnnual=false;//is it the phone window
+	public static boolean isBackFromServer=false,regCheck, bcdCheck, ccrCheck,tankCheck, isFixOrAnnual=false/*Avoid initializing while in phone window*/;
 	public static boolean isGotEquipments = false;
 	public static Regulator regChosen;
 
@@ -35,14 +35,17 @@ public class OrderInfoController {
 
 
 
-
+	/**
+	 * Initializes the window's text fields with information from the chosen unreviewed order.
+	 *  @author orels
+	 */
 	public void initialize(){
 		if(isFixOrAnnual)
 			return;
+		orderSelected = LabOrdersController.orderSelected;
 		getEquipmentInfo();
 		falseChecks();
 		GM = new GeneralMethods();
-		orderSelected = LabOrdersController.orderSelected;
 		nameText.setText(orderSelected.getName());
 		descriptionTextArea.setText(orderSelected.getDescription());
 		commentsTextArea.setText(orderSelected.getComments());
@@ -51,12 +54,14 @@ public class OrderInfoController {
 	}
 
 	/**
-	 * Gets, according to the description, information about the equipments chosen by the dalpak from the server.
+	 * Gets the information about the unreviewed order that was selected ealier.
+	 *  @author orels
 	 */
 
 	public void getEquipmentInfo(){
 		Thread thread = new Thread(){
 			public void run(){
+				isGotEquipments = false;
 				regChosen = new Regulator();
 				String order = orderSelected.getDescription();
 				int index;
@@ -95,11 +100,11 @@ public class OrderInfoController {
 
 				}
 
-				System.out.println("done");
 
 				isGotEquipments=true;
 			}
 		};thread.start();
+
 
 	}
 
@@ -107,6 +112,7 @@ public class OrderInfoController {
 
 	/**
 	 *  Puts false in the checks boolean attributes, in order to make sure the right window will show up
+	 *   @author orels
 	 */
 
 	public void falseChecks(){
@@ -117,6 +123,7 @@ public class OrderInfoController {
 	}
 	/**
 	 * Checks which button was pressed and sets the check boolean attributes accordingly
+	 *  @author orels
 	 */
 
 	public void checkCheckBox(){
@@ -137,14 +144,11 @@ public class OrderInfoController {
 
 
 
-	public static Customer getCustomerSelected() {
-		return customerSelected;
-	}
 
-	public static void setCustomerSelected(Customer customerSelected) {
-		OrderInfoController.customerSelected = customerSelected;
-	}
-
+	/**
+	 * Accesses the server and pulls the phone number of the customer's card.
+	 * @author orels
+	 */
 	public void onPhone(){
 		if((phoneTextField.getText())!=null&&!phoneTextField.getText().equals(""))
 			return;
@@ -160,19 +164,19 @@ public class OrderInfoController {
 		};thread.start();
 	}
 
+	/**
+	 * Opens the mail window, to send the customer an email.
+	 * @author orels
+	 */
 	public void onMail(){
 		GM.getPopup(Main.popup2, "Email", "שלח אימייל");
 	}
 
-	public static Order getOrderSelected() {
-		return orderSelected;
-	}
 
-
-	public static void setOrderSelected(Order orderSelected) {
-		OrderInfoController.orderSelected = orderSelected;
-	}
-
+	/**
+	 * Opens the annual check window and sets current popup string for the manager's password and more.
+	 *  @author orels
+	 */
 	public void onAnnual(){
 		while(!isGotEquipments)// DO NOT TRUST THE USER!
 			GM.Sleep(2);
@@ -182,6 +186,10 @@ public class OrderInfoController {
 		GM.closePopup(Main.popup);
 	}
 
+	/**
+	 * Opens the fix window and sets current popup string for the manager's password and more.
+	 *  @author orels
+	 */
 	public void onFix(){
 		while(!isGotEquipments)// DO NOT TRUST THE USER!
 			GM.Sleep(2);
@@ -192,35 +200,47 @@ public class OrderInfoController {
 
 	}	
 
+	/**
+	 * Sets the regCheck flag as true, so the system will write the information into the right table.
+	 *  @author orels
+	 */
 	public void onReg(){
 		falseChecks();
 		regCheck = true;
 		isFixOrAnnual=true;
 		GeneralMessage.currentPopup = "popup2";
 		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual");
-
-
 	}
 
+	/**
+	 * Sets the bcdCheck flag as true, so the system will write the information into the right table.
+	 *  @author orels
+	 */
 	public void onBCD(){
 		falseChecks();
 		isFixOrAnnual=true;
 		bcdCheck = true;
 		GeneralMessage.currentPopup = "popup2";
 		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual");
-
-
 	}
 
+	/**
+	 * Sets the ccrCheck flag as true, so the system will write the information into the right table.
+	 *  @author orels
+	 */
 	public void onCCR(){
 		falseChecks();
 		ccrCheck=true;
 		isFixOrAnnual=true;
 		GeneralMessage.currentPopup = "popup2";
 		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual");
-
 	}
-
+	
+	
+	/**
+	 * Sets the tankCheck flag as true, so the system will write the information into the right table.
+	 *  @author orels
+	 */
 	public void onTank(){
 		falseChecks();
 		isFixOrAnnual=true;
@@ -231,15 +251,27 @@ public class OrderInfoController {
 	}
 
 
-
+/**
+ * Closes the phone window.
+ *  @author orels
+ */
 	public void onBackPhone(){
 		GM.closePopup(Main.popup2);
 	}
+	
+	/**
+	 * Closes the LabOrders window and returns to the unreviewed orders window.
+	 *  @author orels
+	 */
 	public void onBack(){
 		Main.showMenu("LabOrders");
 		GeneralMessage.currentPopup = "";
 	}
 
+	/**
+	 * Opens up the annual check window.
+	 *  @author orels
+	 */
 	public void showAnnual(){
 		try {
 			TabPane mainLayout = FXMLLoader.load(Main.class.getResource("/GUI/Annual.fxml"));
@@ -250,4 +282,21 @@ public class OrderInfoController {
 		GeneralMessage.currentPopup = "popup2";
 	}
 
+
+	public static Customer getCustomerSelected() {
+		return customerSelected;
+	}
+
+	public static void setCustomerSelected(Customer customerSelected) {
+		OrderInfoController.customerSelected = customerSelected;
+	}
+	public static Order getOrderSelected() {
+		return orderSelected;
+	}
+
+
+	public static void setOrderSelected(Order orderSelected) {
+		OrderInfoController.orderSelected = orderSelected;
+	}
 }
+

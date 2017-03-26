@@ -10,15 +10,11 @@ import controllers.LoginWorkerScreenController;
 import controllers.ManagersPasswordController;
 import controllers.OrderInfoController;
 import controllers.RegisterController;
-import entities.Customer;
-import entities.GeneralMessage;
-import entities.Order;
-import entities.Regulator;
-import entities.Windows;
-import entities.Worker;
+import entities.*;
 import ocsf.client.AbstractClient;
 
 public class Client extends AbstractClient {
+	
 
 	public Client() {
 		super(Main.host, Main.port);
@@ -45,6 +41,15 @@ public class Client extends AbstractClient {
 			case "GotCustomers":
 				CustomerSearchController.customerList = new ArrayList<Customer>((ArrayList<Customer>)msg);
 				CustomerSearchController.isBackFromServer = true;
+				GeneralMessage.setCustList((ArrayList<Customer>)msg);break;
+			case "GotCCRs":
+				GeneralMessage.setCcrList((ArrayList<CCR>)msg);break;
+			case "GotRegs":
+				GeneralMessage.setRegList((ArrayList<Regulator>)msg);break;
+			case "GotTanks":
+				GeneralMessage.setTankList((ArrayList<Tank>)msg);break;
+			case "GotBCDs":
+				GeneralMessage.setBcdList((ArrayList<BCD>)msg);break;
 			}
 		}
 
@@ -85,6 +90,7 @@ public class Client extends AbstractClient {
 				OrderInfoController.isGotEquipments = true;break;
 			case "InterNotFound":
 				OrderInfoController.regChosen.actionNow="InterNotFound";OrderInfoController.isGotEquipments = true;break;
+
 			}
 	}
 

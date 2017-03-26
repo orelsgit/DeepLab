@@ -19,7 +19,11 @@ public class LoginScreenController {
 	private GeneralMethods GM;
 
 
-
+/**
+ * Initializes key(ENTER) handlers for the id and password text fields and creates a thread that will get information from the server
+ * into arraylists to diminish the server accesses.
+ * @author orels
+ */
 	public void initialize(){
 
 		GM = new GeneralMethods();
@@ -49,6 +53,15 @@ public class LoginScreenController {
 				GM.sendServer(order, "GetBCD");
 				GM.sendServer(order, "GetTank");
 				GM.sendServer(order, "GetCCR");
+				GM.sendServer(order, "GetCustomers");
+				while(GeneralMessage.getBcdList()!=null
+						&&GeneralMessage.getCcrList()!=null
+						&&GeneralMessage.getCustList()!=null
+						&&GeneralMessage.getRegList()!=null
+						&&GeneralMessage.getTankList()!=null)
+					GM.Sleep(2);
+				GeneralMessage.setGotLists(true);
+
 			}
 		};thread.start();
 
@@ -59,7 +72,8 @@ public class LoginScreenController {
 
 
 	/**
-	 * This method creates a popup to require a manager password, in order to add a new worker.
+	 * Creates a popup to require a manager password, in order to add a new worker.
+	 * @author orels
 	 */
 	public void onRegister(){
 		GM.getPopup(Main.popup, "ManagersPasswordScreen", "סיסמת מנהל");
@@ -67,7 +81,8 @@ public class LoginScreenController {
 
 
 	/**
-	 * This method is called upon pressing the login screen.
+	 * Called upon pressing the login screen.
+	 * @author orels
 	 */
 	public void  onLogin(){
 		idTextField.setStyle("-fx-background-color: white;");
@@ -98,25 +113,25 @@ public class LoginScreenController {
 				Main.showMenu("LoginWorkerScreen");
 			}
 		};thread.start();*/
-		
+
 		/*WITH THE FOLLOWING CODE I CAN CHANGE ANY UI THAT I WANT WITH THREADS! :D*/
-		 Task<Void> task = new Task<Void>() {
-		     @Override protected Void call() throws Exception {
-		          for (int i=0; i<1; i++) {                
-		             Platform.runLater(new Runnable() {
-		                 @Override 			public void run(){
-		     				while(Worker.getCurrentWorker()==null)
-		    					GM.Sleep(2);
-		    				if(Worker.getCurrentWorker().actionNow==null)
-		    					return;
-		    				Main.showMenu("LoginWorkerScreen");
-		    			}
-		             });
-		         }
-		         return null;
-		     }
-		 };
-		 task.run();
+		Task<Void> task = new Task<Void>() {
+			@Override protected Void call() throws Exception {
+				for (int i=0; i<1; i++) {                
+					Platform.runLater(new Runnable() {
+						@Override 			public void run(){
+							while(Worker.getCurrentWorker()==null)
+								GM.Sleep(2);
+							if(Worker.getCurrentWorker().actionNow==null)
+								return;
+							Main.showMenu("LoginWorkerScreen");
+						}
+					});
+				}
+				return null;
+			}
+		};
+		task.run();
 		System.out.println("authenticating...");
 
 	}

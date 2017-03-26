@@ -9,10 +9,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import entities.AnnualCheck;
 import entities.BCD;
 import entities.CCR;
 import entities.Customer;
 import entities.GeneralMessage;
+import entities.GeneralMethods;
 import entities.Order;
 import entities.Regulator;
 import entities.Tank;
@@ -23,11 +25,12 @@ import ocsf.server.ConnectionToClient;
 
 public class Server extends AbstractServer {    
 	Connection conn;
-
+	GeneralMethods GM;
 
 
 	public Server(int port) {
 		super(port);
+		GM = new GeneralMethods();
 		this.connectToDB();
 		try {
 			this.listen();
@@ -69,22 +72,74 @@ public class Server extends AbstractServer {
 			getTank(client);break;
 		case "GetCCR":
 			getCCR(client);break;
-			
+		case "AnnualCheck":
+		annualCheck((AnnualCheck)msg, client);break;
+
 		}
 	}
-	
+
+	public void annualCheck(AnnualCheck ac, ConnectionToClient client ){
+		PreparedStatement stmt;
+		try{
+
+			if(ac.isReg()){
+				stmt = conn.prepareStatement("insert into orelDeepdivers.CustomersReg(SerialNum, CustID, KitChangeDate, "
+						+ "FixComments, AnnualComments, Date, isApproved) values(?,?,?,?,?,?,?);");
+				stmt.setString(1, ac.getSerialNum());
+				stmt.setString(2, ac.getCustID());
+				if(ac.isKit())
+					stmt.setString(3, ac.getKitChangeDate());
+				
+				if(!ac.getFixComments().equals(""))
+					stmt.setString(4, ac.getFixComments());
+				else
+					stmt.setString(4, "");
+				if(!ac.getAnnualComments().equals(""))
+					stmt.setString(5, ac.getAnnualComments());
+				else
+					stmt.setString(5, "");
+
+				stmt.setString(6, GM.getCurrentDate());
+				if(ac.isManagerApprove())
+					stmt.setInt(7, 1);
+				else
+					stmt.setInt(7, 0);
+				stmt.executeUpdate();
+				
+				/** ONLY AFTER ALL THE EQUIPMENTS WERE REVIEWED! **/
+			/*	Statement statement = conn.createStatement();
+				String query;
+				if(ac.isManagerApprove())//handled = 1
+					query = "UPDATE orelDeepdivers.Orders SET handled = 1 WHERE OrderNum = " + ac.getOrderNum() + ";";
+				else
+					query = "UPDATE orelDeepdivers.Orders SET handled = 0 WHERE OrderNum = " + ac.getOrderNum() + ";";
+				statement.executeUpdate(query);*/
+					
+			}
+
+			if(ac.isCcr()){
+
+			}
+
+			if(ac.isBcd()){
+
+			}
+
+		}catch(Exception e){e.printStackTrace();}
+	}
+
 	public void getReg(ConnectionToClient client){
 		ArrayList<Regulator> regList = new ArrayList<Regulator>();
 		try{
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery("Select * From Regulators");
-		while(rs.next())
-			regList.add(new Regulator(rs.getString(1), rs.getString(2), rs.getString(3),rs.getInt(4), rs.getString(5) ));
-		regList.get(0).actionNow = "gotRegs";
-		client.sendToClient(regList);
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("Select * From Regulators");
+			while(rs.next())
+				regList.add(new Regulator(rs.getString(1), rs.getString(2), rs.getString(3),rs.getInt(4), rs.getString(5) ));
+			regList.get(0).actionNow = "gotRegs";
+			client.sendToClient(regList);
 		}catch(Exception e){e.printStackTrace();}
 	}
-	
+
 	public void getBCD(ConnectionToClient client){
 		ArrayList<BCD> bcdList = new ArrayList<BCD>();
 		try{
@@ -92,11 +147,11 @@ public class Server extends AbstractServer {
 			ResultSet rs = stmt.executeQuery("Select * From BCDS");
 			while(rs.next())
 				bcdList.add(new BCD(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
-			bcdList.get(0).actionNow = "gotBCDs";
+			bcdList.get(0).actionNow = "GotBCDs";
 			client.sendToClient(bcdList);
 		}catch(Exception e){e.printStackTrace();}
 	}
-	
+
 	public void getTank(ConnectionToClient client){
 		ArrayList<Tank> tankList = new ArrayList<Tank>();
 		try{
@@ -108,7 +163,7 @@ public class Server extends AbstractServer {
 			client.sendToClient(tankList);
 		}catch(Exception e){e.printStackTrace();}
 	}
-	
+
 	public void getCCR(ConnectionToClient client){
 		ArrayList<CCR> ccrList = new ArrayList<CCR>();
 		try{
@@ -116,11 +171,11 @@ public class Server extends AbstractServer {
 			ResultSet rs = stmt.executeQuery("Select * From CCR");
 			while(rs.next())
 				ccrList.add(new CCR(rs.getString(1), rs.getString(2), rs.getString(3)));
-			ccrList.get(0).actionNow = "gotCCR";
+			ccrList.get(0).actionNow = "GotCCRs";
 			client.sendToClient(ccrList);
-			}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){e.printStackTrace();}
 	}
-	
+
 	public void findInterPressure(Regulator reg, ConnectionToClient client){
 		try{
 			Statement stmt = conn.createStatement();
@@ -133,9 +188,9 @@ public class Server extends AbstractServer {
 				reg.actionNow="InterNotFound";
 			client.sendToClient(reg);
 		}catch(Exception e){e.printStackTrace();}
-		
+
 	}
-	
+
 	public void getCustomers(Customer customer, ConnectionToClient client){
 		try{
 			Statement stmt = conn.createStatement();
@@ -147,21 +202,21 @@ public class Server extends AbstractServer {
 			client.sendToClient(custList);
 		}catch(Exception e){e.printStackTrace();}
 	}
-	
+
 	public void getPhone(Customer customer, ConnectionToClient client){
 		try{
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT Phone FROM orelDeepdivers.Customers WHERE CustID = '" + customer.getCustID() + "';");
 			if(rs.next()){
-			customer.actionNow = "YesPhone";
-			customer.setPhone(rs.getString(1));
+				customer.actionNow = "YesPhone";
+				customer.setPhone(rs.getString(1));
 			}else customer.actionNow = "NoMail";
-			
+
 			client.sendToClient(customer);
 		}catch(Exception e){e.printStackTrace();}
 	}
 
-	
+
 	public void getMail(Order order, ConnectionToClient client){
 		System.out.println("getemail server");
 		try{
@@ -169,8 +224,8 @@ public class Server extends AbstractServer {
 			ResultSet rs = stmt.executeQuery("SELECT Email FROM orelDeepdivers.Customers WHERE CustID = '" + order.getCustID() + "';");
 			Customer customer = new Customer();
 			if(rs.next()){
-			customer.actionNow = "YesMail";
-			customer.setEmail(rs.getString(1));
+				customer.actionNow = "YesMail";
+				customer.setEmail(rs.getString(1));
 			}else customer.actionNow = "NoMail";
 			client.sendToClient(customer);
 		}catch(Exception e){e.printStackTrace();}
