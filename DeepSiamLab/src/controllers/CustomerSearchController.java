@@ -35,7 +35,7 @@ public class CustomerSearchController {
 
 	/**
 	 * Sets ENTER listeners, removes spaces from the information from the server and sets it into the tableview.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void initialize(){
 
@@ -80,7 +80,7 @@ public class CustomerSearchController {
 	/**
 	 * Sets a key(ENTER) listener for a certain TextField.
 	 * @param textField is the TextField that the listener is assigned to.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void setListener(TextField textField){
 		textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -96,7 +96,7 @@ public class CustomerSearchController {
 
 	/**
 	 * Initializes the TableView with a Customer class.
-	 * @author orels
+	 * @author orelzman
 	 */
 	@SuppressWarnings("unchecked")
 	public void initTableView(){
@@ -117,7 +117,7 @@ public class CustomerSearchController {
 	
 	/**
 	 * Searches through the customer's list according to the user's filled fields, using a HashMap for low complexity.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onSearch(){
 
@@ -178,7 +178,7 @@ public class CustomerSearchController {
 	
 	/**
 	 * Closes the customer search window.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onBack(){
 		GM.closePopup(Main.popup);
@@ -186,7 +186,7 @@ public class CustomerSearchController {
 
 	/**
 	 * Sends back to OpenCardController information about the chosen customer, which will later be used to get the customer's id.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onSelect(){
 		OpenCardController.customerChosen = new Customer();
@@ -198,7 +198,7 @@ public class CustomerSearchController {
 	
 /**
  * Used to assure the double click safetly.
- * @author orels
+ * @author orelzman
  */
 	public void onRelease(){
 		if(doubleClick == 1&&selectedLine == customersTableView.getSelectionModel().getSelectedIndex())
@@ -210,7 +210,7 @@ public class CustomerSearchController {
 	
 	/**
 	 * Sets a double click thread with a timer, to make the double click accurate.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void setDoubleClickThread(){
 		doubleClick=0;
@@ -226,7 +226,7 @@ public class CustomerSearchController {
 
 	/**
 	 * Clears all the fields on the window, for comfort.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onRefresh(){//	private TextField idTextField, nameTextField, lastNameTextField, custIDTextField; 
 		idTextField.setText("");

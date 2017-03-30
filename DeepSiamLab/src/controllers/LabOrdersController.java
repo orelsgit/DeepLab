@@ -35,7 +35,7 @@ public class LabOrdersController {
 
 	/**
 	 * Initializes the TableView with orders that are yet to be reviewed and sets listeners for the search fields.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void initialize(){
 
@@ -64,7 +64,7 @@ public class LabOrdersController {
 
 	/**
 	 * Initializes the TableView with Order class.
-	 * @author orels
+	 * @author orelzman
 	 */
 	@SuppressWarnings("unchecked")
 	public void initTableView(){
@@ -83,7 +83,7 @@ public class LabOrdersController {
 
 	/**
 	 * Searches through the order's list, according to the filled fields.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onSearch(){
 		onNoDate();
@@ -121,7 +121,7 @@ public class LabOrdersController {
 
 	/**
 	 * Initializes the listeners on the searching fields.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void initListeners(){
 
@@ -161,7 +161,7 @@ public class LabOrdersController {
 	}
 /**
  * Sets a static Order object that will contain information about the order that was chosen from the TableView.
- * @author orels
+ * @author orelzman
  */
 	public void onSelect(){
 		doubleClick = 0;
@@ -172,7 +172,7 @@ public class LabOrdersController {
 
 	/**
 	 * Assures the doubleclick happened safetly and correctly.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onRelease(){
 		if(doubleClick == 1&&selectedLine == ordersTableView.getSelectionModel().getSelectedIndex())
@@ -183,7 +183,7 @@ public class LabOrdersController {
 
 	/**
 	 * Sets a double click thread timer, to assure an accurate double click.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void setDoubleClickThread(){
 		doubleClick=0;
@@ -199,7 +199,7 @@ public class LabOrdersController {
 	
 	/**
 	 * Sets the date text, to provide the tech with the date format.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onDate(){
 		dateText.setVisible(true);
@@ -207,7 +207,7 @@ public class LabOrdersController {
 	
 	/**
 	 * removes the date text that provides the tech with the date format.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onNoDate(){
 		dateText.setVisible(false);
@@ -215,7 +215,7 @@ public class LabOrdersController {
 	
 	/**
 	 * Closes the orders window.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onBack(){
 		Main.showMenu("LoginWorkerScreen");

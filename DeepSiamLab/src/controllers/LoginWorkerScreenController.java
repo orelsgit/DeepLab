@@ -26,7 +26,7 @@ public class LoginWorkerScreenController{
 	/**
 	 * Grays out the buttons that aren't allowed for the current logged in worker and sets a thread to check if there are
 	 * orders that require the tech's attention.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void initialize(){//	private int isManager;//1 - manager, 0 - tech, -1 - dalpak
 		switch (Worker.getCurrentWorker().getIsManager()){
@@ -71,7 +71,7 @@ public class LoginWorkerScreenController{
 	
 	/**
 	 * Sets up a window that will contain a TableView with all the unreviewed Orders, as foresaid, the LabOrders
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onTickets(){
 		while(!GeneralMessage.getGotLists()){
@@ -101,7 +101,7 @@ public class LoginWorkerScreenController{
 
 	/**
 	 * This method shows the new card for the dalpak screen.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onIssueOrder(){
 		if(Worker.getCurrentWorker().getIsManager()==Status.Tech)

@@ -18,7 +18,7 @@ import main.Client;
 import main.Main;
 /**
  * The class is used to assure some only-manager allows/approvals will be allowed/approved by the manager.(Replaces a paper signature)
- * @author orels
+ * @author orelzman
  *
  */
 public class ManagersPasswordController {
@@ -31,7 +31,7 @@ public class ManagersPasswordController {
 
 /**
  * Sets a key(ENTER) listener for the password.
- * @author orels
+ * @author orelzman
  */
 	public void initialize(){
 		GM = new GeneralMethods();
@@ -76,7 +76,7 @@ public class ManagersPasswordController {
 	}
 /**
  * Closes the current window.
- * @author orels
+ * @author orelzman
  */
 	public void onBack(){
 		switch(GeneralMessage.currentWindow){

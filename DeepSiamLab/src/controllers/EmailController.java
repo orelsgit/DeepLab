@@ -37,7 +37,7 @@ public class EmailController {
 	
 	/**
 	 * Sets the email send window components.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void initialize(){
 		
@@ -83,7 +83,7 @@ public class EmailController {
 	}
 	/**
 	 * Checks the validation of the written text and sends the message.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onSend(){
 		if(!GM.checkText(emailTextField.getText())&&GM.checkText(toTextField.getText().replaceAll("\\s+", ""))&&GM.checkText(passwordTextField.getText()))
@@ -96,7 +96,7 @@ public class EmailController {
 	
 	/**
 	 * Cleans the window, preparing it to send another email or the edit the last one and resend it.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void afterSend(){
 		if(number.get()<1)
@@ -109,7 +109,7 @@ public class EmailController {
 
 	/**
 	 * Activates a thread to run the progress bar/indicator.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void activateProgressBar(){
 		Thread thread = new Thread(){
@@ -127,7 +127,7 @@ public class EmailController {
 	
 	/**
 	 * Closes the email window.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onBack(){
 		GM.closePopup(Main.popup2);

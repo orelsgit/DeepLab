@@ -37,7 +37,7 @@ public class OrderInfoController {
 
 	/**
 	 * Initializes the window's text fields with information from the chosen unreviewed order.
-	 *  @author orels
+	 *  @author orelzman
 	 */
 	public void initialize(){
 		if(isFixOrAnnual)
@@ -55,7 +55,7 @@ public class OrderInfoController {
 
 	/**
 	 * Gets the information about the unreviewed order that was selected ealier.
-	 *  @author orels
+	 *  @author orelzman
 	 */
 
 	public void getEquipmentInfo(){
@@ -112,7 +112,7 @@ public class OrderInfoController {
 
 	/**
 	 *  Puts false in the checks boolean attributes, in order to make sure the right window will show up
-	 *   @author orels
+	 *   @author orelzman
 	 */
 
 	public void falseChecks(){
@@ -123,7 +123,7 @@ public class OrderInfoController {
 	}
 	/**
 	 * Checks which button was pressed and sets the check boolean attributes accordingly
-	 *  @author orels
+	 *  @author orelzman
 	 */
 
 	public void checkCheckBox(){
@@ -147,7 +147,7 @@ public class OrderInfoController {
 
 	/**
 	 * Accesses the server and pulls the phone number of the customer's card.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onPhone(){
 		if((phoneTextField.getText())!=null&&!phoneTextField.getText().equals(""))
@@ -166,7 +166,7 @@ public class OrderInfoController {
 
 	/**
 	 * Opens the mail window, to send the customer an email.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onMail(){
 		GM.getPopup(Main.popup2, "Email", "שלח אימייל");
@@ -175,7 +175,7 @@ public class OrderInfoController {
 
 	/**
 	 * Opens the annual check window and sets current popup string for the manager's password and more.
-	 *  @author orels
+	 *  @author orelzman
 	 */
 	public void onAnnual(){
 		while(!isGotEquipments)// DO NOT TRUST THE USER!
@@ -188,7 +188,7 @@ public class OrderInfoController {
 
 	/**
 	 * Opens the fix window and sets current popup string for the manager's password and more.
-	 *  @author orels
+	 *  @author orelzman
 	 */
 	public void onFix(){
 		while(!isGotEquipments)// DO NOT TRUST THE USER!
@@ -202,7 +202,7 @@ public class OrderInfoController {
 
 	/**
 	 * Sets the regCheck flag as true, so the system will write the information into the right table.
-	 *  @author orels
+	 *  @author orelzman
 	 */
 	public void onReg(){
 		falseChecks();
@@ -214,7 +214,7 @@ public class OrderInfoController {
 
 	/**
 	 * Sets the bcdCheck flag as true, so the system will write the information into the right table.
-	 *  @author orels
+	 *  @author orelzman
 	 */
 	public void onBCD(){
 		falseChecks();
@@ -226,7 +226,7 @@ public class OrderInfoController {
 
 	/**
 	 * Sets the ccrCheck flag as true, so the system will write the information into the right table.
-	 *  @author orels
+	 *  @author orelzman
 	 */
 	public void onCCR(){
 		falseChecks();
@@ -239,7 +239,7 @@ public class OrderInfoController {
 	
 	/**
 	 * Sets the tankCheck flag as true, so the system will write the information into the right table.
-	 *  @author orels
+	 *  @author orelzman
 	 */
 	public void onTank(){
 		falseChecks();
@@ -253,7 +253,7 @@ public class OrderInfoController {
 
 /**
  * Closes the phone window.
- *  @author orels
+ *  @author orelzman
  */
 	public void onBackPhone(){
 		GM.closePopup(Main.popup2);
@@ -261,7 +261,7 @@ public class OrderInfoController {
 	
 	/**
 	 * Closes the LabOrders window and returns to the unreviewed orders window.
-	 *  @author orels
+	 *  @author orelzman
 	 */
 	public void onBack(){
 		Main.showMenu("LabOrders");
@@ -270,7 +270,7 @@ public class OrderInfoController {
 
 	/**
 	 * Opens up the annual check window.
-	 *  @author orels
+	 *  @author orelzman
 	 */
 	public void showAnnual(){
 		try {

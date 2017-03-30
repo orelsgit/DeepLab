@@ -2,7 +2,7 @@ package entities;
 
 /**
  * Contains information about annual checks for any customer's equipment
- * @author orels
+ * @author orelzman
  *
  */
 public class AnnualCheck extends GeneralMessage{

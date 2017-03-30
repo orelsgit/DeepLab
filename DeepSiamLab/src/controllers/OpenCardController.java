@@ -64,7 +64,7 @@ public class OpenCardController {
 
 	/**
 	 * Removes/changes/adds fields to the order window, depending on wether it's private equipment or deep's
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onDeepSelection(){
 		privateCheckBox.setSelected(false);
@@ -76,7 +76,7 @@ public class OpenCardController {
 	}
 	/**
 	 * Removes/changes/adds fields to the order window, depending on wether it's private equipment or deep's
-	 *  @author orels
+	 *  @author orelzman
 	 */
 	public void onPrivateSelection(){
 		deepCheckBox.setSelected(false);
@@ -88,7 +88,7 @@ public class OpenCardController {
 
 	/**
 	 * Checks the order fields and issues an order by writing the information into the description String which will later be shown to the tech
-	 *  @author orels
+	 *  @author orelzman
 	 */
 	public void onIssueOrder(){
 		String description="";//This String will be shown to the tech when he opens the ticket.

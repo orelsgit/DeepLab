@@ -85,7 +85,7 @@ public class AnnualController {
 
 	/**
 	 * Sets information about the check button.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onCheckEntered(){
 		text.setVisible(true);
@@ -94,7 +94,7 @@ public class AnnualController {
 
 	/**
 	 * Removes the information text about the check button.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onCheckExited(){
 		text.setVisible(false);
@@ -102,7 +102,7 @@ public class AnnualController {
 
 	/**
 	 * Sets information about the comments text area
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onCommentsEntered(){
 		commentsText.setVisible(true);
@@ -110,7 +110,7 @@ public class AnnualController {
 
 	/**
 	 * Removes the information text about the comments text area
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onCommentsExited(){
 		commentsText.setVisible(false);
@@ -118,7 +118,7 @@ public class AnnualController {
 	/**
 	 * Called upon pressing the check button, to check if regulator's intermediate pressure inserted equals to the one ordered by the manu.
 	 * The tech will get the option to aprove any exceptions.
-	 * @author orels
+	 * @author orelzman
 	 */
 
 	public void onCheck(){
@@ -144,7 +144,7 @@ public class AnnualController {
 
 	/**
 	 * Makes sure the Intermediate pressure will not be accepted if it was once accepted and changed afterwards.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onInterPressureChange(){
 		if(lastInterPressure != interPressureTextField.getText()){
@@ -157,7 +157,7 @@ public class AnnualController {
 	/**
 	 * Creates the annual comments, according to the checkboxes that were ticked by the tech.
 	 * In addition, it sets an AnnualCheck object with the proper information to send the server and add it into the database.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onContinue(){
 		AnnualCheck annualCheck = new AnnualCheck();
@@ -204,7 +204,7 @@ public class AnnualController {
 
 	/**
 	 * Asks the user for manager's password to accept the annual check, according to the israeli diving union.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onManager(){//Current popup2 
 		managerCheckBox.setSelected(false);

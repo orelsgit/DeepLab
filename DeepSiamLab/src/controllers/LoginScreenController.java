@@ -22,7 +22,7 @@ public class LoginScreenController {
 /**
  * Initializes key(ENTER) handlers for the id and password text fields and creates a thread that will get information from the server
  * into arraylists to diminish the server accesses.
- * @author orels
+ * @author orelzman
  */
 	public void initialize(){
 
@@ -73,7 +73,7 @@ public class LoginScreenController {
 
 	/**
 	 * Creates a popup to require a manager password, in order to add a new worker.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void onRegister(){
 		GM.getPopup(Main.popup, "ManagersPasswordScreen", "סיסמת מנהל");
@@ -82,7 +82,7 @@ public class LoginScreenController {
 
 	/**
 	 * Called upon pressing the login screen.
-	 * @author orels
+	 * @author orelzman
 	 */
 	public void  onLogin(){
 		idTextField.setStyle("-fx-background-color: white;");
