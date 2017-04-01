@@ -214,8 +214,8 @@ public class AnnualController {
 			return;
 		}
 		GeneralMessage.currentWindow = "AnnualScreen";
-		GM.getPopup(Main.popup3, "ManagersPasswordScreen", "הכנס סיסמת מנהל");
-		GM.closePopup(Main.popup3);
+		GM.getPopup(Main.popup3, "ManagersPasswordScreen", "הכנס סיסמת מנהל", "popup2");
+		GM.closePopup(Main.popup3);//Will be called after the popup is closed.
 		if(!isManagerApprove)
 			managerCheckBox.setSelected(false);
 		else

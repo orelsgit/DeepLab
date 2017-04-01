@@ -1,16 +1,31 @@
 package entities;
 
 public class Customer extends GeneralMessage{
-private String name, lastName, custID, email, phone, id;
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+private String name, lastName, custID, email, phone, id, dob;
 
-public Customer(String name, String lastName, String custID, String email, String phone, String id) {
-	super();
+
+
+public Customer( String name, String lastName, String custID, String email, String phone, String id, String dob) {//for customer list
 	this.name = name;
 	this.lastName = lastName;
 	this.custID = custID;
 	this.email = email;
 	this.phone = phone;
 	this.id = id;
+}
+
+public Customer(String name, String lastName, String phone, String email, String id, String dob) {//for customer add
+	super();
+	this.name = name;
+	this.lastName = lastName;
+	this.id = id;
+	this.email = email;
+	this.phone = phone;
+	this.id = dob;
 }
 
 public Customer(){}
@@ -61,6 +76,14 @@ public String getId() {
 
 public void setId(String id) {
 	this.id = id;
+}
+
+public String getDob() {
+	return dob;
+}
+
+public void setDob(String dob) {
+	this.dob = dob;
 }
 
 }

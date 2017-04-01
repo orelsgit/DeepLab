@@ -18,17 +18,35 @@
             <TableColumn prefWidth="130.0" text="מספר פלאפון" />
         </columns>
       </TableView>
-      <TextField fx:id="idTextField" layoutX="531.0" layoutY="302.0" />
-      <TextField fx:id="nameTextField" layoutX="334.0" layoutY="330.0" />
-      <TextField fx:id="lastNameTextField" layoutX="157.0" layoutY="327.0" />
-      <TextField fx:id="custIDTextField" layoutX="531.0" layoutY="352.0" />
-      <Button layoutX="111.0" layoutY="382.0" mnemonicParsing="false" onAction="#onSearch" prefHeight="38.0" prefWidth="92.0" text="חפש" />
-      <Button layoutX="21.0" layoutY="465.0" mnemonicParsing="false" onAction="#onBack" prefHeight="38.0" prefWidth="92.0" text="חזור" />
-      <Text layoutX="460.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":שם" />
-      <Text layoutX="690.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":תעודת זהות" />
-      <Text layoutX="691.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":מספר לקוח" />
-      <Text layoutX="243.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":שם משפחה" />
-      <Button layoutY="281.0" mnemonicParsing="false" onAction="#onRefresh" prefHeight="25.0" prefWidth="49.0" text="רענן" />
-      <Button layoutX="358.0" layoutY="420.0" mnemonicParsing="false" onAction="#onSelect" prefHeight="38.0" prefWidth="92.0" text="בחר" />
+      <TextField fx:id="idTextField" layoutX="531.0" layoutY="327.0" />
+      <TextField fx:id="nameTextField" layoutX="334.0" layoutY="355.0" />
+      <TextField fx:id="lastNameTextField" layoutX="157.0" layoutY="352.0" />
+      <TextField fx:id="custIDTextField" layoutX="531.0" layoutY="377.0" />
+      <Button layoutX="37.0" layoutY="345.0" mnemonicParsing="false" onAction="#onSearch" prefHeight="38.0" prefWidth="92.0" text="חפש">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button layoutX="21.0" layoutY="465.0" mnemonicParsing="false" onAction="#onBack" prefHeight="38.0" prefWidth="92.0" text="חזור">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Text layoutX="455.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":שם" />
+      <Text layoutX="685.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":תעודת זהות" />
+      <Text layoutX="686.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":מספר לקוח" />
+      <Text layoutX="238.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":שם משפחה" />
+      <Button layoutY="281.0" mnemonicParsing="false" onAction="#onRefresh" prefHeight="25.0" prefWidth="49.0" text="רענן">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button layoutX="262.0" layoutY="419.0" mnemonicParsing="false" onAction="#onSelect" prefHeight="38.0" prefWidth="92.0" text="בחר">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Text layoutX="483.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="!הלקוח לא נמצא? הוסף חדש" />
+      <Button layoutX="520.0" layoutY="453.0" mnemonicParsing="false" onAction="#onCustomerAdd" prefHeight="38.0" prefWidth="92.0" text="לקוח חדש">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

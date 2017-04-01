@@ -1,20 +1,15 @@
 package controllers;
 
-import java.io.IOException;
-
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Windows;
 import entities.Worker;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import main.Client;
 import main.Main;
 /**
  * The class is used to assure some only-manager allows/approvals will be allowed/approved by the manager.(Replaces a paper signature)
@@ -67,7 +62,7 @@ public class ManagersPasswordController {
 		}
 		switch(GeneralMessage.currentWindow){
 		case "LoginScreen":
-			GM.setPopup(Main.popup, "Register", "רישום משתמש");break;
+			GM.getPopup(Main.popup, "Register", "רישום עובד", "popup");break;
 		case "AnnualScreen":
 			Windows.message("הבדיקה אושרה עי המנהל", "סיום טיפול");AnnualController.isManagerApprove = true;GM.closePopup(Main.popup3);break;
 		}

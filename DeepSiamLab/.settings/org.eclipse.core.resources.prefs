@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/controllers/AddCustomerController.java=UTF-8
 encoding//src/controllers/AnnualController.java=UTF-8
 encoding//src/controllers/CustomerSearchController.java=UTF-8
 encoding//src/controllers/LabOrdersController.java=UTF-8

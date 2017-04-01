@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="531.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddCustomerController">
+   <children>
+      <TextField fx:id="nameTextField" layoutX="97.0" layoutY="67.0" />
+      <TextField fx:id="lastNameTextField" layoutX="97.0" layoutY="118.0" />
+      <TextField fx:id="phoneTextField" layoutX="97.0" layoutY="163.0" />
+      <TextField fx:id="emailTextField" layoutX="97.0" layoutY="210.0" />
+      <TextField fx:id="idTextField" layoutX="97.0" layoutY="251.0" />
+      <TextField fx:id="dobTextField" layoutX="97.0" layoutY="295.0" />
+      <Button layoutX="133.0" layoutY="359.0" mnemonicParsing="false" onAction="#onRegister" text="רישום" textFill="#0026ff">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="142.0" layoutY="418.0" mnemonicParsing="false" onAction="#onBack" prefHeight="30.0" prefWidth="59.0" text="חזור">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Text layoutX="121.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="רישום לקוח חדש">
+         <font>
+            <Font name="Microsoft JhengHei UI Bold" size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="nameText" layoutX="261.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":שם">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text fx:id="lastNameText" layoutX="261.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":שם משפחה">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text fx:id="phoneText" layoutX="261.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":פלאפון">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text fx:id="idText" layoutX="261.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":תעודת זהות">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text fx:id="dobText" layoutX="261.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":תאריך לידה">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text fx:id="emailText" layoutX="261.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":אימייל">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

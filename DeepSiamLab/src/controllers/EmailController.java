@@ -130,7 +130,7 @@ public class EmailController {
 	 * @author orelzman
 	 */
 	public void onBack(){
-		GM.closePopup(Main.popup2);
+		GM.closePopup(Main.popup);
 	}
 	
 }

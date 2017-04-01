@@ -16,5 +16,6 @@
             <Image url="@../../redot.png" />
          </image>
       </ImageView>
+      <Button layoutX="86.0" layoutY="48.0" mnemonicParsing="false" onAction="#onAddCustomer" text="הוסף לקוח" />
    </children>
 </AnchorPane>

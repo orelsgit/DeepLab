@@ -13,12 +13,18 @@ public class GeneralMessage implements Serializable{
 	public String actionNow, query;
 	private String message;
 	public static String currentWindow, currentPopup;
-	private static ArrayList<Regulator> regList;
-	private static ArrayList<BCD> bcdList;
-	private static ArrayList<CCR> ccrList;
-	private static ArrayList<Tank> tankList;
+	private static ArrayList<Regulator> regList = new ArrayList<Regulator>();
+	private static ArrayList<BCD> bcdList = new ArrayList<BCD>();
+	private static ArrayList<CCR> ccrList = new ArrayList<CCR>();
+	private static ArrayList<Tank> tankList = new ArrayList<Tank>();
 	private static ArrayList<Customer> custList;
 	private static boolean gotLists = false;
+	
+	public GeneralMessage(String actionNow){
+		this.actionNow = actionNow;
+	}
+	
+	public GeneralMessage(){}
 	
 	public static ArrayList<Regulator> getRegList() {
 		return regList;

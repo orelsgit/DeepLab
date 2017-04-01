@@ -28,6 +28,8 @@ public class LoginScreenController {
 
 		GM = new GeneralMethods();
 		GeneralMessage.currentWindow = "LoginScreen";
+		GeneralMessage.currentPopup = "";
+		
 		idTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
@@ -48,7 +50,7 @@ public class LoginScreenController {
 		Thread thread = new Thread(){
 			public void run(){
 				Order order = new Order();
-				GM.sendServerThread(order, "GetNewOrders");
+				GM.sendServer(order, "GetNewOrders");
 				GM.sendServer(order, "GetReg");
 				GM.sendServer(order, "GetBCD");
 				GM.sendServer(order, "GetTank");
@@ -76,7 +78,7 @@ public class LoginScreenController {
 	 * @author orelzman
 	 */
 	public void onRegister(){
-		GM.getPopup(Main.popup, "ManagersPasswordScreen", "סיסמת מנהל");
+		GM.getPopup(Main.popup, "ManagersPasswordScreen", "סיסמת מנהל", "popup");
 	}
 
 
@@ -104,26 +106,18 @@ public class LoginScreenController {
 
 		Worker.setCurrentWorker(null);
 		GM.sendServer(worker, "Login");
-		/*Thread thread = new Thread(){
-			public void run(){
-				while(Worker.getCurrentWorker()==null)
-					GM.Sleep(2);
-				if(Worker.getCurrentWorker().actionNow==null)
-					return;
-				Main.showMenu("LoginWorkerScreen");
-			}
-		};thread.start();*/
 
-		/*WITH THE FOLLOWING CODE I CAN CHANGE ANY UI THAT I WANT WITH THREADS! :D*/
 		Task<Void> task = new Task<Void>() {
 			@Override protected Void call() throws Exception {
 				for (int i=0; i<1; i++) {                
 					Platform.runLater(new Runnable() {
-						@Override 			public void run(){
+						@Override 		
+						public void run(){
 							while(Worker.getCurrentWorker()==null)
 								GM.Sleep(2);
 							if(Worker.getCurrentWorker().actionNow==null)
 								return;
+							Windows.message("Welcome back " + Worker.getCurrentWorker().getfName(), "Deepsiam Lab");
 							Main.showMenu("LoginWorkerScreen");
 						}
 					});
@@ -132,8 +126,8 @@ public class LoginScreenController {
 			}
 		};
 		task.run();
-		System.out.println("authenticating...");
-
+		while(!GeneralMessage.getGotLists())
+			GM.Sleep(100);//לעשות פה בר טעינה או משהו
 	}
 
 

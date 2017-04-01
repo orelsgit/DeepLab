@@ -73,11 +73,49 @@ public class Server extends AbstractServer {
 		case "GetCCR":
 			getCCR(client);break;
 		case "AnnualCheck":
-		annualCheck((AnnualCheck)msg, client);break;
+			annualCheck((AnnualCheck)msg, client);break;
+		case "NewCustomer":
+			newCustomer((Customer)msg, client);break;
 
 		}
 	}
 
+	/**
+	 * Inserts a new customer to the database.
+	 * @param customer The new customer's information.
+	 * @param client is an object that will send a message back to the client
+	 * @author orelzman
+	 */
+	public void newCustomer(Customer customer, ConnectionToClient client){
+		int max=0;
+		try{
+			PreparedStatement pStmt = conn.prepareStatement("insert into orelDeepdivers.Customers(Name, LastName, CustID, Email, Phone, ID, DOB) values"
+					+ "(?,?,?,?,?,?,?);");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT LTRIM(RTRIM(CustID)) FROM orelDeepdivers.Customers");
+			while(rs.next())
+				if(Integer.parseInt(rs.getString(1))>max)
+					max=Integer.parseInt(rs.getString(1));
+			max++;
+			pStmt.setString(1, customer.getName());
+			pStmt.setString(2, customer.getLastName());
+			pStmt.setString(3, Integer.toString(max));
+			pStmt.setString(4, customer.getEmail());
+			pStmt.setString(5, customer.getPhone());
+			pStmt.setString(6, customer.getId());
+			pStmt.setString(7, customer.getDob());
+			pStmt.executeUpdate();
+			client.sendToClient(new GeneralMessage("NewCustomer"));	
+
+		}catch(Exception e){e.printStackTrace();}
+	}
+
+	/**
+	 * Inserts the information about the annual check to the database, for future affairs.
+	 * @param ac Contains the information about the check for either a bcd/ccr/reg.
+	 * @param client is an object that will send a message back to the client
+	 * @author orelzman 
+	 */
 	public void annualCheck(AnnualCheck ac, ConnectionToClient client ){
 		PreparedStatement stmt;
 		try{
@@ -89,7 +127,7 @@ public class Server extends AbstractServer {
 				stmt.setString(2, ac.getCustID());
 				if(ac.isKit())
 					stmt.setString(3, ac.getKitChangeDate());
-				
+
 				if(!ac.getFixComments().equals(""))
 					stmt.setString(4, ac.getFixComments());
 				else
@@ -105,16 +143,16 @@ public class Server extends AbstractServer {
 				else
 					stmt.setInt(7, 0);
 				stmt.executeUpdate();
-				
+
 				/** ONLY AFTER ALL THE EQUIPMENTS WERE REVIEWED! **/
-			/*	Statement statement = conn.createStatement();
+				/*	Statement statement = conn.createStatement();
 				String query;
 				if(ac.isManagerApprove())//handled = 1
 					query = "UPDATE orelDeepdivers.Orders SET handled = 1 WHERE OrderNum = " + ac.getOrderNum() + ";";
 				else
 					query = "UPDATE orelDeepdivers.Orders SET handled = 0 WHERE OrderNum = " + ac.getOrderNum() + ";";
 				statement.executeUpdate(query);*/
-					
+
 			}
 
 			if(ac.isCcr()){
@@ -128,18 +166,30 @@ public class Server extends AbstractServer {
 		}catch(Exception e){e.printStackTrace();}
 	}
 
+
+	/**
+	 * Creates a list of all the regulators in the database and sends it back to the server.
+	 * @param client is an object that will send a message back to the client
+	 * @author orelzman 
+	 */
 	public void getReg(ConnectionToClient client){
 		ArrayList<Regulator> regList = new ArrayList<Regulator>();
 		try{
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("Select * From Regulators");
 			while(rs.next())
-				regList.add(new Regulator(rs.getString(1), rs.getString(2), rs.getString(3),rs.getInt(4), rs.getString(5) ));
-			regList.get(0).actionNow = "gotRegs";
+				regList.add(new Regulator(rs.getString(1), rs.getString(2), rs.getString(3), rs.getFloat(4)));
+
+			regList.get(0).actionNow = "GotRegs";
 			client.sendToClient(regList);
 		}catch(Exception e){e.printStackTrace();}
 	}
 
+	/**
+	 * Creates a list of all the bcds in the database and sends it back to the server.
+	 * @param client is an object that will send a message back to the client
+	 * @author orelzman 
+	 */
 	public void getBCD(ConnectionToClient client){
 		ArrayList<BCD> bcdList = new ArrayList<BCD>();
 		try{
@@ -152,6 +202,11 @@ public class Server extends AbstractServer {
 		}catch(Exception e){e.printStackTrace();}
 	}
 
+	/**
+	 * Creates a list of all the tanks in the database and sends it back to the server.
+	 * @param client is an object that will send a message back to the client
+	 * @author orelzman 
+	 */
 	public void getTank(ConnectionToClient client){
 		ArrayList<Tank> tankList = new ArrayList<Tank>();
 		try{
@@ -164,6 +219,11 @@ public class Server extends AbstractServer {
 		}catch(Exception e){e.printStackTrace();}
 	}
 
+	/**
+	 * Creates a list of all the ccrs in the database and sends it back to the server.
+	 * @param client is an object that will send a message back to the client
+	 * @author orelzman 
+	 */
 	public void getCCR(ConnectionToClient client){
 		ArrayList<CCR> ccrList = new ArrayList<CCR>();
 		try{
@@ -176,10 +236,16 @@ public class Server extends AbstractServer {
 		}catch(Exception e){e.printStackTrace();}
 	}
 
+	/**
+	 * Finds the intermediate pressure of a regulator, for the annual check.
+	 * @param reg the regulator for which the tech is looking the intermediate pressure
+	 * @param client is an object that will send a message back to the client
+	 * @author orelzman 
+	 */
 	public void findInterPressure(Regulator reg, ConnectionToClient client){
 		try{
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT InterPressure FROM RegModel WHERE Model = '" + reg.getModel() + "';");
+			ResultSet rs = stmt.executeQuery("SELECT LTRIM(RTRIM(InterPressure)) FROM Regulators WHERE Model = '" + reg.getModel() + "';");
 			if(rs.next()){
 				reg.setInterPressure(rs.getFloat(1));
 				reg.actionNow="InterFound";
@@ -191,22 +257,34 @@ public class Server extends AbstractServer {
 
 	}
 
+	/**
+	 * Creates a list of all the customers in the database and sends it back to the server.
+	 * @param client is an object that will send a message back to the client
+	 * @author orelzman 
+	 */
 	public void getCustomers(Customer customer, ConnectionToClient client){
 		try{
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM orelDeepdivers.Customers");
+			ResultSet rs = stmt.executeQuery("Select * FROM orelDeepdivers.Customers");
 			ArrayList<Customer> custList = new ArrayList<Customer>();
 			while(rs.next())
-				custList.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+				custList.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
 			custList.get(0).actionNow = "GotCustomers";
 			client.sendToClient(custList);
 		}catch(Exception e){e.printStackTrace();}
 	}
+	
+	/**
+	 * Gets the phone of a customer so the tech can contact the person.
+	 * @param customer Contains the information about the customer of which we're looking for the number.
+	 * @param client is an object that will send a message back to the client
+	 * @author orelzman 
+	 */
 
 	public void getPhone(Customer customer, ConnectionToClient client){
 		try{
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Phone FROM orelDeepdivers.Customers WHERE CustID = '" + customer.getCustID() + "';");
+			ResultSet rs = stmt.executeQuery("SELECT LTRIM(RTRIM(Phone)) FROM orelDeepdivers.Customers WHERE CustID = '" + customer.getCustID() + "';");
 			if(rs.next()){
 				customer.actionNow = "YesPhone";
 				customer.setPhone(rs.getString(1));
@@ -216,12 +294,17 @@ public class Server extends AbstractServer {
 		}catch(Exception e){e.printStackTrace();}
 	}
 
-
+	/**
+	 * Gets the phone of a customer so the tech can contact the person.
+	 * @param order Contains the information about the customer of which we're looking for the number.
+	 * @param client is an object that will send a message back to the client
+	 * @author orelzman 
+	 */
 	public void getMail(Order order, ConnectionToClient client){
 		System.out.println("getemail server");
 		try{
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Email FROM orelDeepdivers.Customers WHERE CustID = '" + order.getCustID() + "';");
+			ResultSet rs = stmt.executeQuery("SELECT LTRIM(RTRIM(Email)) FROM orelDeepdivers.Customers WHERE CustID = '" + order.getCustID() + "';");
 			Customer customer = new Customer();
 			if(rs.next()){
 				customer.actionNow = "YesMail";
@@ -245,7 +328,11 @@ public class Server extends AbstractServer {
 		}catch(Exception e){e.printStackTrace();}
 	}
 
-
+/**
+ * Checks if there are new orders that are not reviewed yet by the tech.
+	 * @param client is an object that will send a message back to the client
+	 * @author orelzman 
+ */
 	public void getNewOrders(ConnectionToClient client){
 		ArrayList<Order> orderList = new ArrayList<Order>();
 		try{
@@ -293,7 +380,7 @@ public class Server extends AbstractServer {
 		Statement stmt;
 		try{
 			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM orelDeepdivers.Workers;");
+			ResultSet rs = stmt.executeQuery("Select * FROM orelDeepdivers.Workers;");
 			String id, email;
 			while(rs.next()){
 				id=rs.getString(3).replaceAll("\\s+","");email=rs.getString(5).replaceAll("\\s+","");//Pulling info from the SQL server appears to dispatch it with spaces.
@@ -363,7 +450,7 @@ public class Server extends AbstractServer {
 			preparedStmt = conn.prepareStatement("insert into orelDeepdivers.Orders(OrderNum, CustID, Description, "
 					+ "Date, Comments, Handled) values(?,?,?,?,?,?)");
 			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT MAX(OrderNum) FROM OrelDeepdivers.Orders");
+			ResultSet rs = stmt.executeQuery("SELECT LTRIM(RTRIM(MAX(OrderNum)) FROM OrelDeepdivers.Orders");
 			rs.next();max=rs.getInt(1);
 			max++;
 			preparedStmt.setInt(1, max);

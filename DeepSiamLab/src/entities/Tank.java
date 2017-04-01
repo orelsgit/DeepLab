@@ -1,6 +1,10 @@
 package entities;
 
 public class Tank extends GeneralMessage{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String deepNum/*A serial number written by the diving club*/,
 	serialNum/*A serial number written by the manufacturer*/,
 	volume,manufacturer;

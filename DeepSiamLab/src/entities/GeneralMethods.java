@@ -89,18 +89,20 @@ public class GeneralMethods {
 
 
 	public void closePopup(Stage popup){
+		switch(GeneralMessage.currentPopup){
+		case "popup":
+			GeneralMessage.currentPopup="";break;
+		case "popup2":
+			GeneralMessage.currentPopup = "popup1";break;
+		case "popup3":
+			GeneralMessage.currentPopup = "popup2";break;
+		}
 		popup.close();
 	}
 
-	public void setPopup(Stage popup, String window, String title){
-		try {
-			Pane mainLayout = FXMLLoader.load(Main.class.getResource("/GUI/" + window + ".fxml"));
-			popup.setScene(new Scene(mainLayout));
-			popup.setTitle(title);
-		} catch (IOException e) {e.printStackTrace();}
-	}
 
-	public void getPopup(Stage popup, String window, String title){
+	public void getPopup(Stage popup, String window, String title, String popupNo){
+		GeneralMessage.currentPopup = popupNo;
 		try {
 			Pane mainLayout = FXMLLoader.load(Main.class.getResource("/GUI/" + window + ".fxml"));
 			popup.setScene(new Scene(mainLayout));
@@ -176,7 +178,8 @@ public class GeneralMethods {
 		try{Thread.sleep(time);}catch(InterruptedException e){e.printStackTrace();}
 	}
 	/**
-	 * This method checks if the string the user inserted is compatible with SQL syntax
+	 * This method checks if the string the user inserted is compatible with SQL syntax.
+	 * false if contains any invalid characters, true otherwise. If false, sets a warning window.
 	 * @param str The user's string
 	 * @return if false, the string in not compatible, else compatible.
 	 * @author orelzman

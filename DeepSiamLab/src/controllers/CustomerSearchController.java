@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import entities.Customer;
+import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Windows;
 import javafx.collections.FXCollections;
@@ -42,6 +43,7 @@ public class CustomerSearchController {
 		doubleClick=0;
 		initTableView();
 		isBackFromServer=false;
+		GeneralMessage.currentPopup = "popup";
 		GM = new GeneralMethods();
 		setListener(idTextField);
 		setListener(nameTextField);
@@ -113,6 +115,15 @@ public class CustomerSearchController {
 		TableColumn<Customer, String> phone = (TableColumn<Customer, String>) customersTableView.getColumns().get(5);
 		phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
 	}
+	
+	
+	/**
+	 * Opens the customer registeration window.
+	 * @author orelzman
+	 */
+	public void onCustomerAdd(){
+		GM.getPopup(Main.popup2, "AddCustomer", "AddCustomer", "popup2");
+	}
 
 	
 	/**
@@ -181,6 +192,7 @@ public class CustomerSearchController {
 	 * @author orelzman
 	 */
 	public void onBack(){
+		GeneralMessage.currentPopup = "";
 		GM.closePopup(Main.popup);
 	}
 

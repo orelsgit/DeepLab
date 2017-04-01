@@ -3,7 +3,7 @@ package controllers;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Order;
-import entities.SpeechUtils;
+//import entities.SpeechUtils;
 import entities.Status;
 import entities.Worker;
 import javafx.fxml.FXML;
@@ -22,6 +22,7 @@ public class LoginWorkerScreenController{
 	private GeneralMethods GM;
 	public static boolean newOrders,backFromServer;
 	private static boolean currentWindow;//if currentWindow = false it means we are in another window, therefore the thread in init. wont run.
+	
 	
 	/**
 	 * Grays out the buttons that aren't allowed for the current logged in worker and sets a thread to check if there are
@@ -44,30 +45,40 @@ public class LoginWorkerScreenController{
 		
 		Thread thread = new Thread(){
 			public void run(){
-				boolean flag=false;
+				//boolean flag=false;
 				while(currentWindow&&Worker.getCurrentWorker().getIsManager()!=Status.Dalpak){
 					backFromServer=false;
 					GM.sendServer(new Order(), "CheckNewOrders");
 					while(!backFromServer)
 						GM.Sleep(2);
-					if(newOrders){
+					while(newOrders){
 						redotImageView.setVisible(true);
-						if(!flag&&Worker.getCurrentWorker().getIsManager()!=Status.Manager){
-						SpeechUtils work = new SpeechUtils("You have work to do!");
-						work.speak();
-						flag=true;
-						}
-					}
-					
-					else
+						GM.Sleep(600);
 						redotImageView.setVisible(false);
-					
+						GM.Sleep(600);
+						//if(!flag&&Worker.getCurrentWorker().getIsManager()!=Status.Manager){
+						//SpeechUtils work = new SpeechUtils("You have work to do!");
+						//work.speak();
+						//flag=true;
+						//}
+					}
+						redotImageView.setVisible(false);
 					GM.Sleep(10000);
 				}this.interrupt();
 			}
 		};thread.start();
 	}
 	
+	
+	/**
+	 * Opens a customer registeration window.
+	 * @author orelzman
+	 */
+	public void onAddCustomer(){
+		Main.showMenu("AddCustomer");
+		GeneralMessage.currentWindow = "LoginWorkerScreen";
+		currentWindow=false;
+	}
 	
 	/**
 	 * Sets up a window that will contain a TableView with all the unreviewed Orders, as foresaid, the LabOrders

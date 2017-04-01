@@ -169,7 +169,7 @@ public class OrderInfoController {
 	 * @author orelzman
 	 */
 	public void onMail(){
-		GM.getPopup(Main.popup2, "Email", "שלח אימייל");
+		GM.getPopup(Main.popup, "Email", "שלח אימייל", "popup");
 	}
 
 
@@ -182,7 +182,6 @@ public class OrderInfoController {
 			GM.Sleep(2);
 		isFixOrAnnual=false;
 		showAnnual();
-		GeneralMessage.currentPopup = "popup2";
 		GM.closePopup(Main.popup);
 	}
 
@@ -194,8 +193,7 @@ public class OrderInfoController {
 		while(!isGotEquipments)// DO NOT TRUST THE USER!
 			GM.Sleep(2);
 		isFixOrAnnual=false;
-		GM.getPopup(Main.popup2, "Fix", "תיקון וסת");
-		GeneralMessage.currentPopup = "popup2";
+		GM.getPopup(Main.popup, "Fix", "תיקון וסת", "popup");
 		GM.closePopup(Main.popup);
 
 	}	
@@ -208,8 +206,7 @@ public class OrderInfoController {
 		falseChecks();
 		regCheck = true;
 		isFixOrAnnual=true;
-		GeneralMessage.currentPopup = "popup2";
-		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual");
+		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
 	}
 
 	/**
@@ -220,8 +217,7 @@ public class OrderInfoController {
 		falseChecks();
 		isFixOrAnnual=true;
 		bcdCheck = true;
-		GeneralMessage.currentPopup = "popup2";
-		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual");
+		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
 	}
 
 	/**
@@ -232,8 +228,7 @@ public class OrderInfoController {
 		falseChecks();
 		ccrCheck=true;
 		isFixOrAnnual=true;
-		GeneralMessage.currentPopup = "popup2";
-		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual");
+		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
 	}
 	
 	
@@ -245,8 +240,7 @@ public class OrderInfoController {
 		falseChecks();
 		isFixOrAnnual=true;
 		tankCheck = true;
-		GeneralMessage.currentPopup = "popup2";
-		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual");
+		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
 
 	}
 
@@ -256,7 +250,7 @@ public class OrderInfoController {
  *  @author orelzman
  */
 	public void onBackPhone(){
-		GM.closePopup(Main.popup2);
+		GM.closePopup(Main.popup);
 	}
 	
 	/**
@@ -275,11 +269,11 @@ public class OrderInfoController {
 	public void showAnnual(){
 		try {
 			TabPane mainLayout = FXMLLoader.load(Main.class.getResource("/GUI/Annual.fxml"));
-			Main.popup2.setScene(new Scene(mainLayout));
-			Main.popup2.setTitle("Annual");
-			Main.popup2.showAndWait();
+			Main.popup.setScene(new Scene(mainLayout));
+			Main.popup.setTitle("Annual");
+			Main.popup.showAndWait();
 		} catch (IOException e) {e.printStackTrace();}
-		GeneralMessage.currentPopup = "popup2";
+		GeneralMessage.currentPopup = "popup";
 	}
 
 

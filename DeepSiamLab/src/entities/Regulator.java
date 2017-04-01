@@ -1,18 +1,21 @@
 package entities;
 
 public class Regulator extends GeneralMessage{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String model,manufacturer,serialNum,KitChangeDate;
 	private int deepNum;
 	float interPressure;
 	
 	
-	public Regulator(String model, String manufacturer, String serialNum, int deepNum, String kitChangeDate) {
+	public Regulator(String model, String manufacturer, String kitChangeDate, float interPressure) {
 		super();
 		this.model = model;
 		this.manufacturer = manufacturer;
-		this.serialNum = serialNum;
-		KitChangeDate = kitChangeDate;
-		this.deepNum = deepNum;
+		this.interPressure = interPressure;
+		this.KitChangeDate = kitChangeDate;
 	}
 	
 	

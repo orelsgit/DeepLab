@@ -3,6 +3,7 @@ package main;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import controllers.AddCustomerController;
 import controllers.CustomerSearchController;
 import controllers.EmailController;
 import controllers.LabOrdersController;
@@ -31,7 +32,7 @@ public class Client extends AbstractClient {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-
+		System.out.println("handleMessageFromServer");
 		if(msg instanceof ArrayList<?>){
 			switch(((ArrayList<GeneralMessage>)msg).get(0).actionNow){
 			case "OrderListReady":
@@ -58,7 +59,7 @@ public class Client extends AbstractClient {
 			case "Incorrect"://Incorrect login information
 				Windows.warning("Incorrect information. Try again.");Worker.setCurrentWorker(new Worker());break;
 			case "Correct"://correct login information
-				Worker.setCurrentWorker((Worker)msg);Windows.threadMessage("Welcome back " + Worker.getCurrentWorker().getfName(), "Deepsiam Lab");break;
+				Worker.setCurrentWorker((Worker)msg);break;
 			case "IssueOrder"://An order was issued by the dalpak
 				Order.currentOrder.actionNow+=",";break;
 			case "ManagerPasswordCorrect":
@@ -90,6 +91,8 @@ public class Client extends AbstractClient {
 				OrderInfoController.isGotEquipments = true;break;
 			case "InterNotFound":
 				OrderInfoController.regChosen.actionNow="InterNotFound";OrderInfoController.isGotEquipments = true;break;
+			case "NewCustomer":
+				AddCustomerController.isBackFromServer = true;break;
 
 			}
 	}
