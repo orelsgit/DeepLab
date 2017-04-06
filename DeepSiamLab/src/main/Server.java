@@ -76,10 +76,65 @@ public class Server extends AbstractServer {
 			annualCheck((AnnualCheck)msg, client);break;
 		case "NewCustomer":
 			newCustomer((Customer)msg, client);break;
+		case "AddRegulator":
+			addRegulator((Regulator)msg, client);break;
+		case "AddBCD":
+			addBCD((BCD)msg, client);break;
+		case "AddTank":
+			addTank((Tank)msg, client);break;
 
 		}
 	}
-
+	
+	
+	public void addTank(Tank tank, ConnectionToClient client){
+		try{
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Tanks values(?,?);");
+			pstmt.setString(1, tank.getVolume());
+			pstmt.setString(2, tank.getManufacturer());
+			pstmt.executeUpdate();
+			
+			tank.actionNow = "NewTank";
+			client.sendToClient(tank);
+		}catch(Exception e){e.printStackTrace();}
+	}
+	
+	public void addBCD(BCD bcd, ConnectionToClient client){
+		try{
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.BCDS values (?,?,?);");
+			pstmt.setString(1, bcd.getSize());
+			pstmt.setString(2, bcd.getModel());
+			pstmt.setString(3, bcd.getManufacturer());
+			pstmt.executeUpdate();
+			
+			bcd.actionNow = "NewBCD";
+			client.sendToClient(bcd);
+			
+		}catch(Exception e){e.printStackTrace();}
+	}
+	
+	public void addRegulator(Regulator reg, ConnectionToClient client){
+		try{
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(Model)) from orelDeepdivers.Regulators");
+			while(rs.next())
+				if(reg.getModel().equals(rs.getString(1))){
+					reg.actionNow = "ModelExists";
+					client.sendToClient(reg);
+					return;
+				}
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Regulators values (?,?,?);");
+			pstmt.setString(1, reg.getModel());
+			pstmt.setString(2, reg.getManufacturer());
+			pstmt.setFloat(3, reg.getInterPressure());
+			pstmt.executeUpdate();
+			
+			reg.actionNow = "NewRegulator";
+			client.sendToClient(reg);
+			
+		}catch(Exception e){e.printStackTrace();}
+	}
+	
 	/**
 	 * Inserts a new customer to the database.
 	 * @param customer The new customer's information.
@@ -178,7 +233,7 @@ public class Server extends AbstractServer {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("Select * From Regulators");
 			while(rs.next())
-				regList.add(new Regulator(rs.getString(1), rs.getString(2), rs.getString(3), rs.getFloat(4)));
+				regList.add(new Regulator(rs.getString(1), rs.getString(2), rs.getFloat(3)));
 
 			regList.get(0).actionNow = "GotRegs";
 			client.sendToClient(regList);
@@ -196,7 +251,7 @@ public class Server extends AbstractServer {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("Select * From BCDS");
 			while(rs.next())
-				bcdList.add(new BCD(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+				bcdList.add(new BCD(rs.getString(1), rs.getString(2), rs.getString(3)));
 			bcdList.get(0).actionNow = "GotBCDs";
 			client.sendToClient(bcdList);
 		}catch(Exception e){e.printStackTrace();}
@@ -213,7 +268,7 @@ public class Server extends AbstractServer {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("Select * From Tanks");
 			while(rs.next())
-				tankList.add(new Tank(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+				tankList.add(new Tank(rs.getString(1), rs.getString(2)));
 			tankList.get(0).actionNow = "GotTanks";
 			client.sendToClient(tankList);
 		}catch(Exception e){e.printStackTrace();}

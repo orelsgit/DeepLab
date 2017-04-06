@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -37,6 +38,8 @@ public class OpenCardController {
 	ccrOwnerTextField, ccrDeepNumTextField, idTextField;
 	@FXML
 	private ComboBox<String> regModelComboBox, bcdModelComboBox;
+	@FXML
+	private Button chooseBCDButton;
 	
 	private GeneralMethods GM;
 
@@ -211,6 +214,7 @@ public class OpenCardController {
 		regDeepNumTextField.setPromptText("Deep Number");
 		tankDeepNumTextField.setPromptText("Deep Number");
 		ccrDeepNumTextField.setPromptText("Deep Number");
+		chooseBCDButton.setVisible(true);
 		bcdDeepNumTextField.setVisible(true);
 
 	}
@@ -223,6 +227,7 @@ public class OpenCardController {
 		regDeepNumTextField.setPromptText("Serial Number");
 		tankDeepNumTextField.setPromptText("Serial Number");
 		ccrDeepNumTextField.setPromptText("Serial Number");
+		chooseBCDButton.setVisible(false);
 		bcdDeepNumTextField.setVisible(false);
 	}
 

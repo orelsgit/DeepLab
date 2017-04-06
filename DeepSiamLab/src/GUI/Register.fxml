@@ -6,26 +6,34 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
    <children>
-      <Text layoutX="247.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="רישום משתמש" wrappingWidth="143.13671875" />
-      <TextField fx:id="nameTextField" layoutX="301.0" layoutY="101.0" />
-      <TextField fx:id="lastNameTextField" layoutX="301.0" layoutY="153.0" />
-      <TextField fx:id="idTextField" layoutX="301.0" layoutY="213.0" />
-      <TextField fx:id="passTextField" layoutX="34.0" layoutY="105.0" />
-      <TextField fx:id="appPassTextField" layoutX="34.0" layoutY="164.0" />
-      <TextField fx:id="emailTextField" layoutX="34.0" layoutY="226.0" />
-      <Text fx:id="nameText" layoutX="479.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם" wrappingWidth="69.13671875" />
-      <Text fx:id="lastNameText" layoutX="479.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם משפחה" wrappingWidth="69.13671875" />
-      <Text fx:id="idText" layoutX="479.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם משתמש" wrappingWidth="69.13671875" />
-      <Text fx:id="passText" layoutX="212.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="סיסמא" wrappingWidth="69.13671875" />
-      <Text fx:id="appPassText" layoutX="212.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="אישור סיסמא" wrappingWidth="69.13671875" />
-      <Text fx:id="emailText" layoutX="212.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="אימייל" wrappingWidth="69.13671875" />
+      <Text fill="#1a00ff" layoutX="221.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="רישום משתמש" wrappingWidth="143.13671875">
+         <font>
+            <Font name="Bodoni MT Black Italic" size="20.0" />
+         </font></Text>
+      <TextField fx:id="nameTextField" layoutX="308.0" layoutY="101.0" />
+      <TextField fx:id="lastNameTextField" layoutX="308.0" layoutY="153.0" />
+      <TextField fx:id="idTextField" layoutX="308.0" layoutY="213.0" />
+      <TextField fx:id="passTextField" layoutX="41.0" layoutY="105.0" />
+      <TextField fx:id="appPassTextField" layoutX="41.0" layoutY="164.0" />
+      <TextField fx:id="emailTextField" layoutX="41.0" layoutY="226.0" />
+      <Text fx:id="nameText" layoutX="486.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם" wrappingWidth="69.13671875" />
+      <Text fx:id="lastNameText" layoutX="486.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם משפחה" wrappingWidth="69.13671875" />
+      <Text fx:id="idText" layoutX="486.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם משתמש" wrappingWidth="69.13671875" />
+      <Text fx:id="passText" layoutX="219.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="סיסמא" wrappingWidth="69.13671875" />
+      <Text fx:id="appPassText" layoutX="219.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="אישור סיסמא" wrappingWidth="69.13671875" />
+      <Text fx:id="emailText" layoutX="219.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="אימייל" wrappingWidth="69.13671875" />
       <CheckBox fx:id="managerCheckBox" layoutX="60.0" layoutY="294.0" mnemonicParsing="false" onAction="#onManagerCheckBox" text="משתמש מנהל" />
       <CheckBox fx:id="dalpakCheckBox" layoutX="223.0" layoutY="294.0" mnemonicParsing="false" onAction="#onDalpakCheckBox" text="משתמש דלפק" />
       <CheckBox fx:id="techCheckBox" layoutX="400.0" layoutY="294.0" mnemonicParsing="false" onAction="#onTechCheckBox" text="משתמש טכנאי" />
       <Button layoutX="390.0" layoutY="375.0" mnemonicParsing="false" onAction="#onContinue" text="רשום משתמש" />
       <Button layoutX="95.0" layoutY="375.0" mnemonicParsing="false" onAction="#onBack" text="חזור" />
+      <Text fill="#fc0707" layoutX="254.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="9.0" />
+      <Text fill="#fc0707" layoutX="288.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="9.0" />
+      <Text fill="#fc0707" layoutX="254.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="9.0" />
+      <Text fill="#fc0707" layoutX="551.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="9.0" />
+      <Text fill="#fc0707" layoutX="505.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="9.0" />
+      <Text fill="#fc0707" layoutX="551.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="9.0" />
    </children>
 </Pane>

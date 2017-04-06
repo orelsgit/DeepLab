@@ -38,18 +38,18 @@
       </Text>
       <TextField fx:id="idTextField" editable="false" layoutX="275.0" layoutY="372.0" promptText="ID Number" />
       <Text layoutX="247.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Comments:" />
-      <CheckBox fx:id="deepCheckBox" layoutX="130.0" layoutY="24.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onDeepSelection" prefHeight="28.0" prefWidth="191.0" selected="true" text="ציוד מועדון">
+      <CheckBox fx:id="deepCheckBox" layoutX="130.0" layoutY="24.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onDeepSelection" prefHeight="28.0" prefWidth="191.0" text="ציוד מועדון">
          <font>
             <Font size="19.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="privateCheckBox" layoutX="349.0" layoutY="24.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onPrivateSelection" prefHeight="16.0" prefWidth="191.0" text="ציוד פרטי">
+      <CheckBox fx:id="privateCheckBox" layoutX="349.0" layoutY="24.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onPrivateSelection" prefHeight="16.0" prefWidth="191.0" selected="true" text="ציוד פרטי">
          <font>
             <Font size="19.0" />
          </font>
       </CheckBox>
-      <TextField fx:id="regDeepNumTextField" layoutX="102.0" layoutY="196.0" promptText="Deep Number" />
-      <TextField fx:id="bcdDeepNumTextField" editable="false" layoutX="417.0" layoutY="196.0" promptText="Deep Number" />
+      <TextField fx:id="regDeepNumTextField" layoutX="102.0" layoutY="196.0" promptText="Serial Number" />
+      <TextField fx:id="bcdDeepNumTextField" editable="false" layoutX="417.0" layoutY="196.0" promptText="Deep Number" visible="false" />
       <TextField fx:id="tankDeepNumTextField" editable="false" layoutX="101.0" layoutY="319.0" promptText="Deep Number" />
       <TextField fx:id="ccrOwnerTextField" editable="false" layoutX="417.0" layoutY="282.0" promptText="Owner" />
       <TextField fx:id="ccrDeepNumTextField" editable="false" layoutX="417.0" layoutY="319.0" promptText="Deep Number" />
@@ -58,7 +58,7 @@
       <Button layoutX="511.0" layoutY="577.0" mnemonicParsing="false" onAction="#onClean" text="נקה מסך" />
       <Button layoutX="269.0" layoutY="196.0" mnemonicParsing="false" text="בחר" />
       <Button layoutX="269.0" layoutY="319.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
-      <Button layoutX="575.0" layoutY="196.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
+      <Button fx:id="chooseBCDButton" layoutX="575.0" layoutY="196.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" visible="false" />
       <Button layoutX="575.0" layoutY="319.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
       <Button layoutX="575.0" layoutY="282.0" mnemonicParsing="false" onAction="#onCCROwner" prefHeight="25.0" prefWidth="38.0" text="בחר" />
       <ComboBox fx:id="regModelComboBox" editable="true" layoutX="101.0" layoutY="158.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#onRegModelChange" onInputMethodTextChanged="#onRegModelChange" onKeyPressed="#onRegModelChange" onShowing="#onRegModelChange" prefWidth="150.0" promptText="מודל" />

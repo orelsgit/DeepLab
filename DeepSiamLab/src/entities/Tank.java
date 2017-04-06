@@ -8,10 +8,8 @@ public class Tank extends GeneralMessage{
 	private String deepNum/*A serial number written by the diving club*/,
 	serialNum/*A serial number written by the manufacturer*/,
 	volume,manufacturer;
-	public Tank(String deepNum,String serialNum,String volume,String manufacturer)
+	public Tank(String volume,String manufacturer)
 	{
-		this.deepNum = deepNum;
-		this.serialNum = serialNum;
 		this.volume = volume;
 		this.manufacturer = manufacturer;
 	}

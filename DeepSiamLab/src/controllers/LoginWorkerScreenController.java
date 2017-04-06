@@ -22,6 +22,7 @@ public class LoginWorkerScreenController{
 	private GeneralMethods GM;
 	public static boolean newOrders,backFromServer;
 	private static boolean currentWindow;//if currentWindow = false it means we are in another window, therefore the thread in init. wont run.
+	public static String equipment = "";
 	
 	
 	/**
@@ -53,9 +54,9 @@ public class LoginWorkerScreenController{
 						GM.Sleep(2);
 					while(newOrders){
 						redotImageView.setVisible(true);
-						GM.Sleep(600);
+						GM.Sleep(400);
 						redotImageView.setVisible(false);
-						GM.Sleep(600);
+						GM.Sleep(400);
 						//if(!flag&&Worker.getCurrentWorker().getIsManager()!=Status.Manager){
 						//SpeechUtils work = new SpeechUtils("You have work to do!");
 						//work.speak();
@@ -70,13 +71,33 @@ public class LoginWorkerScreenController{
 	}
 	
 	
+	public static void setCurrentWindow(boolean currentWindow){
+		LoginWorkerScreenController.currentWindow = currentWindow;
+	}
+	
+	public void onAddRegulator(){
+		equipment = "Regulator";
+		GM.getPopup(Main.popup, "AddRegulator", "AddRegulator", "popup");
+	}
+	
+	public void onAddBCD(){
+		equipment = "BCD";
+		GM.getPopup(Main.popup, "AddBCD", "AddBCD", "popup");
+
+	}
+	
+	public void onAddTank(){
+		equipment = "Tank";
+		GM.getPopup(Main.popup, "AddTank", "AddTank", "popup");
+
+	}
+	
 	/**
 	 * Opens a customer registeration window.
 	 * @author orelzman
 	 */
 	public void onAddCustomer(){
-		Main.showMenu("AddCustomer");
-		GeneralMessage.currentWindow = "LoginWorkerScreen";
+		GM.getPopup(Main.popup, "Register", "Register", "popup");
 		currentWindow=false;
 	}
 	
@@ -90,7 +111,7 @@ public class LoginWorkerScreenController{
 		}
 		if(Worker.getCurrentWorker().getIsManager()==Status.Dalpak)
 			return;
-		if(!redotImageView.isVisible())//Will open only if there are new orders
+		if(!newOrders)//Will open only if there are new orders
 			return;
 		currentWindow=false;
 		Main.showMenu("LabOrders");

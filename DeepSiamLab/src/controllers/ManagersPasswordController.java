@@ -62,7 +62,7 @@ public class ManagersPasswordController {
 		}
 		switch(GeneralMessage.currentWindow){
 		case "LoginScreen":
-			GM.getPopup(Main.popup, "Register", "רישום עובד", "popup");break;
+			GM.getPopup(Main.popup2, "Register", "רישום עובד", "popup2");break;
 		case "AnnualScreen":
 			Windows.message("הבדיקה אושרה עי המנהל", "סיום טיפול");AnnualController.isManagerApprove = true;GM.closePopup(Main.popup3);break;
 		}

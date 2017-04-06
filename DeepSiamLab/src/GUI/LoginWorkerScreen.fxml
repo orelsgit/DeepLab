@@ -17,5 +17,8 @@
          </image>
       </ImageView>
       <Button layoutX="86.0" layoutY="48.0" mnemonicParsing="false" onAction="#onAddCustomer" text="הוסף לקוח" />
+      <Button layoutX="101.0" layoutY="111.0" mnemonicParsing="false" onAction="#onAddRegulator" text="הוסף וסת" />
+      <Button layoutX="101.0" layoutY="150.0" mnemonicParsing="false" onAction="#onAddBCD" text="הוסף מאזן" />
+      <Button layoutX="96.0" layoutY="189.0" mnemonicParsing="false" onAction="#onAddTank" text="הוסף מיכל" />
    </children>
 </AnchorPane>

@@ -31,6 +31,7 @@ public class RegisterController {
  * @author orelzman
  */
 	public void onBack(){
+		LoginWorkerScreenController.setCurrentWindow(true);
 		GM.closePopup(Main.popup);
 	}
 	

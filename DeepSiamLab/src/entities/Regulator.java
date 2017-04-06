@@ -10,13 +10,12 @@ public class Regulator extends GeneralMessage{
 	float interPressure;
 	
 	
-	public Regulator(String model, String manufacturer, String kitChangeDate, float interPressure) {
+	public Regulator(String model, String manufacturer, float interPressure) {
 		super();
 		this.model = model;
 		this.manufacturer = manufacturer;
 		this.interPressure = interPressure;
-		this.KitChangeDate = kitChangeDate;
-	}
+		}
 	
 	
 	

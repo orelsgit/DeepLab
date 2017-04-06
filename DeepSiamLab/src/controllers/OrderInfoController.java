@@ -193,7 +193,7 @@ public class OrderInfoController {
 		while(!isGotEquipments)// DO NOT TRUST THE USER!
 			GM.Sleep(2);
 		isFixOrAnnual=false;
-		GM.getPopup(Main.popup, "Fix", "תיקון וסת", "popup");
+		GM.getPopup(Main.popup2, "Fix", "תיקון וסת", "popup2");
 		GM.closePopup(Main.popup);
 
 	}	
@@ -269,11 +269,11 @@ public class OrderInfoController {
 	public void showAnnual(){
 		try {
 			TabPane mainLayout = FXMLLoader.load(Main.class.getResource("/GUI/Annual.fxml"));
-			Main.popup.setScene(new Scene(mainLayout));
-			Main.popup.setTitle("Annual");
-			Main.popup.showAndWait();
+			Main.popup2.setScene(new Scene(mainLayout));
+			Main.popup2.setTitle("Annual");
+			Main.popup2.showAndWait();
 		} catch (IOException e) {e.printStackTrace();}
-		GeneralMessage.currentPopup = "popup";
+		GeneralMessage.currentPopup = "popup2";
 	}
 
 

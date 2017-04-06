@@ -9,9 +9,8 @@ private String deepNum, size, model, manufacturer;
 
 
 
-public BCD(String deepNum, String size, String model, String manufacturer) {
+public BCD(String size, String model, String manufacturer) {
 	super();
-	this.deepNum = deepNum;
 	this.size = size;
 	this.model = model;
 	this.manufacturer = manufacturer;

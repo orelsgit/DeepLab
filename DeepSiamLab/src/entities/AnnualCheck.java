@@ -12,7 +12,7 @@ public class AnnualCheck extends GeneralMessage{
 	
 	private String size, model, manufacturer, custID, annualComments, fixComments, serialNum, kitChangeDate;
 	private int orderNum;
-	private boolean bcd, reg, ccr, isKit, isManagerApprove;//For server check needs
+	private boolean bcd, reg, ccr, isKit, isManagerApprove/*=isApproved*/;//For server check needs
 	
 	
 	

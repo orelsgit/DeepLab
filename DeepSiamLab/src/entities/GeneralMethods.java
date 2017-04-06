@@ -141,7 +141,7 @@ public class GeneralMethods {
 
 
 	/**
-	 * This method sends a message to the server via new joined thread.
+	 * Sends a message to the server via new joined thread.
 	 * @param msg holds crucial information that we want to send the server in order to run some qeuries.
 	 * @param actionNow holds information about the current job we want our server to accomplish.
 	 * @author orelzman
@@ -178,9 +178,9 @@ public class GeneralMethods {
 		try{Thread.sleep(time);}catch(InterruptedException e){e.printStackTrace();}
 	}
 	/**
-	 * This method checks if the string the user inserted is compatible with SQL syntax.
+	 * Checks if the string the user inserted is compatible with SQL syntax.
 	 * false if contains any invalid characters, true otherwise. If false, sets a warning window.
-	 * @param str The user's string
+	 * @param str is the user's string for check
 	 * @return if false, the string in not compatible, else compatible.
 	 * @author orelzman
 	 */

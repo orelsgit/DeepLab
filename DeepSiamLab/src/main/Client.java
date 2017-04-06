@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import controllers.AddCustomerController;
+import controllers.AddEquipment;
 import controllers.CustomerSearchController;
 import controllers.EmailController;
 import controllers.LabOrdersController;
@@ -93,6 +94,14 @@ public class Client extends AbstractClient {
 				OrderInfoController.regChosen.actionNow="InterNotFound";OrderInfoController.isGotEquipments = true;break;
 			case "NewCustomer":
 				AddCustomerController.isBackFromServer = true;break;
+			case "ModelExists":
+				Windows.warning("המודל קיים כבר עבור וסת זה. נסה מודל אחר");AddEquipment.isBackFromServer=true;break;
+			case "NewRegulator":
+				Windows.message("וסת חדש נוסף למסד הנתונים", "וסת חדש");AddEquipment.isBackFromServer=true;break;
+			case "NewTank":
+				Windows.message("מיכל חדש נוסף למסד הנתונים", "מיכל חדש");AddEquipment.isBackFromServer=true;break;
+			case "NewBCD":
+				Windows.message("מאזן חדש נוסף למסד הנתונים", "מאזן חדש");	AddEquipment.isBackFromServer=true;break;
 
 			}
 	}
