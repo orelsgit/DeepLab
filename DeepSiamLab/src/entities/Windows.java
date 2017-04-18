@@ -29,7 +29,7 @@ public class Windows {
 	 * @param title
 	 * @return
 	 */
-	public static boolean yesNoEdited(String message, String title, String yes, String no){
+	public static boolean yesNo(String message, String title, String yes, String no){
 		String[] options = new String[2];
 		options[0] = new String(yes);
 		options[1] = new String(no);

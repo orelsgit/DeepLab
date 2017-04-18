@@ -17,7 +17,7 @@ import javafx.stage.WindowEvent;
 public class Main extends Application {
 
 	public static Stage popup, popup2, popup3;
-	private static Stage primaryStage;
+	public static Stage primaryStage;
 	public static Parent mainLayout;
 	public static int port=3307;
 	public static String host = "localhost";
@@ -32,6 +32,7 @@ public class Main extends Application {
 				System.exit(0);
 			}
 		});
+		
 		Image duck = new Image("file:///C:/Users/orels/Desktop/Java/DeepSiamLab/DeepDuck.png");
 		primaryStage.getIcons().add(duck); //set icon in the corner
 		popup = new Stage(); 
@@ -56,6 +57,7 @@ public class Main extends Application {
 		try {mainLayout = loader.load();} catch (IOException e) {e.printStackTrace();}
 		primaryStage.setTitle(screen);
 		primaryStage.setScene(new Scene(mainLayout));
+		primaryStage.sizeToScene();
 		primaryStage.show();
 	}
 

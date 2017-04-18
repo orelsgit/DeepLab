@@ -1,6 +1,9 @@
 package controllers;
 
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
 import entities.AnnualCheck;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
@@ -28,9 +31,10 @@ public class AnnualController {
 	@FXML
 	private Button overflowButton;
 	@FXML
-	private CheckBox managerCheckBox, kitCheckBox, visualCheckBox, hoesCheckBox, sealCheckBox, leakCheckBox;
+	private CheckBox managerCheckBox, kitCheckBox, visualCheckBox, hoesCheckBox, sealCheckBox, leakCheckBox,
+	pressureCheckBox, perfectCheckBox, escapeCheckBox;
 	@FXML
-	private TextArea commentsTextArea;
+	private TextArea regCommentsTextArea, bcdCommentsTextArea;
 
 	private ObservableList<Tab> tabList;
 	private GeneralMethods GM = new GeneralMethods();
@@ -43,6 +47,9 @@ public class AnnualController {
 	private String seal =  "בדיקת אטימות בוצעה";
 	private String leak =  "בדיקת דליפות בוצעה";
 	private String kit = "הוחלף הקיט בתאריך: " + GM.getCurrentDate();
+	private String pressure = "בדיקת החזקת לחץ של המאזן בוצעה";
+	private String perfect = "בדיקת שלמות המאזן בוצעה";
+	private String escape = "בדיקת בריחת אוויר בוצעה";
 
 	public static boolean isManagerApprove = false, isInterPressure = false;
 
@@ -50,15 +57,19 @@ public class AnnualController {
 
 	/**
 	 * Initializes the tabs, according to the tech's choice
+	 * @author orelzman
 	 */
 	public void initialize(){
 		tabList = annualTabPane.getTabs();
 		selectionModel = annualTabPane.getSelectionModel();
-		text.setVisible(false);
+		System.out.println("init");
 		commentsText.setVisible(false);
 
-		if(!OrderInfoController.regCheck)
+
+		if(!OrderInfoController.regCheck){
 			tabList.get(0).setDisable(true);
+			text.setVisible(false);
+		}
 
 		if(!OrderInfoController.bcdCheck)
 			tabList.get(1).setDisable(true);
@@ -82,6 +93,37 @@ public class AnnualController {
 			selectionModel.select(3);
 	}
 
+	
+	/**
+	 * Creates a new BCD check if everything was filled correctly
+	 * @author orelzman
+	 */
+	
+	public void onContinueBCD(){
+		int isAllChecked = 0;//To check if every checkbox is checked!
+		String annualComments = "";
+		if(pressureCheckBox.isSelected()){
+			isAllChecked++;
+			annualComments+=pressure + "\n";
+		}
+		if(perfectCheckBox.isSelected()){
+			isAllChecked++;
+			annualComments+=perfect + "\n";
+		}
+		if(escapeCheckBox.isSelected()){
+			isAllChecked++;
+			annualComments+=escape + "\n";
+		}
+		if(isAllChecked!=3 && !isManagerApprove){
+			Windows.warning(".לא אישרת בדיקה של כל הדברים הנחוצים והמנהל לא אישר זאת,ולכן לא תוכל להמשיך הלאה");
+			return;
+		}
+		annualComments+="הערות:" + bcdCommentsTextArea.getText();
+		Windows.message(annualComments, "annual comments bcd");
+		
+		
+		
+	}
 
 	/**
 	 * Sets information about the check button.
@@ -125,7 +167,7 @@ public class AnnualController {
 		if(interPressureTextField.getText().equals(""))
 			return;
 		if(OrderInfoController.regChosen.getInterPressure()!=Float.parseFloat(interPressureTextField.getText())){
-			if(Windows.yesNoEdited("לחץ הביניים הנתון לא תואם את לחץ הביניים שנקבע עפ הוראות היצרן." + "\n" + "לחץ הביניים שנקבע עי היצרון הוא: " + OrderInfoController.regChosen.getInterPressure()
+			if(Windows.yesNo("לחץ הביניים הנתון לא תואם את לחץ הביניים שנקבע עפ הוראות היצרן." + "\n" + "לחץ הביניים שנקבע עי היצרון הוא: " + OrderInfoController.regChosen.getInterPressure()
 			+ "\n" + "\n" + "המשך אם אתה מאשר שהלחץ ביניים שהוקלד תקין, אחרת לחץ בטל", "לחץ ביניים", "המשך", "בטל")){
 				isInterPressure = true;
 				interPressureTextField.setStyle("-fx-background-color: #33FF33;");
@@ -159,15 +201,30 @@ public class AnnualController {
 	 * In addition, it sets an AnnualCheck object with the proper information to send the server and add it into the database.
 	 * @author orelzman
 	 */
-	public void onContinue(){
+	public void onContinueRegulator(){
 		AnnualCheck annualCheck = new AnnualCheck();
 		String annualComments="";
 
-		if(!isInterPressure&&!isManagerApprove){
+		if(!isInterPressure && !isManagerApprove){
 			Windows.message("לחץ הביניים לא אושר. אשר אותו לפניי שתמשיך או שתכניס סיסמת מנהל", "לחץ ביניים לא תקין");
 			return;
 		}
+		
+		int isAllChecked = 0;
+		if(visualCheckBox.isSelected())
+			isAllChecked++;
+		if(hoesCheckBox.isSelected())
+			isAllChecked++;
+		if(sealCheckBox.isSelected())
+			isAllChecked++;
+		if(leakCheckBox.isSelected())
+			isAllChecked++;
 
+		if(isAllChecked!=4 && !isManagerApprove){
+			Windows.warning(".לא אישרת בדיקה של כל הדברים הנחוצים והמנהל לא אישר זאת,ולכן לא תוכל להמשיך הלאה");
+			return;
+		}
+			
 		if(visualCheckBox.isSelected())
 			annualComments+=(visual);
 		if(hoesCheckBox.isSelected())
@@ -179,8 +236,8 @@ public class AnnualController {
 		if(kitCheckBox.isSelected())
 			annualComments+=(kit + "\n");
 		annualComments+=("לחץ הביניים שנבדק הינו: " + interPressureTextField.getText() + "\n");
-		if(!(commentsTextArea.getText().equals("")))
-			annualComments+=("הערות:" + "\n" + commentsTextArea.getText());
+		if(!(regCommentsTextArea.getText().equals("")))
+			annualComments+=("הערות:" + "\n" + regCommentsTextArea.getText());
 
 		Windows.message(annualComments, "");
 
@@ -200,13 +257,15 @@ public class AnnualController {
 		GM.sendServerThread(annualCheck, "AnnualCheck");
 
 		GM.closePopup(Main.popup2);
+		
+
 	}
 
 	/**
 	 * Asks the user for manager's password to accept the annual check, according to the israeli diving union.
 	 * @author orelzman
 	 */
-	public void onManager(){//Current popup2 
+	public void onManager(){
 		managerCheckBox.setSelected(false);
 		if(isManagerApprove){
 			Windows.message("הבדיקה אושרה", "אושר");

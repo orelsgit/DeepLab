@@ -18,7 +18,7 @@ public class OrderInfoController {
 	private static Order orderSelected;
 	private static Customer customerSelected;
 	private static GeneralMethods GM;
-	public static boolean isBackFromServer=false,regCheck, bcdCheck, ccrCheck,tankCheck, isFixOrAnnual=false/*Avoid initializing while in phone window*/;
+	public static boolean isBackFromServer,regCheck, bcdCheck, ccrCheck,tankCheck, isFixOrAnnual;/*Avoid initializing while in phone window*/;
 	public static boolean isGotEquipments = false;
 	public static Regulator regChosen;
 
@@ -120,6 +120,8 @@ public class OrderInfoController {
 		bcdCheck=false;
 		ccrCheck=false;
 		tankCheck=false;
+		isBackFromServer=false;
+		isFixOrAnnual=false;
 	}
 	/**
 	 * Checks which button was pressed and sets the check boolean attributes accordingly

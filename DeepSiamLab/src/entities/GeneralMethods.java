@@ -35,6 +35,32 @@ public class GeneralMethods {
 		return df.format(calobj.getTime());
 	}
 	
+	/**
+	 * Refreshes the equipments/orders/customers lists.
+	 * @author orelzman
+	 */
+	public void refresh(){
+		Thread thread = new Thread(){
+			public void run(){
+				Order order = new Order();
+				sendServer(order, "GetNewOrders");
+				sendServer(order, "GetReg");
+				sendServer(order, "GetBCD");
+				sendServer(order, "GetTank");
+				sendServer(order, "GetCCR");
+				sendServer(order, "GetCustomers");
+				while(GeneralMessage.getBcdList()!=null
+						&&GeneralMessage.getCcrList()!=null
+						&&GeneralMessage.getCustList()!=null
+						&&GeneralMessage.getRegList()!=null
+						&&GeneralMessage.getTankList()!=null)
+					Sleep(2);
+				GeneralMessage.setGotLists(true);
+
+			}
+		};thread.start();
+	}
+	
 	public void sendMail(String to, String subject, String content, String fr, String pass){
 		thread = new Thread(){
 			public void run(){
@@ -93,9 +119,9 @@ public class GeneralMethods {
 		case "popup":
 			GeneralMessage.currentPopup="";break;
 		case "popup2":
-			GeneralMessage.currentPopup = "popup1";break;
-		case "popup3":
 			GeneralMessage.currentPopup = "popup2";break;
+		case "popup3":
+			GeneralMessage.currentPopup = "popup3";break;
 		}
 		popup.close();
 	}

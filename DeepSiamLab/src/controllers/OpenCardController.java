@@ -28,7 +28,7 @@ import main.Main;
 
 public class OpenCardController {
 
-	
+
 	@FXML
 	private CheckBox regulatorCheckBox, bcdCheckBox, ccrCheckBox, tankCheckBox, deepCheckBox, privateCheckBox;
 	@FXML
@@ -37,10 +37,10 @@ public class OpenCardController {
 	private TextField /*Change to Model*/regManuTextField, regDeepNumTextField, bcdModelTextField,bcdDeepNumTextField, tankDeepNumTextField, tankManuTextField,
 	ccrOwnerTextField, ccrDeepNumTextField, idTextField;
 	@FXML
-	private ComboBox<String> regModelComboBox, bcdModelComboBox;
+	private ComboBox<String> regModelComboBox, bcdModelComboBox, tankManuComboBox;
 	@FXML
 	private Button chooseBCDButton;
-	
+
 	private GeneralMethods GM;
 
 	public static boolean isBackFromSearch, isDoneSearching = true/*For the search method*/;
@@ -48,7 +48,7 @@ public class OpenCardController {
 	public static Customer customerChosen;
 	private static ObservableList<String> regList, regListSearch, bcdList, bcdListSearch;
 
-	
+
 
 	public void initialize(){
 
@@ -72,15 +72,15 @@ public class OpenCardController {
 		while(GeneralMessage.getRegList()==null)
 			GM.Sleep(2);
 
-		
+
 		ArrayList<String> regs = new ArrayList<String>();
 		ArrayList<String> bcds = new ArrayList<String>();
-		
+
 		for(Regulator reg : GeneralMessage.getRegList())
 			regs.add(reg.getModel().replaceAll("\\s+", ""));
 		for(BCD bcd : GeneralMessage.getBcdList())
 			bcds.add(bcd.getModel().replaceAll("\\s+", ""));
-			
+
 
 		bcdList = FXCollections.observableArrayList(bcds);
 		regList = FXCollections.observableArrayList(regs);
@@ -164,10 +164,10 @@ public class OpenCardController {
 		};
 		task.run();
 	}
-/**
- * Opens a customer search window, for the card report.
- * @author orelzman
- */
+	/**
+	 * Opens a customer search window, for the card report.
+	 * @author orelzman
+	 */
 	public void onCCROwner(){//לשנות לחיפוש לפי CCROWNERS
 		isBackFromSearch=false;
 		Thread thread = new Thread(){
@@ -188,10 +188,10 @@ public class OpenCardController {
 		};thread1.start();
 	}
 
-/**
- * Creates a thread that awaits the return of a result from the about-to-open customer search window.
- * @author orelzman
- */
+	/**
+	 * Creates a thread that awaits the return of a result from the about-to-open customer search window.
+	 * @author orelzman
+	 */
 	public void onSearch(){	
 		isBackFromSearch=false;
 		Thread thread = new Thread(){
@@ -230,12 +230,69 @@ public class OpenCardController {
 		chooseBCDButton.setVisible(false);
 		bcdDeepNumTextField.setVisible(false);
 	}
+	
+	
+	public void chooseRegNumber(){
+		
+	}
+	
 
 	/**
 	 * Checks the order fields and issues an order by writing the information into the description String which will later be shown to the tech
 	 *  @author orelzman
 	 */
 	public void onIssueOrder(){
+		String description = "", regNum = "", tankNum="", bcdNum="", ccrNum="",temp="", numsToServer="";
+		if(regModelComboBox.getSelectionModel().getSelectedItem()!=null && !regDeepNumTextField.getText().equals(""))
+			regNum=regDeepNumTextField.getText();
+		if(!bcdDeepNumTextField.getText().equals("") && bcdModelComboBox.getSelectionModel().getSelectedItem()!=null)
+			bcdNum = bcdDeepNumTextField.getText();
+		if(tankManuComboBox.getSelectionModel().getSelectedItem()!=null && !tankDeepNumTextField.getText().equals(""))
+			tankNum = tankDeepNumTextField.getText();
+		if(!ccrOwnerTextField.getText().equals("") && !ccrDeepNumTextField.getText().equals(""))
+			ccrNum = ccrDeepNumTextField.getText();
+		if(!regNum.equals(""))
+			temp+="REG" + regNum + ",";
+		if(!bcdNum.equals(""))
+			temp+="BCD" + bcdNum + ",";
+		if(!tankNum.equals(""))
+			temp+="TANK" + tankNum + ",";
+		if(!ccrNum.equals(""))
+			temp+="CCR" + ccrNum + ",";
+		if(temp.equals(""))
+			if(!Windows.yesNo("לא בחרת שום ציוד לתיקון. בטוח שברצונך להמשיך?", "", "כן", "לא"))
+				return;
+		for(int i=0;i<temp.length();i++)
+			numsToServer+=temp.charAt(i);
+		Order order = new Order();
+		order.numsToServer = numsToServer;
+		
+		if(idTextField.getText().equals("")){
+			Windows.warning("בחר לקוח לפניי שתמשיך!");
+			return;
+		}
+		
+		order.setCustID(idTextField.getText());
+		order.setDate(GM.getCurrentDate());
+		order.setComments(commentsTextArea.getText());
+		order.setHandled(-1);
+
+
+
+		GM.sendServer(order, "IssueOrder");
+		while(Order.currentOrder.actionNow.equals("IssueOrder"))
+			GM.Sleep(2);
+		Windows.threadMessage("Order has been issued and will be soon reviewed by the tech.", "ORDER DISPATCHED!");
+
+
+	}
+
+
+	/**
+	 * Checks the order fields and issues an order by writing the information into the description String which will later be shown to the tech
+	 *  @author orelzman
+	 */
+	/*public void onIssueOrder(){
 		String description="";//This String will be shown to the tech when he opens the ticket.
 		System.out.println("issue");
 
@@ -282,14 +339,14 @@ public class OpenCardController {
 		Order.currentOrder = new Order();
 		Order.currentOrder.actionNow="IssueOrder";
 		System.out.println("description: " + description);
-		//GM.sendServer(order, "IssueOrder");
-		//while(Order.currentOrder.actionNow.equals("IssueOrder"))
-		//	GM.Sleep(2);
-		//Windows.threadMessage("Order has been issued and will be soon reviewed by the tech.", "ORDER DISPATCHED!");
+		GM.sendServer(order, "IssueOrder");
+		while(Order.currentOrder.actionNow.equals("IssueOrder"))
+			GM.Sleep(2);
+		Windows.threadMessage("Order has been issued and will be soon reviewed by the tech.", "ORDER DISPATCHED!");
 
 	}
 
-
+	 */
 	/**
 	 * This method returns the user to the main screen
 	 * @author orelzman

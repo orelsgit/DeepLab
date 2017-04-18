@@ -39,7 +39,7 @@
             <Font size="16.0" />
          </font>
       </Text>
-      <Text fx:id="phoneText" layoutX="261.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":פלאפון">
+      <Text fx:id="phoneText" layoutX="261.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="נייד:">
          <font>
             <Font size="16.0" />
          </font>

@@ -34,7 +34,7 @@
       <Text layoutX="685.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":תעודת זהות" />
       <Text layoutX="686.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":מספר לקוח" />
       <Text layoutX="238.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":שם משפחה" />
-      <Button layoutY="281.0" mnemonicParsing="false" onAction="#onRefresh" prefHeight="25.0" prefWidth="49.0" text="רענן">
+      <Button layoutY="281.0" mnemonicParsing="false" onAction="#refresh" prefHeight="25.0" prefWidth="49.0" text="רענן">
          <font>
             <Font size="14.0" />
          </font></Button>

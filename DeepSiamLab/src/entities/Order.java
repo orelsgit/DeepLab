@@ -8,10 +8,11 @@ public class Order extends GeneralMessage {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int orderNum, handled;//handled -1 - Not handled, 0 - Not approved by manager, 1-finished and prepared, -2 - to remove
+	private int orderNum, handled;//HANDLED :  -1 - Not handled, 0 - Not approved by manager, 1-finished and prepared, -2 - to remove
 	private String custID, description, Comments,date, name, lastName;
 	public static Order currentOrder;
 	private static ArrayList<Order> unHandledOrderList;
+	public String numsToServer;//The serial numbers we send the server when we want to issue an order.
 	
 	public Order(int handled, String custID, String description, String comments, String date, int orderNum) {
 		super();

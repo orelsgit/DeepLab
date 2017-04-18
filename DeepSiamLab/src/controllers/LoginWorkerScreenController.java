@@ -9,6 +9,8 @@ import entities.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import main.Main;
 
 public class LoginWorkerScreenController{
@@ -17,7 +19,10 @@ public class LoginWorkerScreenController{
 	private ImageView redotImageView;
 	@FXML
 	private Button orderButton, ticketsButton;
-	
+	@FXML
+	private AnchorPane loginAnchorPane;
+	@FXML
+	private Pane pane;
 	
 	private GeneralMethods GM;
 	public static boolean newOrders,backFromServer;
@@ -31,6 +36,19 @@ public class LoginWorkerScreenController{
 	 * @author orelzman
 	 */
 	public void initialize(){//	private int isManager;//1 - manager, 0 - tech, -1 - dalpak
+		
+		//orderButton.prefWidthProperty().bind(loginAnchorPane.widthProperty());
+		////orderButton.prefHeightProperty().bind(loginAnchorPane.heightProperty());
+		//orderButton.setMaxHeight(100);
+		//orderButton.setMaxWidth(100);
+	//	AnchorPane.setTopAnchor(pane, 100.0);
+	//	AnchorPane.setRightAnchor(pane, 10.0);
+	//	AnchorPane.setLeftAnchor(pane, 10.0);
+		//AnchorPane.setBottomAnchor(pane, 10.0);
+	//	loginAnchorPane.getChildren().setAll(pane);
+
+		
+		
 		switch (Worker.getCurrentWorker().getIsManager()){
 		case Manager:
 			break;
@@ -97,9 +115,10 @@ public class LoginWorkerScreenController{
 	 * @author orelzman
 	 */
 	public void onAddCustomer(){
-		GM.getPopup(Main.popup, "Register", "Register", "popup");
+		GM.getPopup(Main.popup, "AddCustomer", "AddCustomer", "popup");
 		currentWindow=false;
 	}
+	
 	
 	/**
 	 * Sets up a window that will contain a TableView with all the unreviewed Orders, as foresaid, the LabOrders

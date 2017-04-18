@@ -5,7 +5,7 @@ public class Regulator extends GeneralMessage{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String model,manufacturer,serialNum,KitChangeDate;
+	private String model,manufacturer,serialNum;
 	private int deepNum;
 	float interPressure;
 	
@@ -39,12 +39,7 @@ public class Regulator extends GeneralMessage{
 	public void setSerialNum(String serialNum) {
 		this.serialNum = serialNum;
 	}
-	public String getKitChangeDate() {
-		return KitChangeDate;
-	}
-	public void setKitChangeDate(String kitChangeDate) {
-		KitChangeDate = kitChangeDate;
-	}
+
 	public int getDeepNum() {
 		return deepNum;
 	}

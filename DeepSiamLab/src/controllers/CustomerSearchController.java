@@ -73,11 +73,23 @@ public class CustomerSearchController {
 			customer.setLastName(customer.getLastName().replaceAll("\\s++", ""));
 		}
 		customerListSearch = new ArrayList<Customer>(customerList);
-		customersTableView.setPlaceholder(new Label("לא נמצאו לקוחות"));
+		customersTableView.setPlaceholder(new Label("לא נמצאו לקוחות"));//If table is empty it sets the label.
 		ObservableList<Customer> customers = FXCollections.observableArrayList(customerList);
 		customersTableView.setItems(customers);
 	}//End initialize
 
+
+	public void refresh(){
+		System.out.println("yo");
+		Thread thread = new Thread(){
+			public void run(){
+				GM.refresh();
+			}
+		};thread.start();try {thread.join();} catch (InterruptedException e) {e.printStackTrace();}
+		ObservableList<Customer> customers = FXCollections.observableArrayList(customerList);
+		customersTableView.setItems(customers);
+
+	}
 
 	/**
 	 * Sets a key(ENTER) listener for a certain TextField.
@@ -115,8 +127,8 @@ public class CustomerSearchController {
 		TableColumn<Customer, String> phone = (TableColumn<Customer, String>) customersTableView.getColumns().get(5);
 		phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
 	}
-	
-	
+
+
 	/**
 	 * Opens the customer registeration window.
 	 * @author orelzman
@@ -125,7 +137,7 @@ public class CustomerSearchController {
 		GM.getPopup(Main.popup2, "AddCustomer", "AddCustomer", "popup2");
 	}
 
-	
+
 	/**
 	 * Searches through the customer's list according to the user's filled fields, using a HashMap for low complexity.
 	 * @author orelzman
@@ -154,7 +166,7 @@ public class CustomerSearchController {
 			for(int i=0;i<customerList.size();i++)
 				if(!customerList.get(i).getName().contains(name))
 					custToDelete.put(i, i);
-				
+
 
 
 		if(!lastName.equals("")&&GM.checkText(lastName))
@@ -185,8 +197,8 @@ public class CustomerSearchController {
 
 
 	}
-	
-	
+
+
 	/**
 	 * Closes the customer search window.
 	 * @author orelzman
@@ -207,11 +219,11 @@ public class CustomerSearchController {
 			GM.closePopup(Main.popup);
 		return;
 	}
-	
-/**
- * Used to assure the double click safetly.
- * @author orelzman
- */
+
+	/**
+	 * Used to assure the double click safetly.
+	 * @author orelzman
+	 */
 	public void onRelease(){
 		if(doubleClick == 1&&selectedLine == customersTableView.getSelectionModel().getSelectedIndex())
 			onSelect();
@@ -219,7 +231,7 @@ public class CustomerSearchController {
 			setDoubleClickThread();
 	}
 
-	
+
 	/**
 	 * Sets a double click thread with a timer, to make the double click accurate.
 	 * @author orelzman

@@ -47,25 +47,7 @@ public class LoginScreenController {
 			}
 		});
 
-		Thread thread = new Thread(){
-			public void run(){
-				Order order = new Order();
-				GM.sendServer(order, "GetNewOrders");
-				GM.sendServer(order, "GetReg");
-				GM.sendServer(order, "GetBCD");
-				GM.sendServer(order, "GetTank");
-				GM.sendServer(order, "GetCCR");
-				GM.sendServer(order, "GetCustomers");
-				while(GeneralMessage.getBcdList()!=null
-						&&GeneralMessage.getCcrList()!=null
-						&&GeneralMessage.getCustList()!=null
-						&&GeneralMessage.getRegList()!=null
-						&&GeneralMessage.getTankList()!=null)
-					GM.Sleep(2);
-				GeneralMessage.setGotLists(true);
-
-			}
-		};thread.start();
+		GM.refresh();
 
 	}
 

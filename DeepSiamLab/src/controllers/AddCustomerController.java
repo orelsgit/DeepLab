@@ -71,7 +71,7 @@ public class AddCustomerController {
 		System.out.println(GeneralMessage.currentPopup + GeneralMessage.currentWindow);
 		if(!GeneralMessage.currentPopup.equals("")){
 			switch(GeneralMessage.currentPopup){
-			case "popup1":
+			case "popup":
 				GM.closePopup(Main.popup);break;
 			case "popup2":
 				GM.closePopup(Main.popup2);break;
