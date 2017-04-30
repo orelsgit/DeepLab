@@ -66,7 +66,7 @@ public class Client extends AbstractClient {
 			case "Correct"://correct login information
 				Worker.setCurrentWorker((Worker)msg);break;
 			case "IssueOrder"://An order was issued by the dalpak
-				Order.currentOrder.actionNow+=",";break;
+				Order.currentOrder.actionNow+=",";System.out.println("IssueOrder");break;
 			case "ManagerPasswordCorrect":
 				ManagersPasswordController.worker.actionNow="Correct";break;
 			case "ManagerPasswordIncorrect":

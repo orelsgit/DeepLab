@@ -16,6 +16,14 @@ public BCD(String size, String model, String manufacturer) {
 	this.manufacturer = manufacturer;
 }
 
+public BCD(){
+	
+}
+
+public BCD(String size){
+	this.size = size;
+}
+
 public String getDeepNum() {
 	return deepNum;
 }

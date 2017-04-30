@@ -16,6 +16,7 @@ public Customer( String name, String lastName, String custID, String email, Stri
 	this.email = email;
 	this.phone = phone;
 	this.id = id;
+	this.dob = dob;
 }
 
 public Customer(String name, String lastName, String phone, String email, String id, String dob) {//for customer add
