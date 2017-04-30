@@ -30,7 +30,7 @@
       </CheckBox>
       <TextArea fx:id="commentsTextArea" layoutX="203.0" layoutY="512.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="140.0" prefWidth="223.0" promptText="הערות" />
       <Text layoutX="203.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="110.13671875" />
-      <Text layoutX="770.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":פרטי לקוח">
+      <Text layoutX="770.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":פרטי לקוח">
          <font>
             <Font name="Onyx" size="21.0" />
          </font>
@@ -48,8 +48,6 @@
          </font>
       </CheckBox>
       <TextField fx:id="bcdDeepNumTextField" editable="false" layoutX="417.0" layoutY="196.0" promptText="Deep Number" visible="false" />
-      <TextField fx:id="ccrOwnerTextField" editable="false" layoutX="626.0" layoutY="272.0" nodeOrientation="LEFT_TO_RIGHT" promptText="מודל" />
-      <TextField fx:id="ccrManuTextField" editable="false" layoutX="626.0" layoutY="309.0" nodeOrientation="LEFT_TO_RIGHT" promptText="יצרן" />
       <Button layoutX="803.0" layoutY="625.0" mnemonicParsing="false" onAction="#onBack" prefHeight="35.0" prefWidth="60.0" text="חזור">
          <font>
             <Font size="18.0" />
@@ -60,8 +58,6 @@
             <Font size="17.0" />
          </font></Button>
       <Button fx:id="chooseBCDButton" layoutX="575.0" layoutY="196.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" visible="false" />
-      <Button layoutX="784.0" layoutY="309.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" />
-      <Button layoutX="784.0" layoutY="272.0" mnemonicParsing="false" onAction="#onCCROwner" prefHeight="25.0" prefWidth="38.0" text="בחר" />
       <ComboBox fx:id="regModelComboBox" editable="true" layoutX="279.0" layoutY="130.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#onRegModelChange" onInputMethodTextChanged="#onRegModelChange" onKeyPressed="#onRegModelChange" onShowing="#onRegModelChange" prefWidth="150.0" promptText="דגם" />
       <ComboBox fx:id="tankModelComboBox" editable="true" layoutX="280.0" layoutY="277.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#onTankModelChange" onInputMethodTextChanged="#onTankModelChange" onKeyPressed="#onTankModelChange" onShowing="#onTankModelChange" prefWidth="150.0" promptText="דגם" />
       <ComboBox fx:id="bcdModelComboBox" editable="true" layoutX="644.0" layoutY="114.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#onBCDModelChange" onInputMethodTextChanged="#onBCDModelChange" onKeyPressed="#onBCDModelChange" onShowing="#onBCDModelChange" prefWidth="150.0" promptText="דגם" />
@@ -79,7 +75,7 @@
             <Font size="25.0" />
          </font>
       </Text>
-      <Text fx:id="ccrText" layoutX="703.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="מערכת סגורה">
+      <Text fx:id="ccrText" layoutX="703.0" layoutY="238.0" onMouseClicked="#findCCR" onMouseEntered="#onCCREntered" onMouseExited="#onCCRExited" strokeType="OUTSIDE" strokeWidth="0.0" text="מערכת סגורה">
          <font>
             <Font size="25.0" />
          </font>
@@ -89,32 +85,32 @@
             <Font size="25.0" />
          </font>
       </Text>
-      <TextField layoutX="613.0" layoutY="429.0" nodeOrientation="RIGHT_TO_LEFT" />
-      <TextField layoutX="613.0" layoutY="464.0" nodeOrientation="RIGHT_TO_LEFT" />
-      <TextField layoutX="613.0" layoutY="500.0" nodeOrientation="RIGHT_TO_LEFT" />
-      <TextField layoutX="613.0" layoutY="535.0" nodeOrientation="RIGHT_TO_LEFT" />
-      <Text layoutX="778.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם">
+      <TextField fx:id="nameTextField" layoutX="613.0" layoutY="406.0" nodeOrientation="RIGHT_TO_LEFT" />
+      <TextField fx:id="lastNameTextField" layoutX="613.0" layoutY="441.0" nodeOrientation="RIGHT_TO_LEFT" />
+      <TextField fx:id="emailTextField" layoutX="613.0" layoutY="477.0" nodeOrientation="RIGHT_TO_LEFT" />
+      <TextField fx:id="phoneTextField" layoutX="613.0" layoutY="512.0" nodeOrientation="RIGHT_TO_LEFT" />
+      <Text fx:id="nameText" layoutX="778.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם">
          <font>
             <Font size="17.0" />
          </font>
       </Text>
-      <Text layoutX="778.0" layoutY="483.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם משפחה">
+      <Text fx:id="lastNameText" layoutX="778.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם משפחה">
          <font>
             <Font size="17.0" />
          </font>
       </Text>
-      <Text layoutX="782.0" layoutY="519.0" strokeType="OUTSIDE" strokeWidth="0.0" text="אימייל">
+      <Text fx:id="emailText" layoutX="782.0" layoutY="496.0" strokeType="OUTSIDE" strokeWidth="0.0" text="אימייל">
          <font>
             <Font size="17.0" />
          </font>
       </Text>
-      <Text layoutX="778.0" layoutY="554.0" strokeType="OUTSIDE" strokeWidth="0.0" text="פלאפון">
+      <Text fx:id="phoneText" layoutX="778.0" layoutY="531.0" strokeType="OUTSIDE" strokeWidth="0.0" text="נייד">
          <font>
             <Font size="17.0" />
          </font>
       </Text>
-      <TextField layoutX="615.0" layoutY="568.0" nodeOrientation="RIGHT_TO_LEFT" />
-      <Text layoutX="778.0" layoutY="587.0" strokeType="OUTSIDE" strokeWidth="0.0" text="תאריך לידה">
+      <TextField fx:id="dobTextField" layoutX="613.0" layoutY="581.0" nodeOrientation="RIGHT_TO_LEFT" />
+      <Text fx:id="dobText" layoutX="776.0" layoutY="600.0" strokeType="OUTSIDE" strokeWidth="0.0" text="תאריך לידה">
          <font>
             <Font size="17.0" />
          </font>
@@ -123,5 +119,43 @@
       <ComboBox fx:id="bcdManuComboBox" editable="true" layoutX="644.0" layoutY="165.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#onBCDManuChange" onInputMethodTextChanged="#onBCDManuChange" onKeyPressed="#onBCDManuChange" onKeyReleased="#onBCDManuChange" onKeyTyped="#onBCDManuChange" onShowing="#onBCDManuChange" prefWidth="150.0" promptText="יצרן" />
       <ComboBox fx:id="regManuComboBox" editable="true" layoutX="279.0" layoutY="178.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#onRegManuChange" onInputMethodTextChanged="#onRegManuChange" onKeyPressed="#onRegManuChange" onShowing="#onRegManuChange" prefWidth="150.0" promptText="יצרן" />
       <ComboBox fx:id="tankManuComboBox" editable="true" layoutX="279.0" layoutY="322.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#onTankManuChange" onHiding="#onTankManuChange" onInputMethodTextChanged="#onTankManuChange" onKeyPressed="#onTankManuChange" onKeyReleased="#onTankManuChange" onShowing="#onTankManuChange" prefWidth="150.0" promptText="יצרן" />
+      <ComboBox fx:id="ccrManuComboBox" editable="true" layoutX="644.0" layoutY="308.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#onCCRManuChange" onInputMethodTextChanged="#onCCRManuChange" onKeyPressed="#onCCRManuChange" onShowing="#onCCRManuChange" prefWidth="150.0" promptText="יצרן" />
+      <ComboBox fx:id="ccrModelComboBox" editable="true" layoutX="644.0" layoutY="271.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#onCCRModelChange" onInputMethodTextChanged="#onCCRModelChange" onKeyPressed="#onCCRModelChange" onShowing="#onCCRModelChange" prefWidth="150.0" promptText="דגם" />
+      <Text fx:id="idText" layoutX="778.0" layoutY="563.0" strokeType="OUTSIDE" strokeWidth="0.0" text="תעודת זהות">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <TextField fx:id="idTextField" layoutX="613.0" layoutY="544.0" nodeOrientation="RIGHT_TO_LEFT" />
+      <Text fill="RED" layoutX="861.0" layoutY="562.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="10.00390625">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fill="RED" layoutX="800.0" layoutY="531.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="10.00390625">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fill="RED" layoutX="828.0" layoutY="496.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="10.00390625">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fill="RED" layoutX="866.0" layoutY="458.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="10.00390625">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fill="RED" layoutX="805.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="10.00390625">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fill="RED" layoutX="861.0" layoutY="599.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" wrappingWidth="10.00390625">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

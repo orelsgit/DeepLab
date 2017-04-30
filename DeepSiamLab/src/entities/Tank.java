@@ -15,6 +15,10 @@ public class Tank extends GeneralMessage{
 		this.manufacturer = manufacturer;
 	}
 
+	
+	public Tank(String model){
+		this.model = model;
+	}
 
 
 	public String getSerialNum() {

@@ -19,6 +19,10 @@ public class Regulator extends GeneralMessage{
 	
 	
 	
+	public Regulator(String model){
+		this.model = model;
+	}
+	
 	public Regulator() {
 	}
 	public String getModel() {

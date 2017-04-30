@@ -10,6 +10,7 @@ encoding//src/controllers/OpenCardController.java=UTF-8
 encoding//src/controllers/OrderInfoController.java=UTF-8
 encoding//src/controllers/RegisterController.java=UTF-8
 encoding//src/controllers/SearchBCDController.java=UTF-8
+encoding//src/controllers/SearchCCRController.java=UTF-8
 encoding//src/controllers/SearchRegController.java=UTF-8
 encoding//src/controllers/SearchTankController.java=UTF-8
 encoding//src/entities/GeneralMethods.java=UTF-8

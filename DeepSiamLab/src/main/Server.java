@@ -46,8 +46,8 @@ public class Server extends AbstractServer {
 		switch(((GeneralMessage)msg).actionNow){
 		case "Login":
 			checkUserInfo((Worker)msg, client);break;
-	//	case "IssueOrder":
-			//issueOrder((Order)msg, client);break;
+		case "IssueOrder":
+			issueOrder((Order)msg, client);break;
 			//issueAnOrder((Order)msg, client);break;
 		case "ManagerPassword":
 			managerPassword((Worker)msg, client);break;
@@ -109,83 +109,7 @@ public class Server extends AbstractServer {
 	
 	
 	
-//	
-//	public void issueAnOrder(Order order, ConnectionToClient client){
-//		PreparedStatement preparedStmt;
-//		Statement stmt;
-//		String regID="", tankID="", ccrID="", bcdID="";
-//		String regDes="", tankDes="", ccrDes="", bcdDes="";
-//		int max=0;
-//		try{
-//			stmt = conn.createStatement();
-//			int indexOf = order.numsToServer.indexOf("REG");
-//			if(indexOf!=-1){
-//				while(order.numsToServer.charAt(indexOf+3)!=',')
-//					regID+=order.numsToServer.charAt(indexOf+3);	
-//				
-//				ResultSet rs = stmt.executeQuery("SELECT * FROM orelDeepdivers.Regulators WHERE SerialNum = '" + regID + "';");
-//				if(rs.next())
-//					regDes ="Regulator: + " + "\n" + "SerialNum: " + rs.getString(4) + "\n" + "Manufacturer: " +  rs.getString(2) 
-//					+ "\n" + "Model: " + rs.getFloat(1) + "\n" + "Indermediate Pressure: " + rs.getString(3);
-//				else{System.out.println("BADREG");}
-//				System.out.println(regDes);
-//			}
-//
-//			indexOf = order.numsToServer.indexOf("BCD");
-//			if(indexOf!=-1){
-//				while(order.numsToServer.charAt(indexOf+3)!=',')
-//					bcdID+=order.numsToServer.charAt(indexOf+3);
-//
-//				ResultSet rs = stmt.executeQuery("SELECT * FROM orelDeepdivers.BCDS WHERE SerialNum = '" + bcdID + "';");
-//				if(rs.next())
-//					regDes ="BCD: + " + "\n" + "SerialNum: " + rs.getString(4) + "\n" + "Maunfacturer: " +  rs.getString(3) 
-//					+ "\n" + "Model: " + rs.getString(2) + "\n" + "Size: " + rs.getString(4);
-//				else System.out.println("BADBCD");
-//				System.out.println(bcdDes);
-//
-//			}
-//
-//
-//
-//			indexOf = order.numsToServer.indexOf("CCR");
-//			if(indexOf!=-1){
-//				while(order.numsToServer.charAt(indexOf+3)!=',')
-//					ccrID+=order.numsToServer.charAt(indexOf+3);
-//				
-//				ResultSet rs = stmt.executeQuery("SELECT * FROM orelDeepdivers.CCR WHERE SerialNum = '" + ccrID + "';");
-//				if(rs.next())
-//					regDes ="CCR: + " + "\n" + "SerialNumber: " + rs.getString(1) + "\n" + "Maunfacturer: " +  rs.getString(2) 
-//					+ "\n" + "Model: " + rs.getString(4) + "\n" + "Owner: " + rs.getString(3);
-//				else System.out.println("BADCCR");
-//				System.out.println(bcdDes);
-//
-//				
-//			}
-//
-//			indexOf = order.numsToServer.indexOf("TANK");
-//			if(indexOf!=-1)
-//				while(order.numsToServer.charAt(indexOf+3)!=',')
-//					tankID+=order.numsToServer.charAt(indexOf+3);	
-//
-//
-//		}catch(Exception e){e.printStackTrace();}
-//		try{
-//			preparedStmt = conn.prepareStatement("insert into orelDeepdivers.Orders(OrderNum, CustID, Description, "
-//					+ "Date, Comments, Handled) values(?,?,?,?,?,?)");
-//			stmt = conn.createStatement();
-//			ResultSet rs = stmt.executeQuery("SELECT Max(OrderNum) FROM OrelDeepdivers.Orders;");
-//			rs.next();max=rs.getInt(1);
-//			max++;
-//			preparedStmt.setInt(1, max);
-//			preparedStmt.setString(2, order.getCustID());
-//			preparedStmt.setString(3, order.getDescription());
-//			preparedStmt.setString(4, order.getDate());
-//			preparedStmt.setString(5, order.getComments());
-//			preparedStmt.setInt(6, order.getHandled());
-//			preparedStmt.executeUpdate();
-//			client.sendToClient(order);
-//		}catch(Exception e){e.printStackTrace();}
-//	}
+
 
 	public void addTank(Tank tank, ConnectionToClient client){
 		try{
@@ -331,10 +255,25 @@ public class Server extends AbstractServer {
 	public void getReg(ConnectionToClient client){
 		ArrayList<Regulator> regList = new ArrayList<Regulator>();
 		try{
+			
+			Regulator reg;
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select * From Regulators");
-			while(rs.next())
-				regList.add(new Regulator(rs.getString(1), rs.getString(2), rs.getFloat(3)));
+			ResultSet rs1 = stmt.executeQuery("Select LTRIM(RTRIM(Model)) From orelDeepdivers.Regulators");
+			while(rs1.next())
+				regList.add(new Regulator(rs1.getString(1)));
+			
+			int i=0;
+			ResultSet rs2 = stmt.executeQuery("Select LTRIM(RTRIM(Manufacturer)) From orelDeepdivers.Regulators");
+			while(rs2.next() && i<regList.size()){
+				regList.get(i).setManufacturer(rs2.getString(1));
+				i++;
+			}
+			i=0;
+			ResultSet rs3 = stmt.executeQuery("Select LTRIM(RTRIM(InterPressure)) From orelDeepdivers.Regulators");
+			while(rs3.next() && i<regList.size()){
+				regList.get(i).setInterPressure(rs3.getFloat(1));
+				i++;
+			}
 
 			regList.get(0).actionNow = "GotRegs";
 			client.sendToClient(regList);
@@ -350,9 +289,25 @@ public class Server extends AbstractServer {
 		ArrayList<BCD> bcdList = new ArrayList<BCD>();
 		try{
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select * From BCDS");
-			while(rs.next())
-				bcdList.add(new BCD(rs.getString(1), rs.getString(2), rs.getString(3)));
+			ResultSet rs1 = stmt.executeQuery("Select LTRIM(RTRIM(Size)) From orelDeepdivers.BCDS");
+			while(rs1.next())
+				bcdList.add(new BCD(rs1.getString(1)));
+			
+			int i=0;
+			
+			ResultSet rs2 = stmt.executeQuery("Select LTRIM(RTRIM(Model)) From orelDeepdivers.BCDS");
+			while(rs2.next() && i<bcdList.size()){
+				bcdList.get(i).setModel(rs2.getString(1));
+				i++;
+			}
+			i=0;
+			ResultSet rs3 =  stmt.executeQuery("Select LTRIM(RTRIM(Manufacturer)) From orelDeepdivers.BCDS");
+			while(rs3.next() && i<bcdList.size()){
+				bcdList.get(i).setManufacturer(rs3.getString(1));
+				i++;
+			}
+			
+
 			bcdList.get(0).actionNow = "GotBCDs";
 			client.sendToClient(bcdList);
 		}catch(Exception e){e.printStackTrace();}
@@ -367,9 +322,23 @@ public class Server extends AbstractServer {
 		ArrayList<Tank> tankList = new ArrayList<Tank>();
 		try{
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select * From Tanks");
-			while(rs.next())
-				tankList.add(new Tank(rs.getString(1), rs.getString(2),  rs.getInt(3)));
+			ResultSet rs1 = stmt.executeQuery("Select LTRIM(RTRIM(Model)) From orelDeepdivers.Tanks");
+			while(rs1.next())
+				tankList.add(new Tank(rs1.getString(1)));
+
+			int i = 0;
+			ResultSet rs2 = stmt.executeQuery("Select LTRIM(RTRIM(Manufacturer)) From orelDeepdivers.Tanks");
+			while(rs2.next() && i<tankList.size()){
+				tankList.get(i).setManufacturer(rs2.getString(1));
+				i++;
+			}
+			i=0;
+			ResultSet rs3 = stmt.executeQuery("Select LTRIM(RTRIM(Volume)) From orelDeepdivers.Tanks");
+			while(rs3.next() && i<tankList.size()){
+				tankList.get(i).setVolume(rs3.getInt(1));
+				i++;
+			}
+			
 			tankList.get(0).actionNow = "GotTanks";
 			client.sendToClient(tankList);
 		}catch(Exception e){e.printStackTrace();}
@@ -383,10 +352,19 @@ public class Server extends AbstractServer {
 	public void getCCR(ConnectionToClient client){
 		ArrayList<CCR> ccrList = new ArrayList<CCR>();
 		try{
+			CCR ccr;
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select * From CCR");
-			while(rs.next())
-				ccrList.add(new CCR(rs.getString(1), rs.getString(2)));
+			ResultSet rs1 = stmt.executeQuery("Select LTRIM(RTRIM(Manufacturer)) From orelDeepdivers.CCR");
+			while(rs1.next())
+				ccrList.add(new CCR(rs1.getString(1)));
+			
+			ResultSet rs2 = stmt.executeQuery("Select LTRIM(RTRIM(Model)) From orelDeepdivers.CCR");
+			int i=0;
+			while(rs2.next() && i<ccrList.size()){
+				ccrList.get(i).setModel(rs2.getString(1));
+				i++;
+			}
+			
 			ccrList.get(0).actionNow = "GotCCRs";
 			client.sendToClient(ccrList);
 		}catch(Exception e){e.printStackTrace();}
@@ -401,7 +379,7 @@ public class Server extends AbstractServer {
 	public void findInterPressure(Regulator reg, ConnectionToClient client){
 		try{
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT LTRIM(RTRIM(InterPressure)) FROM Regulators WHERE Model = '" + reg.getModel() + "';");
+			ResultSet rs = stmt.executeQuery("SELECT LTRIM(RTRIM(InterPressure)) FROM orelDeepdivers.Regulators WHERE Model = '" + reg.getModel() + "';");
 			if(rs.next()){
 				reg.setInterPressure(rs.getFloat(1));
 				reg.actionNow="InterFound";
@@ -604,7 +582,7 @@ public class Server extends AbstractServer {
 		int max=0;
 		try{
 			preparedStmt = conn.prepareStatement("insert into orelDeepdivers.Orders(OrderNum, CustID, Description, "
-					+ "Date, Comments, Handled) values(?,?,?,?,?,?)");
+					+ "Date, Comments, Handled, Cost, IsClubEquipment) values(?,?,?,?,?,?,?,?)");
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT Max(OrderNum) FROM OrelDeepdivers.Orders;");
 			rs.next();max=rs.getInt(1);
@@ -615,7 +593,13 @@ public class Server extends AbstractServer {
 			preparedStmt.setString(4, order.getDate());
 			preparedStmt.setString(5, order.getComments());
 			preparedStmt.setInt(6, order.getHandled());
+			preparedStmt.setInt(7, 0);
+			if(order.isIsClubEquipment())
+				preparedStmt.setInt(8, 1);
+			else
+				preparedStmt.setInt(8, 0);
 			preparedStmt.executeUpdate();
+			System.out.println("IssueOrder Done ~");
 			client.sendToClient(order);
 
 		}catch(Exception e){e.printStackTrace();}
@@ -666,3 +650,92 @@ public class Server extends AbstractServer {
 	}
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//public void issueAnOrder(Order order, ConnectionToClient client){
+//	PreparedStatement preparedStmt;
+//	Statement stmt;
+//	String regID="", tankID="", ccrID="", bcdID="";
+//	String regDes="", tankDes="", ccrDes="", bcdDes="";
+//	int max=0;
+//	try{
+//		stmt = conn.createStatement();
+//		int indexOf = order.numsToServer.indexOf("REG");
+//		if(indexOf!=-1){
+//			while(order.numsToServer.charAt(indexOf+3)!=',')
+//				regID+=order.numsToServer.charAt(indexOf+3);	
+//			
+//			ResultSet rs = stmt.executeQuery("SELECT * FROM orelDeepdivers.Regulators WHERE SerialNum = '" + regID + "';");
+//			if(rs.next())
+//				regDes ="Regulator: + " + "\n" + "SerialNum: " + rs.getString(4) + "\n" + "Manufacturer: " +  rs.getString(2) 
+//				+ "\n" + "Model: " + rs.getFloat(1) + "\n" + "Indermediate Pressure: " + rs.getString(3);
+//			else{System.out.println("BADREG");}
+//			System.out.println(regDes);
+//		}
+//
+//		indexOf = order.numsToServer.indexOf("BCD");
+//		if(indexOf!=-1){
+//			while(order.numsToServer.charAt(indexOf+3)!=',')
+//				bcdID+=order.numsToServer.charAt(indexOf+3);
+//
+//			ResultSet rs = stmt.executeQuery("SELECT * FROM orelDeepdivers.BCDS WHERE SerialNum = '" + bcdID + "';");
+//			if(rs.next())
+//				regDes ="BCD: + " + "\n" + "SerialNum: " + rs.getString(4) + "\n" + "Maunfacturer: " +  rs.getString(3) 
+//				+ "\n" + "Model: " + rs.getString(2) + "\n" + "Size: " + rs.getString(4);
+//			else System.out.println("BADBCD");
+//			System.out.println(bcdDes);
+//
+//		}
+//
+//
+//
+//		indexOf = order.numsToServer.indexOf("CCR");
+//		if(indexOf!=-1){
+//			while(order.numsToServer.charAt(indexOf+3)!=',')
+//				ccrID+=order.numsToServer.charAt(indexOf+3);
+//			
+//			ResultSet rs = stmt.executeQuery("SELECT * FROM orelDeepdivers.CCR WHERE SerialNum = '" + ccrID + "';");
+//			if(rs.next())
+//				regDes ="CCR: + " + "\n" + "SerialNumber: " + rs.getString(1) + "\n" + "Maunfacturer: " +  rs.getString(2) 
+//				+ "\n" + "Model: " + rs.getString(4) + "\n" + "Owner: " + rs.getString(3);
+//			else System.out.println("BADCCR");
+//			System.out.println(bcdDes);
+//
+//			
+//		}
+//
+//		indexOf = order.numsToServer.indexOf("TANK");
+//		if(indexOf!=-1)
+//			while(order.numsToServer.charAt(indexOf+3)!=',')
+//				tankID+=order.numsToServer.charAt(indexOf+3);	
+//
+//
+//	}catch(Exception e){e.printStackTrace();}
+//	try{
+//		preparedStmt = conn.prepareStatement("insert into orelDeepdivers.Orders(OrderNum, CustID, Description, "
+//				+ "Date, Comments, Handled) values(?,?,?,?,?,?)");
+//		stmt = conn.createStatement();
+//		ResultSet rs = stmt.executeQuery("SELECT Max(OrderNum) FROM OrelDeepdivers.Orders;");
+//		rs.next();max=rs.getInt(1);
+//		max++;
+//		preparedStmt.setInt(1, max);
+//		preparedStmt.setString(2, order.getCustID());
+//		preparedStmt.setString(3, order.getDescription());
+//		preparedStmt.setString(4, order.getDate());
+//		preparedStmt.setString(5, order.getComments());
+//		preparedStmt.setInt(6, order.getHandled());
+//		preparedStmt.executeUpdate();
+//		client.sendToClient(order);
+//	}catch(Exception e){e.printStackTrace();}
+//}
