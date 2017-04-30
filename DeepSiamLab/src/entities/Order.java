@@ -12,7 +12,7 @@ public class Order extends GeneralMessage {
 	private String custID, description, Comments,date, name, lastName;
 	public static Order currentOrder;
 	private static ArrayList<Order> unHandledOrderList;
-	public String numsToServer;//The serial numbers we send the server when we want to issue an order.
+	public String modelsToServer;//The serial numbers we send the server when we want to issue an order.
 	
 	public Order(int handled, String custID, String description, String comments, String date, int orderNum) {
 		super();

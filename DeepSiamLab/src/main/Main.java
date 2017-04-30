@@ -23,6 +23,7 @@ public class Main extends Application {
 	public static String host = "localhost";
 
 	public void start(Stage primaryStage) throws IOException {
+
 		Main.primaryStage = primaryStage;
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override

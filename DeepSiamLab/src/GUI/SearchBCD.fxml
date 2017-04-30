@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="533.0" prefWidth="354.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchBCDController">
+   <children>
+      <TableView fx:id="bcdTableView" maxHeight="-Infinity" maxWidth="-Infinity" onMouseReleased="#onDoubleClick" prefHeight="267.0" prefWidth="354.0">
+        <columns>
+          <TableColumn prefWidth="175.0" text="יצרן" />
+          <TableColumn prefWidth="178.0" text="דגם" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <TextField fx:id="modelTextField" layoutX="187.0" layoutY="325.0" nodeOrientation="RIGHT_TO_LEFT" promptText="דגם" />
+      <TextField fx:id="manuTextField" layoutX="18.0" layoutY="325.0" nodeOrientation="RIGHT_TO_LEFT" promptText="יצרן" />
+      <Text layoutX="306.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="דגם:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="137.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" text="יצרן:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Text>
+      <Button layoutX="118.0" layoutY="367.0" mnemonicParsing="false" onAction="#onSearch" prefHeight="38.0" prefWidth="120.0" text="חפש">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Button>
+      <Button layoutX="14.0" layoutY="481.0" mnemonicParsing="false" onAction="#onContinue" prefHeight="38.0" prefWidth="104.0" text="בחר">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="245.0" layoutY="481.0" mnemonicParsing="false" onAction="#onBack" prefHeight="38.0" prefWidth="95.0" text="חזור">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

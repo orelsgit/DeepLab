@@ -27,8 +27,6 @@
       </Button>
       <Text fx:id="volumeText" layoutX="243.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":נפח מיכל" />
       <Text fx:id="tankManuText" layoutX="242.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":יצרן" />
-      <Text layoutX="158.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="מספר מיכל" />
-      <Text layoutX="176.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="מספר דיפ" />
       <CheckBox layoutX="209.0" layoutY="257.0" mnemonicParsing="false" text="פלדה או אלומניום" />
    </children>
 </AnchorPane>

@@ -119,9 +119,9 @@ public class GeneralMethods {
 		case "popup":
 			GeneralMessage.currentPopup="";break;
 		case "popup2":
-			GeneralMessage.currentPopup = "popup2";break;
+			GeneralMessage.currentPopup = "popup";break;
 		case "popup3":
-			GeneralMessage.currentPopup = "popup3";break;
+			GeneralMessage.currentPopup = "popup2";break;
 		}
 		popup.close();
 	}
@@ -133,7 +133,7 @@ public class GeneralMethods {
 			Pane mainLayout = FXMLLoader.load(Main.class.getResource("/GUI/" + window + ".fxml"));
 			popup.setScene(new Scene(mainLayout));
 			popup.setTitle(title);
-			popup.showAndWait();
+			popup.showAndWait();//Won't continue to the next row untill the popup is closed.
 		} catch (IOException e) {e.printStackTrace();}
 	}
 

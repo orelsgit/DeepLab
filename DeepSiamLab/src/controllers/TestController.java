@@ -20,7 +20,9 @@ public class TestController {
 	private Button button;
 	
 	public void initialize(){
-		
+		button.setMaxHeight(800);
+		button.setMaxWidth(600);
+		/*
 		Main.primaryStage.heightProperty().addListener(new ChangeListener<Object>(){
 			@Override
 			public void changed(ObservableValue<?> arg0, Object oldHeight, Object newHeight){
@@ -31,7 +33,7 @@ public class TestController {
 			button.setPrefHeight(buttonSize);
 			
 			}
-		});
+		});*/
 		//gridPane.prefHeightProperty().bind(test.heightProperty());
 		//gridPane.prefWidthProperty().bind(test.widthProperty());
 		//button.prefHeightProperty().bind(test.heightProperty());

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import controllers.AddCustomerController;
 import controllers.AddEquipment;
+import controllers.CCROwnerSearchController;
 import controllers.CustomerSearchController;
 import controllers.EmailController;
 import controllers.LabOrdersController;
@@ -52,6 +53,9 @@ public class Client extends AbstractClient {
 				GeneralMessage.setTankList((ArrayList<Tank>)msg);break;
 			case "GotBCDs":
 				GeneralMessage.setBcdList((ArrayList<BCD>)msg);break;
+			case "GotCCRList"://for opencard owner search
+				CCROwnerSearchController.ccrListSearch = new ArrayList<CCR>((ArrayList<CCR>)msg);
+				CCROwnerSearchController.isBackFromServer = true;break;
 			}
 		}
 

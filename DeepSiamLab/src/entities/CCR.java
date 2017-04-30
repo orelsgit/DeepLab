@@ -3,13 +3,25 @@ package entities;
 public class CCR extends GeneralMessage{
 
 	private static final long serialVersionUID = 1L;
-private String serialNum, manufacturer, owner;
+private String serialNum, manufacturer, owner, model;
 
-public CCR(String serialNum, String manufacturer, String owner) {
+public CCR(){
+	
+}
+
+public CCR(String manufacturer, String owner, String model) {
+	super();
+	this.manufacturer = manufacturer;
+	this.owner = owner;
+	this.model = model;
+}
+
+public CCR(String manufacturer,String model) {
 	super();
 	this.serialNum = serialNum;
 	this.manufacturer = manufacturer;
 	this.owner = owner;
+	this.setModel(model);
 }
 
 public String getSerialNum() {
@@ -34,5 +46,13 @@ public String getOwner() {
 
 public void setOwner(String owner) {
 	this.owner = owner;
+}
+
+public String getModel() {
+	return model;
+}
+
+public void setModel(String model) {
+	this.model = model;
 }
 }

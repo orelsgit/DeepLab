@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="485.0" prefWidth="622.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="controllers.CCROwnerSearchController">
+   <children>
+      <TableView fx:id="ccrOwnerTableView" layoutX="-1.0" layoutY="-1.0" prefHeight="264.0" prefWidth="629.0">
+        <columns>
+          <TableColumn prefWidth="202.0" text="בעלים" />
+          <TableColumn prefWidth="181.0" text="יצרן" />
+            <TableColumn prefWidth="245.0" text="דגם" />
+        </columns>
+      </TableView>
+      <Button layoutX="54.0" layoutY="387.0" mnemonicParsing="false" text="בחר" />
+   </children>
+</AnchorPane>

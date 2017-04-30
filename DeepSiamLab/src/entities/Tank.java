@@ -5,22 +5,17 @@ public class Tank extends GeneralMessage{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String deepNum/*A serial number written by the diving club*/,
-	serialNum/*A serial number written by the manufacturer*/,
-	volume,manufacturer;
-	public Tank(String volume,String manufacturer)
+	private String serialNum,manufacturer, model;
+	private int volume;
+	public Tank(String model,String manufacturer, int volume)
 	{
 		this.volume = volume;
+		this.model = model;
+		this.serialNum = serialNum;
 		this.manufacturer = manufacturer;
 	}
 
-	public String getDeepNum() {
-		return deepNum;
-	}
 
-	public void setDeepNum(String deepNum) {
-		this.deepNum = deepNum;
-	}
 
 	public String getSerialNum() {
 		return serialNum;
@@ -30,11 +25,11 @@ public class Tank extends GeneralMessage{
 		this.serialNum = serialNum;
 	}
 
-	public String getVolume() {
+	public int getVolume() {
 		return volume;
 	}
 
-	public void setVolume(String volume) {
+	public void setVolume(int volume) {
 		this.volume = volume;
 	}
 
@@ -44,5 +39,13 @@ public class Tank extends GeneralMessage{
 
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		model = model;
 	}
 }

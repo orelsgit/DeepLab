@@ -122,8 +122,8 @@ public class AddEquipment {
 		if(!GM.checkText(volumeTextField.getText()))
 			return;
 		
-		Tank tank = new Tank(volumeTextField.getText(), tankManuTextField.getText());
-		GM.sendServerThread(tank, "AddTank");
+	//Tank tank = new Tank(tankModelTextField.getText(), tankManuTextField.getText(), volumeTextField.getText());
+		//GM.sendServerThread(tank, "AddTank");
 		
 		while(!isBackFromServer)
 			GM.Sleep(2);

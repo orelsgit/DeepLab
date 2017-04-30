@@ -7,46 +7,53 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="loginAnchorPane" prefHeight="580.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginWorkerScreenController">
+<AnchorPane fx:id="loginAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginWorkerScreenController">
    <children>
-      <Button fx:id="orderButton" layoutX="247.0" layoutY="107.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onIssueOrder" prefHeight="96.0" prefWidth="169.0" text="בצע הזמנה">
+      <Button fx:id="orderButton" layoutX="247.0" layoutY="107.0" mnemonicParsing="false" onAction="#onIssueOrder" text="בצע הזמנה">
          <font>
             <Font size="18.0" />
-         </font></Button>
+         </font>
+      </Button>
       <Button layoutX="66.0" layoutY="517.0" mnemonicParsing="false" onAction="#onLogout" text="התנתק">
          <font>
             <Font size="18.0" />
-         </font></Button>
-      <Button fx:id="ticketsButton" layoutX="546.0" layoutY="48.0" mnemonicParsing="false" onAction="#onTickets" prefHeight="79.0" prefWidth="267.0" text="טיפולים פתוחים">
+         </font>
+      </Button>
+      <Button fx:id="ticketsButton" layoutX="546.0" layoutY="48.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onTickets" prefHeight="79.0" prefWidth="267.0" text="טיפולים פתוחים">
          <font>
             <Font size="18.0" />
-         </font></Button>
+         </font>
+      </Button>
       <ImageView fx:id="redotImageView" fitHeight="17.0" fitWidth="22.0" layoutX="571.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../redot.png" />
          </image>
       </ImageView>
-      <Button layoutX="685.0" layoutY="212.0" mnemonicParsing="false" onAction="#onAddCustomer" prefHeight="39.0" prefWidth="160.0" text="הוסף לקוח">
+      <Button layoutY="9.0" mnemonicParsing="false" onAction="#onAddCustomer" prefHeight="39.0" prefWidth="160.0" text="הוסף לקוח" visible="false">
          <font>
             <Font size="18.0" />
-         </font></Button>
+         </font>
+      </Button>
       <Button layoutX="685.0" layoutY="329.0" mnemonicParsing="false" onAction="#onAddRegulator" prefHeight="39.0" prefWidth="160.0" text="הוסף וסת">
          <font>
             <Font size="18.0" />
-         </font></Button>
+         </font>
+      </Button>
       <Button layoutX="685.0" layoutY="290.0" mnemonicParsing="false" onAction="#onAddBCD" prefHeight="39.0" prefWidth="160.0" text="הוסף מאזן">
          <font>
             <Font size="18.0" />
-         </font></Button>
-      <Button layoutX="685.0" layoutY="251.0" mnemonicParsing="false" onAction="#onAddTank" prefHeight="39.0" prefWidth="160.0" text="הוסף מיכל">
+         </font>
+      </Button>
+      <Button layoutX="685.0" layoutY="251.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAddTank" prefHeight="39.0" prefWidth="160.0" text="הוסף מיכל">
          <font>
             <Font size="18.0" />
-         </font></Button>
+         </font>
+      </Button>
       <Button layoutX="685.0" layoutY="368.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="160.0" text="הוסף מ&quot;ס">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="255.0" layoutY="290.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="136.0" text="מצא טיפולי לקוח" />
+      <Button layoutX="264.0" layoutY="380.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="136.0" text="מצא טיפולי לקוח" />
    </children>
 </AnchorPane>
