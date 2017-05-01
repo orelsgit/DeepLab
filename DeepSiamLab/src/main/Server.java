@@ -106,9 +106,9 @@ public class Server extends AbstractServer {
 			client.sendToClient(ccrList);
 		}catch(Exception e){e.printStackTrace();}
 	}
-	
-	
-	
+
+
+
 
 
 	public void addTank(Tank tank, ConnectionToClient client){
@@ -171,12 +171,16 @@ public class Server extends AbstractServer {
 		try{
 			PreparedStatement pStmt = conn.prepareStatement("insert into orelDeepdivers.Customers(Name, LastName, CustID, Email, Phone, ID, DOB) values"
 					+ "(?,?,?,?,?,?,?);");
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT LTRIM(RTRIM(CustID)) FROM orelDeepdivers.Customers");
-			while(rs.next())
-				if(Integer.parseInt(rs.getString(1))>max)
-					max=Integer.parseInt(rs.getString(1));
-			max++;
+			if(customer.getCustID() != null)
+				max = Integer.parseInt(customer.getCustID());
+			else{
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT LTRIM(RTRIM(CustID)) FROM orelDeepdivers.Customers");
+				while(rs.next())
+					if(Integer.parseInt(rs.getString(1))>max)
+						max=Integer.parseInt(rs.getString(1));
+				max++;
+			}
 			pStmt.setString(1, customer.getName());
 			pStmt.setString(2, customer.getLastName());
 			pStmt.setString(3, Integer.toString(max));
@@ -255,13 +259,13 @@ public class Server extends AbstractServer {
 	public void getReg(ConnectionToClient client){
 		ArrayList<Regulator> regList = new ArrayList<Regulator>();
 		try{
-			
+
 			Regulator reg;
 			Statement stmt = conn.createStatement();
 			ResultSet rs1 = stmt.executeQuery("Select LTRIM(RTRIM(Model)) From orelDeepdivers.Regulators");
 			while(rs1.next())
 				regList.add(new Regulator(rs1.getString(1)));
-			
+
 			int i=0;
 			ResultSet rs2 = stmt.executeQuery("Select LTRIM(RTRIM(Manufacturer)) From orelDeepdivers.Regulators");
 			while(rs2.next() && i<regList.size()){
@@ -274,7 +278,8 @@ public class Server extends AbstractServer {
 				regList.get(i).setInterPressure(rs3.getFloat(1));
 				i++;
 			}
-
+			if(regList.isEmpty())
+				regList.add(new Regulator());
 			regList.get(0).actionNow = "GotRegs";
 			client.sendToClient(regList);
 		}catch(Exception e){e.printStackTrace();}
@@ -292,9 +297,9 @@ public class Server extends AbstractServer {
 			ResultSet rs1 = stmt.executeQuery("Select LTRIM(RTRIM(Size)) From orelDeepdivers.BCDS");
 			while(rs1.next())
 				bcdList.add(new BCD(rs1.getString(1)));
-			
+
 			int i=0;
-			
+
 			ResultSet rs2 = stmt.executeQuery("Select LTRIM(RTRIM(Model)) From orelDeepdivers.BCDS");
 			while(rs2.next() && i<bcdList.size()){
 				bcdList.get(i).setModel(rs2.getString(1));
@@ -306,8 +311,9 @@ public class Server extends AbstractServer {
 				bcdList.get(i).setManufacturer(rs3.getString(1));
 				i++;
 			}
-			
 
+			if(bcdList.isEmpty())
+				bcdList.add(new BCD());
 			bcdList.get(0).actionNow = "GotBCDs";
 			client.sendToClient(bcdList);
 		}catch(Exception e){e.printStackTrace();}
@@ -338,7 +344,8 @@ public class Server extends AbstractServer {
 				tankList.get(i).setVolume(rs3.getInt(1));
 				i++;
 			}
-			
+			if(tankList.isEmpty())
+				tankList.add(new Tank());
 			tankList.get(0).actionNow = "GotTanks";
 			client.sendToClient(tankList);
 		}catch(Exception e){e.printStackTrace();}
@@ -357,14 +364,15 @@ public class Server extends AbstractServer {
 			ResultSet rs1 = stmt.executeQuery("Select LTRIM(RTRIM(Manufacturer)) From orelDeepdivers.CCR");
 			while(rs1.next())
 				ccrList.add(new CCR(rs1.getString(1)));
-			
+
 			ResultSet rs2 = stmt.executeQuery("Select LTRIM(RTRIM(Model)) From orelDeepdivers.CCR");
 			int i=0;
 			while(rs2.next() && i<ccrList.size()){
 				ccrList.get(i).setModel(rs2.getString(1));
 				i++;
 			}
-			
+			if(ccrList.isEmpty())
+				ccrList.add(new CCR());
 			ccrList.get(0).actionNow = "GotCCRs";
 			client.sendToClient(ccrList);
 		}catch(Exception e){e.printStackTrace();}
@@ -401,8 +409,12 @@ public class Server extends AbstractServer {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("Select * FROM orelDeepdivers.Customers");
 			ArrayList<Customer> custList = new ArrayList<Customer>();
-			while(rs.next())
+			while(rs.next()){
 				custList.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+				System.out.println(rs.getString(1));
+			}
+			if(custList.isEmpty())
+				custList.add(new Customer());
 			custList.get(0).actionNow = "GotCustomers";
 			client.sendToClient(custList);
 		}catch(Exception e){e.printStackTrace();}
@@ -495,7 +507,8 @@ public class Server extends AbstractServer {
 					if(order.getCustID().equals(customer.getCustID())){
 						order.setName(customer.getName() + " " + customer.getLastName());break;
 					}
-
+			if(orderList.isEmpty())
+				orderList.add(new Order());
 			orderList.get(0).actionNow="OrderListReady";
 			client.sendToClient(orderList);
 
@@ -588,7 +601,25 @@ public class Server extends AbstractServer {
 			rs.next();max=rs.getInt(1);
 			max++;
 			preparedStmt.setInt(1, max);
-			preparedStmt.setString(2, order.getCustID());
+			if(order.getCustID() == null){
+				rs = stmt.executeQuery("SELECT LTRIM(RTRIM(CustID)) FROM OrelDeepdivers.Customers");			
+				if(rs.next()){
+					while(rs.next())
+						if(Integer.parseInt(rs.getString(1))>max)
+							max=Integer.parseInt(rs.getString(1));
+					max++;
+				}
+				order.customer.setCustID(Integer.toString(max));
+				newCustomer(order.customer, client);
+				//Add a new customer to force the fk constraint.
+				order.setCustID(Integer.toString(max));
+				preparedStmt.setString(2, Integer.toString(max));
+				order.actionNow = "NewClientOrder";
+			}
+			else{
+				preparedStmt.setString(2, order.getCustID());
+				order.actionNow = ".";
+			}
 			preparedStmt.setString(3, order.getDescription());
 			preparedStmt.setString(4, order.getDate());
 			preparedStmt.setString(5, order.getComments());
@@ -599,9 +630,8 @@ public class Server extends AbstractServer {
 			else
 				preparedStmt.setInt(8, 0);
 			preparedStmt.executeUpdate();
-			System.out.println("IssueOrder Done ~");
-			client.sendToClient(order);
 
+			client.sendToClient(order);
 		}catch(Exception e){e.printStackTrace();}
 	}
 

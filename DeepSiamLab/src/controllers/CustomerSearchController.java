@@ -64,6 +64,7 @@ public class CustomerSearchController {
 			GM.Sleep(2);
 
 		isBackFromServer=false;
+		if(!(customerList.get(0).getCustID() == null))
 		for(Customer customer : customerList){
 			customer.setEmail(customer.getEmail().replaceAll("\\s++", ""));
 			customer.setPhone(customer.getPhone().replaceAll("\\s++", ""));
@@ -71,6 +72,7 @@ public class CustomerSearchController {
 			customer.setCustID(customer.getCustID().replaceAll("\\s++", ""));
 			customer.setName(customer.getName().replaceAll("\\s++", ""));
 			customer.setLastName(customer.getLastName().replaceAll("\\s++", ""));
+			customer.setDob(customer.getDob().replaceAll("\\s++", ""));
 		}
 		customerListSearch = new ArrayList<Customer>(customerList);
 		customersTableView.setPlaceholder(new Label("לא נמצאו לקוחות"));//If table is empty it sets the label.

@@ -106,6 +106,8 @@ public class Client extends AbstractClient {
 				Windows.message("מיכל חדש נוסף למסד הנתונים", "מיכל חדש");AddEquipment.isBackFromServer=true;break;
 			case "NewBCD":
 				Windows.message("מאזן חדש נוסף למסד הנתונים", "מאזן חדש");	AddEquipment.isBackFromServer=true;break;
+			case "NewClientOrder":
+				Order.currentOrder.setCustID(((Order)msg).getCustID());Order.currentOrder.actionNow = "NewClientOrder";break;
 
 			}
 	}

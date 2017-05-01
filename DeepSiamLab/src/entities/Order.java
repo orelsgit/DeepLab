@@ -12,6 +12,7 @@ public class Order extends GeneralMessage {
 	private boolean IsClubEquipment;
 	private String custID, description, Comments,date, name, lastName;
 	public static Order currentOrder;
+	public Customer customer;
 	private static ArrayList<Order> unHandledOrderList;
 	public String modelsToServer;//The serial numbers we send the server when we want to issue an order.
 	

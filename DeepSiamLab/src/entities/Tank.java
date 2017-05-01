@@ -15,6 +15,9 @@ public class Tank extends GeneralMessage{
 		this.manufacturer = manufacturer;
 	}
 
+	public Tank(){
+		
+	}
 	
 	public Tank(String model){
 		this.model = model;

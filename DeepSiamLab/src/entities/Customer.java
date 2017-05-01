@@ -19,7 +19,7 @@ public Customer( String name, String lastName, String custID, String email, Stri
 	this.dob = dob;
 }
 
-public Customer(String name, String lastName, String phone, String email, String id, String dob) {//for customer add
+public Customer(String name, String lastName, String email, String phone, String id, String dob) {//for customer add
 	super();
 	this.name = name;
 	this.lastName = lastName;
