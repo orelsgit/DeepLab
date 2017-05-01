@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+
 public class Main extends Application {
 
 	public static Stage popup, popup2, popup3;
