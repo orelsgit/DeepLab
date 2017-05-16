@@ -10,7 +10,7 @@ public class Order extends GeneralMessage {
 	private static final long serialVersionUID = 1L;
 	private int orderNum, handled;//HANDLED :  -1 - Not handled, 0 - Not approved by manager, 1-finished and prepared, -2 - to remove
 	private boolean IsClubEquipment;
-	private String custID, description, Comments,date, name, lastName;
+	private String custID, description, Comments,date, name, lastName, clubOrPrivate;
 	public static Order currentOrder;
 	public Customer customer;
 	private static ArrayList<Order> unHandledOrderList;
@@ -91,11 +91,21 @@ public class Order extends GeneralMessage {
 	public static void setUnhandledOrderList(ArrayList<Order> unHandledOrderList) {
 		Order.unHandledOrderList = unHandledOrderList;
 	}
-	public boolean isIsClubEquipment() {
+	public boolean isClubEquipment() {
 		return IsClubEquipment;
 	}
 	public void setIsClubEquipment(boolean isClubEquipment) {
 		IsClubEquipment = isClubEquipment;
+		if(isClubEquipment)
+			clubOrPrivate = "ציוד מועדון";
+		else
+			clubOrPrivate = "ציוד פרטי";
+	}
+	public String getClubOrPrivate() {
+		return clubOrPrivate;
+	}
+	public void setClubOrPrivate(String clubOrPrivate) {
+		this.clubOrPrivate = clubOrPrivate;
 	}
 
 

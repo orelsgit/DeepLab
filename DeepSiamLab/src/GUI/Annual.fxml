@@ -8,29 +8,29 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane fx:id="annualTabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AnnualController">
+<TabPane fx:id="annualTabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="683.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AnnualController">
   <tabs>
     <Tab fx:id="regTab" text="Regulator">
       <content>
-        <AnchorPane fx:id="testAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+        <AnchorPane fx:id="testAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="647.0">
                <children>
-                  <CheckBox fx:id="visualCheckBox" alignment="CENTER" layoutX="429.0" layoutY="99.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="26.0" prefWidth="146.0" text="בדיקה ויזואלית" textAlignment="RIGHT">
+                  <CheckBox fx:id="visualCheckBox" alignment="CENTER" layoutX="507.0" layoutY="99.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="26.0" prefWidth="146.0" text="בדיקה ויזואלית" textAlignment="RIGHT">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </CheckBox>
-                  <CheckBox fx:id="hoesCheckBox" alignment="CENTER" layoutX="416.0" layoutY="134.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="26.0" prefWidth="159.0" text="קרעים בצינורות" textAlignment="RIGHT">
+                  <CheckBox fx:id="hoesCheckBox" alignment="CENTER" layoutX="494.0" layoutY="134.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="26.0" prefWidth="159.0" text="קרעים בצינורות" textAlignment="RIGHT">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </CheckBox>
-                  <Text layoutX="333.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="סמן את הקובייה אם הבדיקה התבצעה. במידה והיו תיקונים\החלפות אנא ציין זאת בהערות וכתוב את המחיר הסופי בתא המתאים" wrappingWidth="242.13671875" />
-                  <CheckBox fx:id="sealCheckBox" alignment="CENTER" layoutX="471.0" layoutY="169.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="17.0" prefWidth="104.0" text="אטימות" textAlignment="RIGHT">
+                  <Text layoutX="411.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="סמן את הקובייה אם הבדיקה התבצעה. במידה והיו תיקונים\החלפות אנא ציין זאת בהערות וכתוב את המחיר הסופי בתא המתאים" wrappingWidth="242.13671875" />
+                  <CheckBox fx:id="sealCheckBox" alignment="CENTER" layoutX="549.0" layoutY="169.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="17.0" prefWidth="104.0" text="אטימות" textAlignment="RIGHT">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </CheckBox>
-                  <CheckBox fx:id="leakCheckBox" alignment="CENTER" layoutX="471.0" layoutY="205.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="17.0" prefWidth="104.0" text="דליפות" textAlignment="RIGHT">
+                  <CheckBox fx:id="leakCheckBox" alignment="CENTER" layoutX="549.0" layoutY="205.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="17.0" prefWidth="104.0" text="דליפות" textAlignment="RIGHT">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -39,17 +39,17 @@
                   <TextField fx:id="interPressureTextField" layoutX="78.0" layoutY="44.0" onAction="#onCheck" onKeyTyped="#onInterPressureChange" promptText="לחץ ביניים" />
                   <Text layoutX="170.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":לחץ ביניים" />
                   <Button layoutX="14.0" layoutY="44.0" mnemonicParsing="false" onAction="#onCheck" onMouseEntered="#onCheckEntered" onMouseExited="#onCheckExited" text="בדוק" />
-                  <TextArea fx:id="regCommentsTextArea" layoutX="153.0" layoutY="205.0" nodeOrientation="RIGHT_TO_LEFT" onMouseEntered="#onCommentsEntered" onMouseExited="#onCommentsExited" prefHeight="146.0" prefWidth="232.0" promptText="הערות" />
-                  <Text layoutX="348.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":הערות" />
-                  <Text fx:id="commentsText" fill="#2509da" layoutX="393.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="רשום פה עלויות והערות כלליות" wrappingWidth="80.13671875" />
-                  <Button layoutX="25.0" layoutY="309.0" mnemonicParsing="false" onAction="#onContinueRegulator" prefHeight="37.0" prefWidth="84.0" text="המשך">
+                  <TextArea fx:id="regCommentsTextArea" layoutX="161.0" layoutY="345.0" nodeOrientation="RIGHT_TO_LEFT" onMouseEntered="#onCommentsEntered" onMouseExited="#onCommentsExited" prefHeight="146.0" prefWidth="232.0" promptText="הערות" />
+                  <Text layoutX="356.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":הערות" />
+                  <Text fx:id="commentsText" fill="#2509da" layoutX="401.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="רשום פה עלויות והערות כלליות" wrappingWidth="80.13671875" />
+                  <Button layoutX="25.0" layoutY="454.0" mnemonicParsing="false" onAction="#onContinueRegulator" prefHeight="37.0" prefWidth="84.0" text="המשך">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <CheckBox fx:id="regManagerCheckBox" alignment="CENTER" layoutX="446.0" layoutY="315.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onManager" text="אישור מנהל" textAlignment="RIGHT">
+                  <CheckBox fx:id="regManagerCheckBox" alignment="CENTER" layoutX="532.0" layoutY="441.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onManager" text="אישור מנהל" textAlignment="RIGHT" textFill="RED">
                      <font>
-                        <Font size="17.0" />
+                        <Font name="System Bold" size="17.0" />
                      </font>
                   </CheckBox>
                   <CheckBox fx:id="kitCheckBox" alignment="CENTER" layoutX="36.0" layoutY="152.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="26.0" prefWidth="146.0" text="החלפת קיט" textAlignment="RIGHT">
@@ -57,6 +57,8 @@
                         <Font size="17.0" />
                      </font>
                   </CheckBox>
+                  <TextField fx:id="serialNumTextField" layoutX="429.0" layoutY="250.0" promptText="מספר סידורי" />
+                  <Text layoutX="596.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="מספר סידורי:" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -64,32 +66,32 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <CheckBox fx:id="perfectCheckBox" layoutX="426.0" layoutY="60.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="שלמות המאזן">
+                  <CheckBox fx:id="perfectCheckBox" layoutX="515.0" layoutY="125.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="שלמות המאזן">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </CheckBox>
-                  <CheckBox fx:id="pressureCheckBox" layoutX="446.0" layoutY="14.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="מחזיק לחץ">
+                  <CheckBox fx:id="pressureCheckBox" layoutX="535.0" layoutY="79.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="מחזיק לחץ">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </CheckBox>
-                  <CheckBox fx:id="escapeCheckBox" layoutX="443.0" layoutY="102.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="בריחת אוויר">
+                  <CheckBox fx:id="escapeCheckBox" layoutX="532.0" layoutY="167.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="בריחת אוויר">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </CheckBox>
-                  <Button layoutX="24.0" layoutY="310.0" mnemonicParsing="false" onAction="#onContinueBCD" prefHeight="37.0" prefWidth="85.0" text="המשך">
+                  <Button layoutX="27.0" layoutY="452.0" mnemonicParsing="false" onAction="#onContinueBCD" prefHeight="37.0" prefWidth="85.0" text="המשך">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Text fx:id="commentsText" fill="#2509da" layoutX="406.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="רשום פה עלויות והערות כלליות" wrappingWidth="80.13671875" />
-                  <Text layoutX="339.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":הערות" />
-                  <TextArea fx:id="bcdCommentsTextArea" layoutX="144.0" layoutY="191.0" nodeOrientation="RIGHT_TO_LEFT" onMouseEntered="#onCommentsEntered" onMouseExited="#onCommentsExited" prefHeight="146.0" prefWidth="232.0" promptText="הערות" />
-                  <CheckBox fx:id="managerCheckBox" alignment="CENTER" layoutX="433.0" layoutY="303.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onManager" text="אישור מנהל" textAlignment="RIGHT">
+                  <Text fx:id="commentsText" fill="#2509da" layoutX="443.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="רשום פה עלויות והערות כלליות" wrappingWidth="80.13671875" />
+                  <Text layoutX="376.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":הערות" />
+                  <TextArea fx:id="bcdCommentsTextArea" layoutX="181.0" layoutY="266.0" nodeOrientation="RIGHT_TO_LEFT" onMouseEntered="#onCommentsEntered" onMouseExited="#onCommentsExited" prefHeight="146.0" prefWidth="232.0" promptText="הערות" />
+                  <CheckBox fx:id="managerCheckBox" alignment="CENTER" layoutX="530.0" layoutY="427.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onManager" text="אישור מנהל" textAlignment="RIGHT" textFill="RED">
                      <font>
-                        <Font size="17.0" />
+                        <Font name="System Bold Italic" size="17.0" />
                      </font>
                   </CheckBox>
                </children></AnchorPane>
@@ -102,9 +104,9 @@
                   <Text fx:id="commentsText" fill="#2509da" layoutX="403.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="רשום פה עלויות והערות כלליות" wrappingWidth="80.13671875" />
                   <Text layoutX="353.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":הערות" />
                   <TextArea fx:id="commentsTextArea" layoutX="158.0" layoutY="158.0" onMouseEntered="#onCommentsEntered" onMouseExited="#onCommentsExited" prefHeight="146.0" prefWidth="232.0" promptText="הערות" />
-                  <CheckBox fx:id="managerCheckBox" alignment="CENTER" layoutX="452.0" layoutY="297.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onManager" text="אישור מנהל" textAlignment="RIGHT">
+                  <CheckBox fx:id="managerCheckBox" alignment="CENTER" layoutX="452.0" layoutY="297.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onManager" text="אישור מנהל" textAlignment="RIGHT" textFill="RED">
                      <font>
-                        <Font size="17.0" />
+                        <Font name="System Bold Italic" size="17.0" />
                      </font>
                   </CheckBox>
                </children></AnchorPane>
@@ -114,15 +116,18 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <CheckBox fx:id="managerCheckBox" alignment="CENTER" layoutX="437.0" layoutY="294.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onManager" text="אישור מנהל" textAlignment="RIGHT">
+                  <CheckBox fx:id="managerCheckBox" alignment="CENTER" layoutX="437.0" layoutY="294.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onManager" text="אישור מנהל" textAlignment="RIGHT" textFill="RED">
                      <font>
-                        <Font size="17.0" />
+                        <Font name="System Bold" size="17.0" />
                      </font>
                   </CheckBox>
                   <TextArea fx:id="commentsTextArea" layoutX="152.0" layoutY="184.0" onMouseEntered="#onCommentsEntered" onMouseExited="#onCommentsExited" prefHeight="146.0" prefWidth="232.0" promptText="הערות" />
                   <Text layoutX="347.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":הערות" />
                   <Text fx:id="commentsText" fill="#2509da" layoutX="407.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="רשום פה עלויות והערות כלליות" wrappingWidth="80.13671875" />
-                  <Button layoutX="39.0" layoutY="308.0" mnemonicParsing="false" text="המשך" />
+                  <Button layoutX="14.0" layoutY="462.0" mnemonicParsing="false" text="המשך">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Button>
                </children></AnchorPane>
         </content>
       </Tab>

@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="529.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LabOrdersController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="840.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LabOrdersController">
    <children>
-      <TableView fx:id="ordersTableView" layoutX="40.0" layoutY="14.0" onMouseClicked="#onNoDate" onMousePressed="#onRelease" prefHeight="360.0" prefWidth="570.0">
+      <TableView fx:id="ordersTableView" layoutX="40.0" layoutY="14.0" onMouseClicked="#onNoDate" onMousePressed="#onRelease" prefHeight="360.0" prefWidth="708.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="מספר הזמנה" />
-          <TableColumn prefWidth="75.0" text="מספר לקוח" />
-            <TableColumn prefWidth="134.0" text="תיאור" />
-            <TableColumn prefWidth="147.0" text="תאריך" />
-            <TableColumn prefWidth="142.0" text="הערות" />
+          <TableColumn prefWidth="147.0" text="שם לקוח" />
+          <TableColumn prefWidth="69.0" text="סוג ציוד" />
+            <TableColumn prefWidth="193.0" text="תיאור" />
+            <TableColumn prefWidth="120.0" text="תאריך" />
+            <TableColumn prefWidth="178.0" text="הערות" />
         </columns>
       </TableView>
       <TextField fx:id="orderNumTextField" layoutX="67.0" layoutY="405.0" onMouseClicked="#onNoDate" promptText="מספר הזמנה" />

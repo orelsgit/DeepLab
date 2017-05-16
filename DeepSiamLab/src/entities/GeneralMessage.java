@@ -17,7 +17,8 @@ public class GeneralMessage implements Serializable{
 	private static ArrayList<BCD> bcdList = new ArrayList<BCD>();
 	private static ArrayList<CCR> ccrList = new ArrayList<CCR>();
 	private static ArrayList<Tank> tankList = new ArrayList<Tank>();
-	private static ArrayList<Customer> custList;
+	private static ArrayList<Customer> custList = new ArrayList<Customer>();
+	private static ArrayList<Order> unhandledOrders = new ArrayList<Order>();
 	private static boolean gotLists = false;
 	
 	public GeneralMessage(String actionNow){
@@ -75,6 +76,14 @@ public class GeneralMessage implements Serializable{
 		if(message == null)
 			message = "";
 		this.message+=message;
+	}
+
+	public static ArrayList<Order> getUnhandledOrders() {
+		return unhandledOrders;
+	}
+
+	public static void setUnhandledOrders(ArrayList<Order> unhandledOrders) {
+		GeneralMessage.unhandledOrders = unhandledOrders;
 	}
 
 }

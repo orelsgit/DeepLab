@@ -17,7 +17,7 @@ import entities.*;
 import ocsf.client.AbstractClient;
 
 public class Client extends AbstractClient {
-	
+
 
 	public Client() {
 		super(Main.host, Main.port);
@@ -39,11 +39,11 @@ public class Client extends AbstractClient {
 			switch(((ArrayList<GeneralMessage>)msg).get(0).actionNow){
 			case "OrderListReady":
 				for(Order order : (ArrayList<Order>)msg)
-					LabOrdersController.orderList.add(order);
-				LabOrdersController.isBackFromServer=true;break;
+					GeneralMessage.getUnhandledOrders().add(order);
+
+				break;
+				//				LabOrdersController.isBackFromServer=true;break;
 			case "GotCustomers":
-				CustomerSearchController.customerList = new ArrayList<Customer>((ArrayList<Customer>)msg);
-				CustomerSearchController.isBackFromServer = true;
 				GeneralMessage.setCustList((ArrayList<Customer>)msg);break;
 			case "GotCCRs":
 				GeneralMessage.setCcrList((ArrayList<CCR>)msg);break;
@@ -56,6 +56,8 @@ public class Client extends AbstractClient {
 			case "GotCCRList"://for opencard owner search
 				CCROwnerSearchController.ccrListSearch = new ArrayList<CCR>((ArrayList<CCR>)msg);
 				CCROwnerSearchController.isBackFromServer = true;break;
+			default :
+				System.out.println(((ArrayList<GeneralMessage>)msg).get(0).actionNow);
 			}
 		}
 

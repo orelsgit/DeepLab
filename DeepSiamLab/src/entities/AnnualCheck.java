@@ -12,12 +12,13 @@ public class AnnualCheck extends GeneralMessage{
 	
 	private String size, model, manufacturer, custID, annualComments, fixComments, serialNum, kitChangeDate;
 	private int orderNum;
-	private boolean bcd, reg, ccr, isKit, isManagerApprove/*=isApproved*/;//For server check needs
+	private boolean bcd, reg, ccr, isKit, isManagerApprove/*=isApproved*/, isClubEquipment;//For server check needs
 	
 	
 	
 	public AnnualCheck(){
-		super();
+		setFalse();
+		
 	}
 
 
@@ -27,6 +28,7 @@ public class AnnualCheck extends GeneralMessage{
 		this.annualComments = annualComments;
 		this.fixComments = fixComments;
 		this.serialNum = serialNum;
+		setFalse();
 	}
 	
 	
@@ -39,6 +41,7 @@ public class AnnualCheck extends GeneralMessage{
 		this.fixComments = fixComments;
 		this.serialNum = serialNum;
 		this.kitChangeDate = kitChangeDate;
+		setFalse();
 	}
 
 
@@ -56,6 +59,15 @@ public class AnnualCheck extends GeneralMessage{
 		this.fixComments = fixComments;
 	}
 
+	
+	private void setFalse(){
+		bcd=false;
+		reg=false;
+		ccr=false;
+		isKit=false;
+		isManagerApprove=false;
+		
+	}
 
 
 	public boolean isBcd() {
@@ -174,6 +186,16 @@ public class AnnualCheck extends GeneralMessage{
 
 	public void setOrderNum(int orderNum) {
 		this.orderNum = orderNum;
+	}
+
+
+	public boolean isClubEquipment() {
+		return isClubEquipment;
+	}
+
+
+	public void setClubEquipment(boolean isClubEquipment) {
+		this.isClubEquipment = isClubEquipment;
 	}
 	
 }

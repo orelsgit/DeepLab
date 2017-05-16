@@ -43,6 +43,7 @@ public class Server extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+		System.out.println("handleMessageFromClient: " + ((GeneralMessage)msg).actionNow);
 		switch(((GeneralMessage)msg).actionNow){
 		case "Login":
 			checkUserInfo((Worker)msg, client);break;
@@ -169,8 +170,8 @@ public class Server extends AbstractServer {
 	public void newCustomer(Customer customer, ConnectionToClient client){
 		int max=0;
 		try{
-			PreparedStatement pStmt = conn.prepareStatement("insert into orelDeepdivers.Customers(Name, LastName, CustID, Email, Phone, ID, DOB) values"
-					+ "(?,?,?,?,?,?,?);");
+			PreparedStatement pStmt = conn.prepareStatement("insert into orelDeepdivers.Customers(Name, LastName, CustID, Email, Phone, ID) values"
+					+ "(?,?,?,?,?,?);");
 			if(customer.getCustID() != null)
 				max = Integer.parseInt(customer.getCustID());
 			else{
@@ -187,7 +188,6 @@ public class Server extends AbstractServer {
 			pStmt.setString(4, customer.getEmail());
 			pStmt.setString(5, customer.getPhone());
 			pStmt.setString(6, customer.getId());
-			pStmt.setString(7, customer.getDob());
 			pStmt.executeUpdate();
 			client.sendToClient(new GeneralMessage("NewCustomer"));	
 
@@ -201,32 +201,40 @@ public class Server extends AbstractServer {
 	 * @author orelzman 
 	 */
 	public void annualCheck(AnnualCheck ac, ConnectionToClient client ){
-		PreparedStatement stmt;
+		PreparedStatement pStmt;
 		try{
-
+			int orderNum;
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT MAX(OrderNum) FROM orelDeepdivers.Orders");
+			if(rs.next())
+				orderNum=rs.getInt(1);
+			else
+				orderNum=0;
+			orderNum++;
+				
 			if(ac.isReg()){
-				stmt = conn.prepareStatement("insert into orelDeepdivers.CustomersReg(SerialNum, CustID, KitChangeDate, "
-						+ "FixComments, AnnualComments, Date, isApproved) values(?,?,?,?,?,?,?);");
-				stmt.setString(1, ac.getSerialNum());
-				stmt.setString(2, ac.getCustID());
+				pStmt = conn.prepareStatement("insert into orelDeepdivers.CustomersReg(OrderNum, CustID, "
+						+ "Description, Date, Comments, Handled, Cost, IsClubEquipment, SerialNumber, KitChangeDate) values(?,?,?,?,?,?,?,?,?,?);");
+				pStmt.setInt(1, orderNum);
+				pStmt.setString(2, ac.getCustID());
 				if(ac.isKit())
-					stmt.setString(3, ac.getKitChangeDate());
+					pStmt.setString(10, ac.getKitChangeDate());
 
 				if(!ac.getFixComments().equals(""))
-					stmt.setString(4, ac.getFixComments());
+					pStmt.setString(4, ac.getFixComments());
 				else
-					stmt.setString(4, "");
+					pStmt.setString(4, "");
 				if(!ac.getAnnualComments().equals(""))
-					stmt.setString(5, ac.getAnnualComments());
+					pStmt.setString(5, ac.getAnnualComments());
 				else
-					stmt.setString(5, "");
+					pStmt.setString(5, "");
 
-				stmt.setString(6, GM.getCurrentDate());
+				pStmt.setString(6, GM.getCurrentDate());
 				if(ac.isManagerApprove())
-					stmt.setInt(7, 1);
+					pStmt.setInt(7, 1);
 				else
-					stmt.setInt(7, 0);
-				stmt.executeUpdate();
+					pStmt.setInt(7, 0);
+				pStmt.executeUpdate();
 
 				/** ONLY AFTER ALL THE EQUIPMENTS WERE REVIEWED! **/
 				/*	Statement statement = conn.createStatement();
@@ -311,6 +319,13 @@ public class Server extends AbstractServer {
 				bcdList.get(i).setManufacturer(rs3.getString(1));
 				i++;
 			}
+			i=0;
+			ResultSet rs4 =  stmt.executeQuery("Select LTRIM(RTRIM(DeepNum)) From orelDeepdivers.BCDS");
+			while(rs4.next() && i<bcdList.size()){
+				bcdList.get(i).setDeepNum(rs4.getString(1));
+				i++;
+			}
+
 
 			if(bcdList.isEmpty())
 				bcdList.add(new BCD());
@@ -409,10 +424,9 @@ public class Server extends AbstractServer {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("Select * FROM orelDeepdivers.Customers");
 			ArrayList<Customer> custList = new ArrayList<Customer>();
-			while(rs.next()){
-				custList.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
-				System.out.println(rs.getString(1));
-			}
+			while(rs.next())
+				custList.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+			
 			if(custList.isEmpty())
 				custList.add(new Customer());
 			custList.get(0).actionNow = "GotCustomers";
@@ -447,7 +461,6 @@ public class Server extends AbstractServer {
 	 * @author orelzman 
 	 */
 	public void getMail(Order order, ConnectionToClient client){
-		System.out.println("getemail server");
 		try{
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT LTRIM(RTRIM(Email)) FROM orelDeepdivers.Customers WHERE CustID = '" + order.getCustID() + "';");
@@ -625,7 +638,7 @@ public class Server extends AbstractServer {
 			preparedStmt.setString(5, order.getComments());
 			preparedStmt.setInt(6, order.getHandled());
 			preparedStmt.setInt(7, 0);
-			if(order.isIsClubEquipment())
+			if(order.isClubEquipment())
 				preparedStmt.setInt(8, 1);
 			else
 				preparedStmt.setInt(8, 0);

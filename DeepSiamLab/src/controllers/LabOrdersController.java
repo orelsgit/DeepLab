@@ -2,6 +2,8 @@ package controllers;
 
 import java.util.ArrayList;
 
+import entities.Customer;
+import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Order;
 import javafx.collections.FXCollections;
@@ -37,6 +39,8 @@ public class LabOrdersController {
 	 * Initializes the TableView with orders that are yet to be reviewed and sets listeners for the search fields.
 	 * @author orelzman
 	 */
+	
+
 	public void initialize(){
 
 		doubleClick=0;
@@ -46,11 +50,9 @@ public class LabOrdersController {
 		GM = new GeneralMethods();
 		orderList = new ArrayList<Order>();
 		isBackFromServer=false;
+		
+		orderList = new ArrayList<Order>(GeneralMessage.getUnhandledOrders());
 
-		Order order = new Order();
-		GM.sendServerJoin(order, "GetNewOrders");
-		while(!isBackFromServer)
-			GM.Sleep(2);
 		Thread thread = new Thread(){
 			public void run(){
 				for(Order order : orderList)
@@ -59,6 +61,8 @@ public class LabOrdersController {
 		};thread.start();
 		ObservableList<Order> orders = FXCollections.observableArrayList(orderList);
 		ordersTableView.setItems(orders);
+		
+		
 
 	}
 
@@ -68,16 +72,28 @@ public class LabOrdersController {
 	 */
 	@SuppressWarnings("unchecked")
 	public void initTableView(){
-		TableColumn<Order, Integer> orderNum = (TableColumn<Order, Integer>) ordersTableView.getColumns().get(0);
-		orderNum.setCellValueFactory(new PropertyValueFactory<>("orderNum"));
-		TableColumn<Order, String> name = (TableColumn<Order, String>) ordersTableView.getColumns().get(1);
-		name.setCellValueFactory(new PropertyValueFactory<>("name"));
-		TableColumn<Order, String> description = (TableColumn<Order, String>) ordersTableView.getColumns().get(2);
-		description.setCellValueFactory(new PropertyValueFactory<>("description"));
-		TableColumn<Order, String> date = (TableColumn<Order, String>) ordersTableView.getColumns().get(3);
-		date.setCellValueFactory(new PropertyValueFactory<>("date"));
-		TableColumn<Order, String> comments = (TableColumn<Order, String>) ordersTableView.getColumns().get(4);
-		comments.setCellValueFactory(new PropertyValueFactory<>("comments"));
+		if(Order.getUnhandledOrderList()!=null)
+		for(Order order : Order.getUnhandledOrderList())
+			for(Customer customer : Order.getCustList())
+				if(customer.getCustID().equals(order.getCustID())){
+					order.setName(customer.getName());
+					order.setLastName(customer.getLastName());
+					break;
+				}
+		
+		TableColumn<Order, String> customerName = (TableColumn<Order, String>) ordersTableView.getColumns().get(0);
+		customerName.setCellValueFactory(new PropertyValueFactory<>("name"+"lastName"));
+		TableColumn<Order, String> custID = (TableColumn<Order, String>) ordersTableView.getColumns().get(1);
+		custID.setCellValueFactory(new PropertyValueFactory<>("clubOrPrivate"));
+		TableColumn<Order, String> name = (TableColumn<Order, String>) ordersTableView.getColumns().get(2);
+		name.setCellValueFactory(new PropertyValueFactory<>("date"));
+		TableColumn<Order, String> description = (TableColumn<Order, String>) ordersTableView.getColumns().get(3);
+		description.setCellValueFactory(new PropertyValueFactory<>("date"));
+		TableColumn<Order, String> date = (TableColumn<Order, String>) ordersTableView.getColumns().get(4);
+		date.setCellValueFactory(new PropertyValueFactory<>("comments"));
+	//	TableColumn<Order, String> comments = (TableColumn<Order, String>) ordersTableView.getColumns().get(5);
+	//	comments.setCellValueFactory(new PropertyValueFactory<>("comments"));
+		
 	}
 
 

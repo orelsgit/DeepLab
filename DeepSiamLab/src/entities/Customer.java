@@ -1,90 +1,74 @@
 package entities;
 
 public class Customer extends GeneralMessage{
-/**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-private String name, lastName, custID, email, phone, id, dob;
+	private String name, lastName, custID, email, phone, id;
 
 
 
-public Customer( String name, String lastName, String custID, String email, String phone, String id, String dob) {//for customer list
-	this.name = name;
-	this.lastName = lastName;
-	this.custID = custID;
-	this.email = email;
-	this.phone = phone;
-	this.id = id;
-	this.dob = dob;
-}
+	public Customer( String name, String lastName, String custID, String email, String phone, String id) {//for customer list
+		this.name = name;
+		this.lastName = lastName;
+		this.custID = custID;
+		this.email = email;
+		this.phone = phone;
+		this.id = id;
+	}
 
-public Customer(String name, String lastName, String email, String phone, String id, String dob) {//for customer add
-	super();
-	this.name = name;
-	this.lastName = lastName;
-	this.id = id;
-	this.email = email;
-	this.phone = phone;
-	this.id = dob;
-}
 
-public Customer(){}
 
-public String getName() {
-	return name;
-}
+	public Customer(){}
 
-public void setName(String name) {
-	this.name = name;
-}
+	public String getName() {
+		return name;
+	}
 
-public String getLastName() {
-	return lastName;
-}
+	public void setName(String name) {
+		this.name = name;
+	}
 
-public void setLastName(String lastName) {
-	this.lastName = lastName;
-}
+	public String getLastName() {
+		return lastName;
+	}
 
-public String getCustID() {
-	return custID;
-}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-public void setCustID(String custID) {
-	this.custID = custID;
-}
+	public String getCustID() {
+		return custID;
+	}
 
-public String getEmail() {
-	return email;
-}
+	public void setCustID(String custID) {
+		this.custID = custID;
+	}
 
-public void setEmail(String email) {
-	this.email = email;
-}
+	public String getEmail() {
+		return email;
+	}
 
-public String getPhone() {
-	return phone;
-}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-public void setPhone(String phone) {
-	this.phone = phone;
-}
+	public String getPhone() {
+		return phone;
+	}
 
-public String getId() {
-	return id;
-}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-public void setId(String id) {
-	this.id = id;
-}
+	public String getId() {
+		return id;
+	}
 
-public String getDob() {
-	return dob;
-}
+	public void setId(String id) {
+		this.id = id;
+	}
 
-public void setDob(String dob) {
-	this.dob = dob;
-}
 
 }

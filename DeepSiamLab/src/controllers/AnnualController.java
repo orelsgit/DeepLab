@@ -27,7 +27,7 @@ public class AnnualController {
 	@FXML
 	private TabPane annualTabPane;
 	@FXML
-	private TextField interPressureTextField;
+	private TextField interPressureTextField,serialNumTextField;
 	@FXML
 	private Button overflowButton;
 	@FXML
@@ -93,12 +93,12 @@ public class AnnualController {
 			selectionModel.select(3);
 	}
 
-	
+
 	/**
 	 * Creates a new BCD check if everything was filled correctly
 	 * @author orelzman
 	 */
-	
+
 	public void onContinueBCD(){
 		int isAllChecked = 0;//To check if every checkbox is checked!
 		String annualComments = "";
@@ -120,9 +120,9 @@ public class AnnualController {
 		}
 		annualComments+="הערות:" + bcdCommentsTextArea.getText();
 		Windows.message(annualComments, "annual comments bcd");
-		
-		
-		
+
+
+
 	}
 
 	/**
@@ -202,6 +202,10 @@ public class AnnualController {
 	 * @author orelzman
 	 */
 	public void onContinueRegulator(){
+		if(!isManagerApprove){
+			Windows.warning("המנהל לא אישר את הבדיקה ולכן לא תוכל להמשיך עד לקבלת אישור.");
+			return;
+		}
 		AnnualCheck annualCheck = new AnnualCheck();
 		String annualComments="";
 
@@ -209,7 +213,7 @@ public class AnnualController {
 			Windows.message("לחץ הביניים לא אושר. אשר אותו לפניי שתמשיך או שתכניס סיסמת מנהל", "לחץ ביניים לא תקין");
 			return;
 		}
-		
+
 		int isAllChecked = 0;
 		if(visualCheckBox.isSelected())
 			isAllChecked++;
@@ -220,11 +224,7 @@ public class AnnualController {
 		if(leakCheckBox.isSelected())
 			isAllChecked++;
 
-		if(isAllChecked!=4 && !isManagerApprove){
-			Windows.warning(".לא אישרת בדיקה של כל הדברים הנחוצים והמנהל לא אישר זאת,ולכן לא תוכל להמשיך הלאה");
-			return;
-		}
-			
+
 		if(visualCheckBox.isSelected())
 			annualComments+=(visual);
 		if(hoesCheckBox.isSelected())
@@ -243,10 +243,17 @@ public class AnnualController {
 
 		annualCheck.setAnnualComments(annualComments);
 		annualCheck.setReg(true);
-		annualCheck.setKitChangeDate(GM.getCurrentDate());
-		annualCheck.setFixComments("");
+		if(kitCheckBox.isSelected())
+			annualCheck.setKitChangeDate(GM.getCurrentDate());
+		else
+			annualCheck.setKitChangeDate(null);
+		annualCheck.setFixComments(regCommentsTextArea.getText());
 		annualCheck.setCustID(OrderInfoController.getOrderSelected().getCustID());
-		annualCheck.setSerialNum(OrderInfoController.regChosen.getSerialNum());
+		if(serialNumTextField.getText().equals("")){
+			Windows.message("הכנס בבקשה את המספר הסידורי של הוסת.", "מספר סידורי");
+			return;
+		}
+		annualCheck.setSerialNum(serialNumTextField.getText());
 		annualCheck.setManagerApprove(managerCheckBox.isSelected());
 		annualCheck.setKit(kitCheckBox.isSelected());
 		annualCheck.setOrderNum(OrderInfoController.getOrderSelected().getOrderNum());
@@ -257,7 +264,7 @@ public class AnnualController {
 		GM.sendServerThread(annualCheck, "AnnualCheck");
 
 		GM.closePopup(Main.popup2);
-		
+
 
 	}
 

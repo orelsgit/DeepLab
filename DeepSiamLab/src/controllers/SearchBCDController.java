@@ -36,12 +36,13 @@ public class SearchBCDController {
 	
 	@SuppressWarnings("unchecked")
 	public void initTable(){
-		TableColumn<BCD, String> manufacturer = (TableColumn<BCD, String>) bcdTableView
-				.getColumns()
-				.get(0);
+		TableColumn<BCD, String> manufacturer = (TableColumn<BCD, String>) bcdTableView.getColumns().get(0);
 		manufacturer.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
 		TableColumn<BCD, String> model = (TableColumn<BCD, String>) bcdTableView.getColumns().get(1);
 		model.setCellValueFactory(new PropertyValueFactory<>("model"));
+		TableColumn<BCD, String> deepNum = (TableColumn<BCD, String>) bcdTableView.getColumns().get(2);
+		deepNum.setCellValueFactory(new PropertyValueFactory<>("deepNum"));
+		
 	}
 
 	

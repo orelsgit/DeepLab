@@ -40,8 +40,10 @@ public class OrderInfoController {
 	 *  @author orelzman
 	 */
 	public void initialize(){
-		if(isFixOrAnnual)
+		if(isFixOrAnnual){
+			isFixOrAnnual=false;
 			return;
+		}
 		orderSelected = LabOrdersController.orderSelected;
 		getEquipmentInfo();
 		falseChecks();
@@ -209,6 +211,7 @@ public class OrderInfoController {
 		regCheck = true;
 		isFixOrAnnual=true;
 		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
+		
 	}
 
 	/**
@@ -220,6 +223,7 @@ public class OrderInfoController {
 		isFixOrAnnual=true;
 		bcdCheck = true;
 		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
+		
 	}
 
 	/**

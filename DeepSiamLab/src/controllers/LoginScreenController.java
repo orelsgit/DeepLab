@@ -1,6 +1,15 @@
 package controllers;
 
-import entities.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import entities.GeneralMessage;
+import entities.GeneralMethods;
+import entities.Status;
+import entities.Windows;
+import entities.Worker;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -9,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import main.Main;
 
 public class LoginScreenController {
@@ -19,17 +29,43 @@ public class LoginScreenController {
 	private GeneralMethods GM;
 
 
-/**
- * Initializes key(ENTER) handlers for the id and password text fields and creates a thread that will get information from the server
- * into arraylists to diminish the server accesses.
- * @author orelzman
- */
+	
+	public LoginScreenController(){
+		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Files", "*.pdf", "*.docx");
+		fileChooser.getExtensionFilters().add(extFilter);
+		File file = fileChooser.showOpenDialog(Main.primaryStage);
+		String fileName;
+		try{
+		 fileName = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+		}catch(Exception e){fileName="Exception";}
+		ByteArrayOutputStream ous;
+		int len = (int)file.length();
+		try {
+			FileInputStream fis = new FileInputStream(file);
+	        byte[] buffer = new byte[66563];
+	        ous = new ByteArrayOutputStream();
+	        
+	        int read = 0;
+	        while ((read = fis.read(buffer)) != -1) {
+	            ous.write(buffer, 0, read);
+		}
+	        System.out.println(ous.size());
+		}catch (IOException e) {e.printStackTrace();}
+	}
+	
+	
+	/**
+	 * Initializes key(ENTER) handlers for the id and password text fields and creates a thread that will get information from the server
+	 * into arraylists to diminish the server accesses.
+	 * @author orelzman
+	 */
 	public void initialize(){
 
 		GM = new GeneralMethods();
 		GeneralMessage.currentWindow = "LoginScreen";
 		GeneralMessage.currentPopup = "";
-		
+
 		idTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
@@ -84,7 +120,6 @@ public class LoginScreenController {
 		Worker worker = new Worker();
 		worker.query = "SELECT * FROM orelDeepdivers.Workers WHERE ID = '" + idTextField.getText() + "' AND "
 				+ "Password = '" + passTextField.getText() + "';";
-		Worker.setCurrentWorker(null);
 
 		Worker.setCurrentWorker(null);
 		GM.sendServer(worker, "Login");
@@ -98,9 +133,12 @@ public class LoginScreenController {
 							while(Worker.getCurrentWorker()==null)
 								GM.Sleep(2);
 							if(Worker.getCurrentWorker().actionNow==null)
-								return;
-							Windows.message("Welcome back " + Worker.getCurrentWorker().getfName(), "Deepsiam Lab");
-							Main.showMenu("LoginWorkerScreen");
+								return;//No such user
+							Windows.message("ברוך שובך " + Worker.getCurrentWorker().getfName(), "Deepsiam Lab");
+							if(Worker.getCurrentWorker().getIsManager().equals(Status.Dalpak))
+								Main.showMenu("OpenCardScreen");
+							else
+								Main.showMenu("LoginWorkerScreen");
 						}
 					});
 				}
@@ -108,8 +146,6 @@ public class LoginScreenController {
 			}
 		};
 		task.run();
-		while(!GeneralMessage.getGotLists())
-			GM.Sleep(100);//לעשות פה בר טעינה או משהו
 	}
 
 

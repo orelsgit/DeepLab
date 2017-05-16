@@ -1,5 +1,9 @@
 package entities;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,9 +23,11 @@ import javax.mail.internet.MimeMessage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.Client;
 import main.Main;
+
 
 
 public class GeneralMethods {
@@ -43,18 +49,20 @@ public class GeneralMethods {
 		Thread thread = new Thread(){
 			public void run(){
 				Order order = new Order();
+				Customer cust = new Customer();
 				sendServer(order, "GetNewOrders");
 				sendServer(order, "GetReg");
 				sendServer(order, "GetBCD");
 				sendServer(order, "GetTank");
 				sendServer(order, "GetCCR");
-				sendServer(order, "GetCustomers");
+				sendServer(cust, "GetCustomers");
 				while(GeneralMessage.getBcdList()!=null
 						&&GeneralMessage.getCcrList()!=null
 						&&GeneralMessage.getCustList()!=null
 						&&GeneralMessage.getRegList()!=null
-						&&GeneralMessage.getTankList()!=null)
-					Sleep(2);
+						&&GeneralMessage.getTankList()!=null){
+					Sleep(100);
+				}
 				GeneralMessage.setGotLists(true);
 
 			}
@@ -95,6 +103,30 @@ public class GeneralMethods {
 		};thread.start();
 	
 	}
+	
+	public void getFile() throws FileNotFoundException{
+		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Files", "*.pdf", "*.docx");
+		fileChooser.getExtensionFilters().add(extFilter);
+		File file = fileChooser.showOpenDialog(Main.primaryStage);
+		String fileName;
+		try{
+		 fileName = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+		}catch(Exception e){fileName="Exception";}
+		int len = (int)file.length();
+		try {
+			FileInputStream fis = new FileInputStream(file);
+	        byte[] buffer = new byte[66563];
+	        ByteArrayOutputStream ous = new ByteArrayOutputStream();
+	        
+	        int read = 0;
+	        while ((read = fis.read(buffer)) != -1) {
+	            ous.write(buffer, 0, read);
+			
+			System.out.println(buffer.length);
+		}
+		}catch (IOException e) {e.printStackTrace();}
+	}
 
 	
 	public Properties setProperties(){
@@ -127,6 +159,7 @@ public class GeneralMethods {
 	}
 
 
+
 	public void getPopup(Stage popup, String window, String title, String popupNo){
 		GeneralMessage.currentPopup = popupNo;
 		try {
@@ -143,7 +176,7 @@ public class GeneralMethods {
 			((GeneralMessage)msg).actionNow = actionNow;
 			Client client = new Client();
 			try {
-				client.openConnection();
+				//client.openConnection();
 				client.sendToServer(msg);
 			} catch (Exception e) {e.printStackTrace();}
 		} catch (Exception e) {	e.printStackTrace();}
@@ -157,7 +190,7 @@ public class GeneralMethods {
 					((GeneralMessage)msg).actionNow = actionNow;
 					Client client = new Client();
 					try {
-						client.openConnection();
+						//client.openConnection();
 						client.sendToServer(msg);
 					} catch (Exception e) {e.printStackTrace();}
 				} catch (Exception e) {	e.printStackTrace();}
@@ -181,7 +214,7 @@ public class GeneralMethods {
 					((GeneralMessage)msg).actionNow = actionNow;
 					Client client = new Client();
 					try {
-						client.openConnection();
+					//	client.openConnection();
 						client.sendToServer(msg);
 					} catch (Exception e) {e.printStackTrace();}
 				} catch (Exception e) {	e.printStackTrace();}

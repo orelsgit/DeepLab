@@ -11,8 +11,10 @@ import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Order;
 import entities.Regulator;
+import entities.Status;
 import entities.Tank;
 import entities.Windows;
+import entities.Worker;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +28,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import main.Main;
@@ -38,14 +41,16 @@ public class OpenCardController {
 	@FXML
 	private TextArea commentsTextArea;
 	@FXML
-	private TextField nameTextField, lastNameTextField, emailTextField, phoneTextField, idTextField, dobTextField;
+	private TextField nameTextField, lastNameTextField, emailTextField, phoneTextField, idTextField;
 	@FXML
-	private Text nameText, lastNameText, emailText, phoneText, idText, dobText,bcdText, regText, tankText, ccrText;
+	private Text nameText, lastNameText, emailText, phoneText, idText,bcdText, regText, tankText, ccrText;
 	@FXML
 	private ComboBox<String> regModelComboBox, bcdModelComboBox, tankModelComboBox, bcdManuComboBox, regManuComboBox, tankManuComboBox, ccrModelComboBox
-	,ccrManuComboBox;
+	,ccrManuComboBox, ccrSNumComboBox, regSNumComboBox, tankSNumComboBox, bcdSNumComboBox, bcdDNumComboBox, regDNumComboBox, tankDNumComboBox;
 	@FXML
-	private Button chooseBCDButton;
+	private Button chooseBCDButton, backButton;
+	@FXML
+	AnchorPane anchorPane;
 
 	private GeneralMethods GM;
 
@@ -62,8 +67,8 @@ public class OpenCardController {
 
 
 
-	public void initialize(){
-
+	public void initialize(){		
+		
 		deepCheckBox.setSelected(false);
 		privateCheckBox.setSelected(true);
 		GM = new GeneralMethods();
@@ -72,7 +77,8 @@ public class OpenCardController {
 		bcdModelComboBox.setVisibleRowCount(GeneralMessage.getBcdList().size());//Same for the bcds
 		tankModelComboBox.setVisibleRowCount(GeneralMessage.getTankList().size());
 
-
+		if(Worker.getCurrentWorker().getIsManager()==Status.Dalpak)
+			backButton.setVisible(false);
 
 		commentsTextArea.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -110,8 +116,8 @@ public class OpenCardController {
 
 
 
-		bcdModelList = FXCollections.observableArrayList(regsModel);
-		regModelList = FXCollections.observableArrayList(bcdsModel);
+		bcdModelList = FXCollections.observableArrayList(bcdsModel);
+		regModelList = FXCollections.observableArrayList(regsModel);
 		tankModelList = FXCollections.observableArrayList(tanksModel);
 		ccrModelList = FXCollections.observableArrayList(ccrsModel);
 		regModelComboBox.getItems().addAll(regModelList);
@@ -137,6 +143,7 @@ public class OpenCardController {
 		regManuComboBox.getItems().addAll(regManuList);
 		tankManuComboBox.getItems().addAll(tankManuList);
 		ccrManuComboBox.getItems().addAll(ccrManuList);
+		
 
 	}//END INITIALIZE
 
@@ -147,7 +154,6 @@ public class OpenCardController {
 		emailText.setFill(Color.BLACK);
 		phoneText.setFill(Color.BLACK);
 		idText.setFill(Color.BLACK);
-		dobText.setFill(Color.BLACK);
 
 
 		boolean isFull = true;
@@ -159,10 +165,7 @@ public class OpenCardController {
 			lastNameText.setFill(Color.RED);
 			isFull = false;
 		}
-		if(emailTextField.getText().equals("")){
-			emailText.setFill(Color.RED);
-			isFull = false;
-		}
+
 		if(phoneTextField.getText().equals("")){
 			phoneText.setFill(Color.RED);
 			isFull = false;
@@ -171,12 +174,9 @@ public class OpenCardController {
 			idText.setFill(Color.RED);
 			isFull = false;
 		}
-		if(dobTextField.getText().equals("")){
-			dobText.setFill(Color.RED);
-			isFull = false;
-		}
 		if(!isFull)
 			return;
+		
 
 		String description = "", regManu, regModel, tankManu, tankModel, bcdManu, bcdModel, ccrManu, ccrModel;
 		Order.currentOrder = new Order();
@@ -186,16 +186,16 @@ public class OpenCardController {
 		Order.currentOrder.setHandled(-1);
 
 		if(!(regManu = regManuComboBox.getEditor().getText()).equals("") && !(regModel = regModelComboBox.getEditor().getText()).equals("")){
-			description += "Regulator: " + "\n" + "Model:" + regModel + "\n" + "Manufacturer:" + regManu + "\n";
+			description += "Regulator: " + "\n" + "Model: " + regModel + "\n" + "Manufacturer: " + regManu + "\n";
 		}
 		if(!(tankManu = tankManuComboBox.getEditor().getText()).equals("") && !(tankModel = tankModelComboBox.getEditor().getText()).equals("")){
-			description+="Tank: " + "\n" + "Model:" + tankModel + "\n" + "Manufacturer:" + tankManu + "\n"; 
+			description+="Tank: " + "\n" + "Model: " + tankModel + "\n" + "Manufacturer: " + tankManu + "\n"; 
 		}
 		if(!(bcdManu = bcdManuComboBox.getEditor().getText()).equals("") && !(bcdModel = bcdModelComboBox.getEditor().getText()).equals("")){
-			description += "BCD: " + "\n" + "Model:" + bcdModel + "\n" + "Manufacturer:" + bcdModel + "\n";
+			description += "BCD: " + "\n" + "Model: " + bcdModel + "\n" + "Manufacturer: " + bcdManu + "\n";
 		}
 		if(!(ccrManu = ccrManuComboBox.getEditor().getText()).equals("") && !(ccrModel = ccrModelComboBox.getEditor().getText()).equals("")){
-			description += "CCR: " + "\n" + "Model:" + ccrManu + "\n" + "Manufacturer:" + ccrModel + "\n";
+			description += "CCR: " + "\n" + "Model: " + ccrManu + "\n" + "Manufacturer: " + ccrModel + "\n";
 		}
 		Order.currentOrder.setDescription(description);
 
@@ -207,8 +207,13 @@ public class OpenCardController {
 			Order.currentOrder.setIsClubEquipment(false);
 		else
 			Order.currentOrder.setIsClubEquipment(true);
-		Order.currentOrder.customer = new Customer(nameTextField.getText(), lastNameTextField.getText(), emailTextField.getText(), phoneTextField.getText(), 
-				idTextField.getText(), dobTextField.getText());
+		
+		Order.currentOrder.customer = new Customer(nameTextField.getText(), lastNameTextField.getText(),idTextField.getText(), emailTextField.getText(), phoneTextField.getText(), 
+				idTextField.getText());
+		
+		Order.currentOrder.setName(nameTextField.getText());
+		Order.currentOrder.setLastName(lastNameTextField.getText());
+		
 		GM.sendServer(Order.currentOrder, "IssueOrder");
 		while(Order.currentOrder.actionNow.equals("IssueOrder"))
 			GM.Sleep(2);
@@ -225,36 +230,36 @@ public class OpenCardController {
 	}
 
 	public void onBCDEntered(){
-		bcdText.setFill(Color.BLUE);
+		bcdText.setUnderline(true);
 	}
 
 	public void onBCDExited(){
-		bcdText.setFill(Color.BLACK);
+		bcdText.setUnderline(false);
 	}
 
 
 	public void onRegEntered(){
-		regText.setFill(Color.BLUE);
+		regText.setUnderline(true);
 	}
 
 	public void onRegExited(){
-		regText.setFill(Color.BLACK);
+		regText.setUnderline(false);
 	}
 
 	public void onTankEntered(){
-		tankText.setFill(Color.BLUE);
+		tankText.setUnderline(true);
 	}
 
 	public void onTankExited(){
-		tankText.setFill(Color.BLACK);
+		tankText.setUnderline(false);
 	}
 
 	public void onCCREntered(){
-		ccrText.setFill(Color.BLUE);
+		ccrText.setUnderline(true);
 	}
 
 	public void onCCRExited(){
-		ccrText.setFill(Color.BLACK);
+		ccrText.setUnderline(false);
 	}
 
 
@@ -344,8 +349,20 @@ public class OpenCardController {
 		if(bcdChosen == null)
 			return;
 
+		bcdModelComboBox.setEditable(true);
+		bcdManuComboBox.setEditable(true);
+		bcdDNumComboBox.setEditable(true);
+		
+		System.out.println(bcdChosen.getModel() + bcdChosen.getDeepNum());
+		
 		bcdModelComboBox.getEditor().setText(bcdChosen.getModel());
 		bcdManuComboBox.getEditor().setText(bcdChosen.getManufacturer());
+		bcdDNumComboBox.getEditor().setText(bcdChosen.getDeepNum());
+		
+		bcdModelComboBox.setEditable(false);
+		bcdManuComboBox.setEditable(false);
+		bcdDNumComboBox.setEditable(false);
+		
 	}
 
 	public void findReg(){
@@ -363,6 +380,7 @@ public class OpenCardController {
 	 */
 
 	public void onRegModelChange(){
+		System.out.println("onRegModelChange");
 		regListSearch = FXCollections.observableArrayList();
 		onMenuChange(regModelComboBox, regModelList, regListSearch);
 	}
@@ -399,7 +417,6 @@ public class OpenCardController {
 		emailTextField.setText(customerChosen.getEmail());
 		phoneTextField.setText(customerChosen.getPhone());
 		idTextField.setText(customerChosen.getId());
-		dobTextField.setText(customerChosen.getDob());
 
 	}
 
@@ -409,6 +426,12 @@ public class OpenCardController {
 	 */
 	public void onDeepSelection(){
 		privateCheckBox.setSelected(false);
+		tankDNumComboBox.setVisible(true);
+		tankDNumComboBox.setEditable(true);
+		regDNumComboBox.setVisible(true);
+		regDNumComboBox.setEditable(true);
+		bcdDNumComboBox.setVisible(true);
+		bcdDNumComboBox.setEditable(true);
 
 
 	}
@@ -418,6 +441,12 @@ public class OpenCardController {
 	 */
 	public void onPrivateSelection(){
 		deepCheckBox.setSelected(false);
+		tankDNumComboBox.setVisible(false);
+		tankDNumComboBox.setEditable(false);
+		regDNumComboBox.setVisible(false);
+		regDNumComboBox.setEditable(false);
+		bcdDNumComboBox.setVisible(false);
+		bcdDNumComboBox.setEditable(false);
 
 	}
 
@@ -435,6 +464,8 @@ public class OpenCardController {
 	 * @author orelzman
 	 */
 	public void onBack(){
+		if(Worker.getCurrentWorker().getIsManager()==Status.Dalpak)
+			return;
 		Main.showMenu("LoginWorkerScreen");
 	}
 
@@ -452,7 +483,6 @@ public class OpenCardController {
 		lastNameTextField.setText("");
 		emailTextField.setText("");
 		phoneTextField.setText("");
-		dobTextField.setText("");
 
 	}
 }

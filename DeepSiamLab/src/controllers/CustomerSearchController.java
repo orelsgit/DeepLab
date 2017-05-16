@@ -29,7 +29,7 @@ public class CustomerSearchController {
 
 	private GeneralMethods GM;
 	public static boolean isBackFromServer;
-	public static ArrayList<Customer> customerList, customerListSearch;
+	public static ArrayList<Customer> customerListSearch, customerList;
 	private static HashMap<Integer, Integer> custToDelete;
 	private static int doubleClick, selectedLine;
 
@@ -57,23 +57,11 @@ public class CustomerSearchController {
 				}
 			}
 		});
+		
+		customerList = new ArrayList<Customer>(GeneralMessage.getCustList());
 
-
-		GM.sendServerJoin(new Customer(), "GetCustomers");
-		while(!isBackFromServer)
-			GM.Sleep(2);
 
 		isBackFromServer=false;
-		if(!(customerList.get(0).getCustID() == null))
-		for(Customer customer : customerList){
-			customer.setEmail(customer.getEmail().replaceAll("\\s++", ""));
-			customer.setPhone(customer.getPhone().replaceAll("\\s++", ""));
-			customer.setId(customer.getId().replaceAll("\\s++", ""));
-			customer.setCustID(customer.getCustID().replaceAll("\\s++", ""));
-			customer.setName(customer.getName().replaceAll("\\s++", ""));
-			customer.setLastName(customer.getLastName().replaceAll("\\s++", ""));
-			customer.setDob(customer.getDob().replaceAll("\\s++", ""));
-		}
 		customerListSearch = new ArrayList<Customer>(customerList);
 		customersTableView.setPlaceholder(new Label("לא נמצאו לקוחות"));//If table is empty it sets the label.
 		ObservableList<Customer> customers = FXCollections.observableArrayList(customerList);

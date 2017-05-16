@@ -44,9 +44,9 @@ public class EmailController {
 		emailProgressBar.setVisible(false);
 		emailProgressIndicator.setVisible(false);
 		number = new SimpleDoubleProperty(0.0);//Number for the progress bars
-		emailTextField.setStyle("-fx-background-color: #9A9A9A;");
+		emailTextField.setStyle("-fx-background: #9A9A9A;");
 		passwordTextField.setVisible(false);
-		toTextField.setStyle("-fx-background-color: #9A9A9A;");
+		toTextField.setStyle("-fx-background #9A9A9A;");
 		emailTextField.setEditable(false);
 		passwordTextField.setEditable(false);
 		passwordText.setVisible(false);

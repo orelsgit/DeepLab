@@ -8,6 +8,14 @@ public class BCD extends GeneralMessage {
 private String deepNum, size, model, manufacturer;
 
 
+public BCD(String size, String model, String manufacturer,String deepNum) {
+	super();
+	this.size = size;
+	this.model = model;
+	this.manufacturer = manufacturer;
+	this.deepNum=deepNum;
+}
+
 
 public BCD(String size, String model, String manufacturer) {
 	super();
@@ -55,5 +63,7 @@ public String getManufacturer() {
 public void setManufacturer(String manufacturer) {
 	this.manufacturer = manufacturer;
 }
+
+
 
 }
