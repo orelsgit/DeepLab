@@ -41,6 +41,10 @@ public class SearchRegController {
 		manufacturer.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
 		TableColumn<Regulator, String> model = (TableColumn<Regulator, String>) regTableView.getColumns().get(1);
 		model.setCellValueFactory(new PropertyValueFactory<>("model"));
+		TableColumn<Regulator, String> serialNum = (TableColumn<Regulator, String>) regTableView.getColumns().get(2);
+		serialNum.setCellValueFactory(new PropertyValueFactory<>("serialNum"));
+		TableColumn<Regulator, String> deepNum = (TableColumn<Regulator, String>) regTableView.getColumns().get(3);
+		deepNum.setCellValueFactory(new PropertyValueFactory<>("deepNum"));
 	}
 
 	public void onSearch(){
@@ -59,6 +63,7 @@ public class SearchRegController {
 			Windows.threadWarning("לא נבחר וסת");
 			return;
 		}
+		OpenCardController.regChosen = regTableView.getSelectionModel().getSelectedItem();
 		onBack();
 	}
 
@@ -72,8 +77,10 @@ public class SearchRegController {
 		Thread thread = new Thread(){
 			public void run(){
 				GM.Sleep(200);
-				if(newClick)
+				if(newClick){
+					newClick=false;
 					return;
+				}
 				doubleClick = 0;
 			}
 		};

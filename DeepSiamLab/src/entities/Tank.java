@@ -5,7 +5,7 @@ public class Tank extends GeneralMessage{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String serialNum,manufacturer, model;
+	private String serialNum,manufacturer, model, DeepNum;
 	private int volume;
 	public Tank(String model,String manufacturer, int volume)
 	{
@@ -54,5 +54,13 @@ public class Tank extends GeneralMessage{
 
 	public void setModel(String model) {
 		model = model;
+	}
+
+	public String getDeepNum() {
+		return DeepNum;
+	}
+
+	public void setDeepNum(String deepNum) {
+		DeepNum = deepNum;
 	}
 }

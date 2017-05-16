@@ -37,6 +37,9 @@ public class SearchCCRController {
 		manufacturer.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
 		TableColumn<CCR, String> model = (TableColumn<CCR, String>) ccrTableView.getColumns().get(1);
 		model.setCellValueFactory(new PropertyValueFactory<>("model"));
+		TableColumn<CCR, String> serialNum = (TableColumn<CCR, String>) ccrTableView.getColumns().get(2);
+		serialNum.setCellValueFactory(new PropertyValueFactory<>("serialNum"));
+
 	}
 	
 	public void onContinue(){
@@ -44,6 +47,7 @@ public class SearchCCRController {
 			Windows.threadWarning("לא נבחרה מערכת סגורה");
 			return;
 		}
+		OpenCardController.ccrChosen=ccrTableView.getSelectionModel().getSelectedItem();
 		onBack();
 	}
 	
@@ -66,8 +70,10 @@ public class SearchCCRController {
 		Thread thread = new Thread(){
 			public void run(){
 				GM.Sleep(200);
-				if(newClick)
+				if(newClick){
+					newClick=false;
 					return;
+				}
 				doubleClick = 0;
 			}
 		};

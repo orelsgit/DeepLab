@@ -63,7 +63,7 @@ public class CustomerSearchController {
 
 		isBackFromServer=false;
 		customerListSearch = new ArrayList<Customer>(customerList);
-		customersTableView.setPlaceholder(new Label("לא נמצאו לקוחות"));//If table is empty it sets the label.
+		GM.setTableViewEmpty("לא נמצאו לקוחות", customersTableView);
 		ObservableList<Customer> customers = FXCollections.observableArrayList(customerList);
 		customersTableView.setItems(customers);
 	}//End initialize

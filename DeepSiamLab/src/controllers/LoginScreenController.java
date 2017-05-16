@@ -30,7 +30,7 @@ public class LoginScreenController {
 
 
 	
-	public LoginScreenController(){
+/*	public LoginScreenController(){
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Files", "*.pdf", "*.docx");
 		fileChooser.getExtensionFilters().add(extFilter);
@@ -52,7 +52,7 @@ public class LoginScreenController {
 		}
 	        System.out.println(ous.size());
 		}catch (IOException e) {e.printStackTrace();}
-	}
+	}*/
 	
 	
 	/**

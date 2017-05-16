@@ -37,6 +37,10 @@ public class SearchTankController {
 		manufacturer.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
 		TableColumn<Tank, String> model = (TableColumn<Tank, String>) tankTableView.getColumns().get(1);
 		model.setCellValueFactory(new PropertyValueFactory<>("model"));
+		TableColumn<Tank, String> serialNum = (TableColumn<Tank, String>) tankTableView.getColumns().get(2);
+		serialNum.setCellValueFactory(new PropertyValueFactory<>("serialNum"));
+		TableColumn<Tank, String> deepNum = (TableColumn<Tank, String>) tankTableView.getColumns().get(3);
+		deepNum.setCellValueFactory(new PropertyValueFactory<>("deepNum"));
 	}
 	
 	public void onContinue(){
@@ -44,6 +48,7 @@ public class SearchTankController {
 			Windows.threadWarning("לא נבחר מיכל");
 			return;
 		}
+		OpenCardController.tankChosen = tankTableView.getSelectionModel().getSelectedItem();
 		onBack();
 	}
 	
@@ -66,8 +71,10 @@ public class SearchTankController {
 		Thread thread = new Thread(){
 			public void run(){
 				GM.Sleep(200);
-				if(newClick)
+				if(newClick){
+					newClick=false;
 					return;
+				}
 				doubleClick = 0;
 			}
 		};

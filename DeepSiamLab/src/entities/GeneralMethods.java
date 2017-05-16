@@ -22,6 +22,8 @@ import javax.mail.internet.MimeMessage;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -102,6 +104,10 @@ public class GeneralMethods {
 			}
 		};thread.start();
 	
+	}
+	
+	public void setTableViewEmpty(String str, TableView tableView){
+		tableView.setPlaceholder(new Label(str));
 	}
 	
 	public void getFile() throws FileNotFoundException{

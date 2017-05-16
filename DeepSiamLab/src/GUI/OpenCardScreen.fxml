@@ -37,12 +37,12 @@
       </Text>
       <TextField fx:id="idTextField" editable="false" layoutX="366.0" layoutY="429.0" promptText="ID Number" visible="false" />
       <Text layoutX="388.0" layoutY="508.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":הערות" />
-      <CheckBox fx:id="deepCheckBox" layoutX="508.0" layoutY="24.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onDeepSelection" prefHeight="28.0" prefWidth="191.0" text="ציוד מועדון">
+      <CheckBox fx:id="deepCheckBox" layoutX="459.0" layoutY="24.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onDeepSelection" prefHeight="28.0" prefWidth="191.0" text="ציוד מועדון">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="privateCheckBox" layoutX="662.0" layoutY="24.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onPrivateSelection" prefHeight="16.0" prefWidth="191.0" selected="true" text="ציוד פרטי">
+      <CheckBox fx:id="privateCheckBox" layoutX="675.0" layoutY="24.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onPrivateSelection" prefHeight="16.0" prefWidth="191.0" selected="true" text="ציוד פרטי">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
@@ -61,9 +61,9 @@
             <Font size="17.0" />
          </font></Button>
       <Button fx:id="chooseBCDButton" layoutX="575.0" layoutY="196.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="בחר" visible="false" />
-      <ComboBox fx:id="bcdModelComboBox" layoutX="706.0" layoutY="169.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onBCDModelChange" onInputMethodTextChanged="#onBCDModelChange" onKeyPressed="#onBCDModelChange" onShowing="#onBCDModelChange" prefWidth="150.0" promptText="דגם" />
-      <ComboBox fx:id="tankModelComboBox" layoutX="513.0" layoutY="171.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onTankModelChange" onInputMethodTextChanged="#onTankModelChange" onKeyPressed="#onTankModelChange" onShowing="#onTankModelChange" prefWidth="150.0" promptText="דגם" />
-      <ComboBox fx:id="regModelComboBox" layoutX="304.0" layoutY="170.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onRegModelChange" onInputMethodTextChanged="#onRegModelChange" onKeyPressed="#onRegModelChange" onShowing="#onRegModelChange" prefWidth="150.0" promptText="דגם" />
+      <ComboBox fx:id="bcdModelComboBox" editable="true" layoutX="706.0" layoutY="169.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onBCDModelChange" onInputMethodTextChanged="#onBCDModelChange" onKeyPressed="#onBCDModelChange" onShowing="#onBCDModelChange" prefWidth="150.0" promptText="דגם" />
+      <ComboBox fx:id="tankModelComboBox" editable="true" layoutX="513.0" layoutY="171.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onTankModelChange" onInputMethodTextChanged="#onTankModelChange" onKeyPressed="#onTankModelChange" onShowing="#onTankModelChange" prefWidth="150.0" promptText="דגם" />
+      <ComboBox fx:id="regModelComboBox" editable="true" layoutX="304.0" layoutY="170.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onRegModelChange" onInputMethodTextChanged="#onRegModelChange" onKeyPressed="#onRegModelChange" onShowing="#onRegModelChange" prefWidth="150.0" promptText="דגם" />
       <Button fx:id="newOrderButton" layoutX="44.0" layoutY="593.0" mnemonicParsing="false" onAction="#onIssueOrder" prefHeight="52.0" prefWidth="142.0" text="בצע הזמנה">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -114,11 +114,11 @@
          </font>
       </Text>
       <Text fill="#2b00ff" layoutX="451.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text="אם הלקוח כבר עשה טיפול בעבר הוא קיים במערכת. חפש אותו להקלה על תהליך הרישום" wrappingWidth="150.0" />
-      <ComboBox fx:id="bcdManuComboBox" layoutX="706.0" layoutY="127.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onBCDManuChange" onInputMethodTextChanged="#onBCDManuChange" onKeyPressed="#onBCDManuChange" onKeyReleased="#onBCDManuChange" onKeyTyped="#onBCDManuChange" onShowing="#onBCDManuChange" prefWidth="150.0" promptText="יצרן" />
-      <ComboBox fx:id="regManuComboBox" layoutX="304.0" layoutY="128.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onRegManuChange" onInputMethodTextChanged="#onRegManuChange" onKeyPressed="#onRegManuChange" onShowing="#onRegManuChange" prefWidth="150.0" promptText="יצרן" />
-      <ComboBox fx:id="tankManuComboBox" layoutX="513.0" layoutY="129.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onTankManuChange" onHiding="#onTankManuChange" onInputMethodTextChanged="#onTankManuChange" onKeyPressed="#onTankManuChange" onKeyReleased="#onTankManuChange" onShowing="#onTankManuChange" prefWidth="150.0" promptText="יצרן" />
-      <ComboBox fx:id="ccrManuComboBox" layoutX="88.0" layoutY="128.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onCCRManuChange" onInputMethodTextChanged="#onCCRManuChange" onKeyPressed="#onCCRManuChange" onShowing="#onCCRManuChange" prefWidth="150.0" promptText="יצרן" />
-      <ComboBox fx:id="ccrModelComboBox" layoutX="88.0" layoutY="170.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onCCRModelChange" onInputMethodTextChanged="#onCCRModelChange" onKeyPressed="#onCCRModelChange" onShowing="#onCCRModelChange" prefWidth="150.0" promptText="דגם" />
+      <ComboBox fx:id="bcdManuComboBox" editable="true" layoutX="706.0" layoutY="127.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onBCDManuChange" onInputMethodTextChanged="#onBCDManuChange" onKeyPressed="#onBCDManuChange" onKeyReleased="#onBCDManuChange" onKeyTyped="#onBCDManuChange" onShowing="#onBCDManuChange" prefWidth="150.0" promptText="יצרן" />
+      <ComboBox fx:id="regManuComboBox" editable="true" layoutX="304.0" layoutY="128.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onRegManuChange" onInputMethodTextChanged="#onRegManuChange" onKeyPressed="#onRegManuChange" onShowing="#onRegManuChange" prefWidth="150.0" promptText="יצרן" />
+      <ComboBox fx:id="tankManuComboBox" editable="true" layoutX="513.0" layoutY="129.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onTankManuChange" onHiding="#onTankManuChange" onInputMethodTextChanged="#onTankManuChange" onKeyPressed="#onTankManuChange" onKeyReleased="#onTankManuChange" onShowing="#onTankManuChange" prefWidth="150.0" promptText="יצרן" />
+      <ComboBox fx:id="ccrManuComboBox" editable="true" layoutX="88.0" layoutY="128.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onCCRManuChange" onInputMethodTextChanged="#onCCRManuChange" onKeyPressed="#onCCRManuChange" onShowing="#onCCRManuChange" prefWidth="150.0" promptText="יצרן" />
+      <ComboBox fx:id="ccrModelComboBox" editable="true" layoutX="88.0" layoutY="170.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#onCCRModelChange" onInputMethodTextChanged="#onCCRModelChange" onKeyPressed="#onCCRModelChange" onShowing="#onCCRModelChange" prefWidth="150.0" promptText="דגם" />
       <Text fx:id="idText" layoutX="778.0" layoutY="589.0" strokeType="OUTSIDE" strokeWidth="0.0" text="תעודת זהות">
          <font>
             <Font size="17.0" />
@@ -149,12 +149,12 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Text>
-      <ComboBox fx:id="tankSNumComboBox" layoutX="513.0" layoutY="215.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" />
-      <ComboBox fx:id="regSNumComboBox" layoutX="304.0" layoutY="214.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" />
+      <ComboBox fx:id="tankSNumComboBox" editable="true" layoutX="513.0" layoutY="215.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" />
+      <ComboBox fx:id="regSNumComboBox" editable="true" layoutX="304.0" layoutY="214.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" />
       <ComboBox fx:id="bcdSNumComboBox" layoutX="707.0" layoutY="213.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" visible="false" />
-      <ComboBox fx:id="ccrSNumComboBox" layoutX="88.0" layoutY="214.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" />
-      <ComboBox fx:id="bcdDNumComboBox" layoutX="707.0" layoutY="214.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מק&quot;ט מועדון" />
-      <ComboBox fx:id="tankDNumComboBox" layoutX="513.0" layoutY="254.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מק&quot;ט מועדון" />
-      <ComboBox fx:id="regDNumComboBox" layoutX="304.0" layoutY="254.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מק&quot;ט מועדון" />
+      <ComboBox fx:id="ccrSNumComboBox" editable="true" layoutX="88.0" layoutY="214.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" />
+      <ComboBox fx:id="bcdDNumComboBox" editable="true" layoutX="707.0" layoutY="214.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מק&quot;ט מועדון" />
+      <ComboBox fx:id="tankDNumComboBox" editable="true" layoutX="513.0" layoutY="254.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מק&quot;ט מועדון" />
+      <ComboBox fx:id="regDNumComboBox" editable="true" layoutX="304.0" layoutY="254.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מק&quot;ט מועדון" />
    </children>
 </AnchorPane>

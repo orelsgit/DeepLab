@@ -281,11 +281,19 @@ public class Server extends AbstractServer {
 				i++;
 			}
 			i=0;
-			ResultSet rs3 = stmt.executeQuery("Select LTRIM(RTRIM(InterPressure)) From orelDeepdivers.Regulators");
+			ResultSet rs3 = stmt.executeQuery("Select LTRIM(RTRIM(DeepNum)) From orelDeepdivers.Regulators");
 			while(rs3.next() && i<regList.size()){
-				regList.get(i).setInterPressure(rs3.getFloat(1));
+				regList.get(i).setDeepNum(rs3.getString(1));
 				i++;
 			}
+			
+			i=0;
+			rs3 = stmt.executeQuery("Select LTRIM(RTRIM(SerialNum)) From orelDeepdivers.Regulators");
+			while(rs3.next() && i<regList.size()){
+				regList.get(i).setSerialNum(rs3.getString(1));
+				i++;
+			}
+			
 			if(regList.isEmpty())
 				regList.add(new Regulator());
 			regList.get(0).actionNow = "GotRegs";
@@ -359,6 +367,21 @@ public class Server extends AbstractServer {
 				tankList.get(i).setVolume(rs3.getInt(1));
 				i++;
 			}
+			
+			i=0;
+			rs3 = stmt.executeQuery("Select LTRIM(RTRIM(DeepNum)) From orelDeepdivers.Tanks");
+			while(rs3.next() && i<tankList.size()){
+				tankList.get(i).setDeepNum(rs3.getString(1));
+				i++;
+			}
+			
+			i=0;
+			rs3 = stmt.executeQuery("Select LTRIM(RTRIM(SerialNum)) From orelDeepdivers.Tanks");
+			while(rs3.next() && i<tankList.size()){
+				tankList.get(i).setSerialNum(rs3.getString(1));
+				i++;
+			}
+			
 			if(tankList.isEmpty())
 				tankList.add(new Tank());
 			tankList.get(0).actionNow = "GotTanks";
@@ -385,6 +408,13 @@ public class Server extends AbstractServer {
 			while(rs2.next() && i<ccrList.size()){
 				ccrList.get(i).setModel(rs2.getString(1));
 				i++;
+			}
+			i=0;
+			rs2 = stmt.executeQuery("Select LTRIM(RTRIM(SerialNum)) From orelDeepdivers.CCR");
+			while(rs2.next() && i<ccrList.size()){
+				ccrList.get(i).setSerialNum(rs2.getString(1));
+				i++;
+				System.out.println("yo");
 			}
 			if(ccrList.isEmpty())
 				ccrList.add(new CCR());
@@ -631,7 +661,7 @@ public class Server extends AbstractServer {
 			}
 			else{
 				preparedStmt.setString(2, order.getCustID());
-				order.actionNow = ".";
+				order.actionNow = "OldClientOrder";
 			}
 			preparedStmt.setString(3, order.getDescription());
 			preparedStmt.setString(4, order.getDate());
@@ -643,7 +673,6 @@ public class Server extends AbstractServer {
 			else
 				preparedStmt.setInt(8, 0);
 			preparedStmt.executeUpdate();
-
 			client.sendToClient(order);
 		}catch(Exception e){e.printStackTrace();}
 	}

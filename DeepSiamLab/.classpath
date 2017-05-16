@@ -22,5 +22,6 @@
 	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Java/freetts-1.2/lib/freetts.jar"/>
 	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Java/freetts-1.2/lib/freetts-jsapi10.jar"/>
 	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Java/freetts-1.2/lib/mbrola.jar"/>
+	<classpathentry kind="lib" path="C:/Users/orels/Desktop/commons-io-2.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -5,8 +5,7 @@ public class Regulator extends GeneralMessage{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String model,manufacturer,serialNum;
-	private int deepNum;
+	private String model,manufacturer,serialNum, deepNum;
 	float interPressure;
 	
 	
@@ -44,10 +43,10 @@ public class Regulator extends GeneralMessage{
 		this.serialNum = serialNum;
 	}
 
-	public int getDeepNum() {
+	public String getDeepNum() {
 		return deepNum;
 	}
-	public void setDeepNum(int deepNum) {
+	public void setDeepNum(String deepNum) {
 		this.deepNum = deepNum;
 	}
 	public float getInterPressure() {

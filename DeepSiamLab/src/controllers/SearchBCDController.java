@@ -65,6 +65,7 @@ public class SearchBCDController {
 			Windows.threadWarning("לא נבחר מאזן");
 			return;
 		}
+		OpenCardController.bcdChosen = bcdTableView.getSelectionModel().getSelectedItem();
 		onBack();
 		
 	}
@@ -73,8 +74,10 @@ public class SearchBCDController {
 		Thread thread = new Thread(){
 			public void run(){
 				GM.Sleep(200);
-				if(newClick)
+				if(newClick){
+					newClick=false;
 					return;
+				}
 				doubleClick = 0;
 			}
 		};

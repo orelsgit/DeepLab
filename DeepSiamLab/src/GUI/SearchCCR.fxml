@@ -12,6 +12,7 @@
         <columns>
           <TableColumn prefWidth="175.0" text="יצרן" />
           <TableColumn prefWidth="178.0" text="דגם" />
+            <TableColumn prefWidth="75.0" text="מספר סידורי" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
