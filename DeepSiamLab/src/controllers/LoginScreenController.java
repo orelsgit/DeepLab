@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import entities.BCD;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Status;
@@ -19,6 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import main.Client;
 import main.Main;
 
 public class LoginScreenController {
@@ -29,31 +31,7 @@ public class LoginScreenController {
 	private GeneralMethods GM;
 
 
-	
-/*	public LoginScreenController(){
-		FileChooser fileChooser = new FileChooser();
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Files", "*.pdf", "*.docx");
-		fileChooser.getExtensionFilters().add(extFilter);
-		File file = fileChooser.showOpenDialog(Main.primaryStage);
-		String fileName;
-		try{
-		 fileName = file.getName().substring(file.getName().lastIndexOf(".") + 1);
-		}catch(Exception e){fileName="Exception";}
-		ByteArrayOutputStream ous;
-		int len = (int)file.length();
-		try {
-			FileInputStream fis = new FileInputStream(file);
-	        byte[] buffer = new byte[66563];
-	        ous = new ByteArrayOutputStream();
-	        
-	        int read = 0;
-	        while ((read = fis.read(buffer)) != -1) {
-	            ous.write(buffer, 0, read);
-		}
-	        System.out.println(ous.size());
-		}catch (IOException e) {e.printStackTrace();}
-	}*/
-	
+
 	
 	/**
 	 * Initializes key(ENTER) handlers for the id and password text fields and creates a thread that will get information from the server

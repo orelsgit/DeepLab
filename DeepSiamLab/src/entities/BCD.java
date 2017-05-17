@@ -8,6 +8,7 @@ public class BCD extends GeneralMessage {
 private String deepNum, size, model, manufacturer;
 
 
+
 public BCD(String size, String model, String manufacturer,String deepNum) {
 	super();
 	this.size = size;
@@ -27,9 +28,18 @@ public BCD(String size, String model, String manufacturer) {
 public BCD(){
 	
 }
+ 
 
 public BCD(String size){
 	this.size = size;
+}
+
+public Files getFiles(){
+	return super.getFiles();
+}
+
+public void setFiles(Files files){
+	super.setFiles(files);
 }
 
 public String getDeepNum() {
@@ -63,6 +73,10 @@ public String getManufacturer() {
 public void setManufacturer(String manufacturer) {
 	this.manufacturer = manufacturer;
 }
+
+
+
+
 
 
 

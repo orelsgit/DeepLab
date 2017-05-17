@@ -1,6 +1,9 @@
 package main;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -86,11 +89,30 @@ public class Server extends AbstractServer {
 			addTank((Tank)msg, client);break;
 		case "GetCCROwnersList":
 			getCCROwnersList(client);break;
+		case "Download":
+			download((BCD)msg);break;
 
 		}
 	}
 
 
+	public void download(BCD bcd){
+		byte[] buffer;
+		try{
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(bcd.query);
+			if(rs.next()){
+				System.out.println("HERE~!@#");
+				buffer = rs.getBytes(1);
+				OutputStream targetFile = new FileOutputStream("C://Users//orels//Desktop//TESTYAY.docx");
+				targetFile.write(buffer);
+				targetFile.close();
+				
+			}
+		}catch(Exception e){e.printStackTrace();}
+	}
+
+	
 	public void getCCROwnersList(ConnectionToClient client){
 		try{
 			ArrayList<CCR> ccrList = new ArrayList<CCR>();
@@ -127,12 +149,23 @@ public class Server extends AbstractServer {
 
 	public void addBCD(BCD bcd, ConnectionToClient client){
 		try{
-			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.BCDS values (?,?,?);");
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.BCDS values (?,?,?,?,?,?);");
 			pstmt.setString(1, bcd.getSize());
 			pstmt.setString(2, bcd.getModel());
 			pstmt.setString(3, bcd.getManufacturer());
+			pstmt.setString(4, bcd.getDeepNum());
+			if(bcd.getFiles().getFile()!=null){
+				FileInputStream fis = new FileInputStream(bcd.getFiles().getFile());
+				pstmt.setBinaryStream(5, fis, bcd.getFiles().getLen());
+				pstmt.setString(6, bcd.getFiles().getFileName());
+			}
+			else{
+				pstmt.setBinaryStream(5, null);
+				pstmt.setString(6, null);
+			}
+			System.out.println(bcd.getSize());
 			pstmt.executeUpdate();
-
+			
 			bcd.actionNow = "NewBCD";
 			client.sendToClient(bcd);
 
@@ -721,93 +754,3 @@ public class Server extends AbstractServer {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//public void issueAnOrder(Order order, ConnectionToClient client){
-//	PreparedStatement preparedStmt;
-//	Statement stmt;
-//	String regID="", tankID="", ccrID="", bcdID="";
-//	String regDes="", tankDes="", ccrDes="", bcdDes="";
-//	int max=0;
-//	try{
-//		stmt = conn.createStatement();
-//		int indexOf = order.numsToServer.indexOf("REG");
-//		if(indexOf!=-1){
-//			while(order.numsToServer.charAt(indexOf+3)!=',')
-//				regID+=order.numsToServer.charAt(indexOf+3);	
-//			
-//			ResultSet rs = stmt.executeQuery("SELECT * FROM orelDeepdivers.Regulators WHERE SerialNum = '" + regID + "';");
-//			if(rs.next())
-//				regDes ="Regulator: + " + "\n" + "SerialNum: " + rs.getString(4) + "\n" + "Manufacturer: " +  rs.getString(2) 
-//				+ "\n" + "Model: " + rs.getFloat(1) + "\n" + "Indermediate Pressure: " + rs.getString(3);
-//			else{System.out.println("BADREG");}
-//			System.out.println(regDes);
-//		}
-//
-//		indexOf = order.numsToServer.indexOf("BCD");
-//		if(indexOf!=-1){
-//			while(order.numsToServer.charAt(indexOf+3)!=',')
-//				bcdID+=order.numsToServer.charAt(indexOf+3);
-//
-//			ResultSet rs = stmt.executeQuery("SELECT * FROM orelDeepdivers.BCDS WHERE SerialNum = '" + bcdID + "';");
-//			if(rs.next())
-//				regDes ="BCD: + " + "\n" + "SerialNum: " + rs.getString(4) + "\n" + "Maunfacturer: " +  rs.getString(3) 
-//				+ "\n" + "Model: " + rs.getString(2) + "\n" + "Size: " + rs.getString(4);
-//			else System.out.println("BADBCD");
-//			System.out.println(bcdDes);
-//
-//		}
-//
-//
-//
-//		indexOf = order.numsToServer.indexOf("CCR");
-//		if(indexOf!=-1){
-//			while(order.numsToServer.charAt(indexOf+3)!=',')
-//				ccrID+=order.numsToServer.charAt(indexOf+3);
-//			
-//			ResultSet rs = stmt.executeQuery("SELECT * FROM orelDeepdivers.CCR WHERE SerialNum = '" + ccrID + "';");
-//			if(rs.next())
-//				regDes ="CCR: + " + "\n" + "SerialNumber: " + rs.getString(1) + "\n" + "Maunfacturer: " +  rs.getString(2) 
-//				+ "\n" + "Model: " + rs.getString(4) + "\n" + "Owner: " + rs.getString(3);
-//			else System.out.println("BADCCR");
-//			System.out.println(bcdDes);
-//
-//			
-//		}
-//
-//		indexOf = order.numsToServer.indexOf("TANK");
-//		if(indexOf!=-1)
-//			while(order.numsToServer.charAt(indexOf+3)!=',')
-//				tankID+=order.numsToServer.charAt(indexOf+3);	
-//
-//
-//	}catch(Exception e){e.printStackTrace();}
-//	try{
-//		preparedStmt = conn.prepareStatement("insert into orelDeepdivers.Orders(OrderNum, CustID, Description, "
-//				+ "Date, Comments, Handled) values(?,?,?,?,?,?)");
-//		stmt = conn.createStatement();
-//		ResultSet rs = stmt.executeQuery("SELECT Max(OrderNum) FROM OrelDeepdivers.Orders;");
-//		rs.next();max=rs.getInt(1);
-//		max++;
-//		preparedStmt.setInt(1, max);
-//		preparedStmt.setString(2, order.getCustID());
-//		preparedStmt.setString(3, order.getDescription());
-//		preparedStmt.setString(4, order.getDate());
-//		preparedStmt.setString(5, order.getComments());
-//		preparedStmt.setInt(6, order.getHandled());
-//		preparedStmt.executeUpdate();
-//		client.sendToClient(order);
-//	}catch(Exception e){e.printStackTrace();}
-//}

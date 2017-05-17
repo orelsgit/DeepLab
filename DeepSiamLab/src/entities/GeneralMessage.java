@@ -10,6 +10,7 @@ public class GeneralMessage implements Serializable{
 	 */
 	private static final long serialVersionUID = -3047749912580360585L;
 	
+	private Files file=new Files();
 	public String actionNow, query;
 	private String message;
 	public static String currentWindow, currentPopup;
@@ -84,6 +85,14 @@ public class GeneralMessage implements Serializable{
 
 	public static void setUnhandledOrders(ArrayList<Order> unhandledOrders) {
 		GeneralMessage.unhandledOrders = unhandledOrders;
+	}
+
+	public Files getFiles() {
+		return file;
+	}
+
+	public void setFiles(Files file) {
+		this.file = file;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,7 +33,12 @@ import main.Main;
 
 
 
-public class GeneralMethods {
+public class GeneralMethods implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private static Thread thread;
 	
@@ -110,29 +116,30 @@ public class GeneralMethods {
 		tableView.setPlaceholder(new Label(str));
 	}
 	
-	public void getFile() throws FileNotFoundException{
-		FileChooser fileChooser = new FileChooser();
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Files", "*.pdf", "*.docx");
-		fileChooser.getExtensionFilters().add(extFilter);
-		File file = fileChooser.showOpenDialog(Main.primaryStage);
-		String fileName;
-		try{
-		 fileName = file.getName().substring(file.getName().lastIndexOf(".") + 1);
-		}catch(Exception e){fileName="Exception";}
-		int len = (int)file.length();
-		try {
-			FileInputStream fis = new FileInputStream(file);
-	        byte[] buffer = new byte[66563];
-	        ByteArrayOutputStream ous = new ByteArrayOutputStream();
-	        
-	        int read = 0;
-	        while ((read = fis.read(buffer)) != -1) {
-	            ous.write(buffer, 0, read);
-			
-			System.out.println(buffer.length);
-		}
-		}catch (IOException e) {e.printStackTrace();}
-	}
+//	public void getFile() throws FileNotFoundException{
+//		FileChooser fileChooser = new FileChooser();
+//		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Files", "*.pdf", "*.docx");
+//		fileChooser.getExtensionFilters().add(extFilter);
+//		File file = fileChooser.showOpenDialog(Main.primaryStage);
+//		String fileName;
+//		try{
+//		 fileName = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+//		}catch(Exception e){fileName="Exception";}
+//		ByteArrayOutputStream ous;
+//		int len = (int)file.length();
+//		try {
+//			FileInputStream fis = new FileInputStream(file);
+//	        byte[] buffer = new byte[(int) (Math.pow(2d, 31d)-1)];
+//	        ous = new ByteArrayOutputStream();
+//	        
+//	        int read = 0;
+//	        while ((read = fis.read(buffer)) != -1) {
+//	            ous.write(buffer, 0, read);
+//		}
+//	        for(byte byte1 : buffer)
+//	        	System.out.println(byte1);
+//		}catch (IOException e) {e.printStackTrace();}
+//	}
 
 	
 	public Properties setProperties(){
@@ -178,14 +185,13 @@ public class GeneralMethods {
 
 
 	public void sendServer(Object msg, String actionNow){
-		try {
+			System.out.println("sendserver");
 			((GeneralMessage)msg).actionNow = actionNow;
 			Client client = new Client();
 			try {
 				//client.openConnection();
 				client.sendToServer(msg);
 			} catch (Exception e) {e.printStackTrace();}
-		} catch (Exception e) {	e.printStackTrace();}
 	}
 
 
