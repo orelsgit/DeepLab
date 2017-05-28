@@ -53,12 +53,13 @@ public class LabOrdersController {
 		
 		orderList = new ArrayList<Order>(GeneralMessage.getUnhandledOrders());
 
-		Thread thread = new Thread(){
-			public void run(){
-				for(Order order : orderList)
-					order.setCustID(order.getCustID().replaceAll("\\s+", ""));
-			}
-		};thread.start();
+//		Thread thread = new Thread(){
+//			public void run(){
+//				for(Order order : orderList)
+//					order.setCustID(order.getCustID().replaceAll("\\s+", ""));
+//			}
+//		};thread.start();
+
 		ObservableList<Order> orders = FXCollections.observableArrayList(orderList);
 		ordersTableView.setItems(orders);
 		
@@ -72,27 +73,26 @@ public class LabOrdersController {
 	 */
 	@SuppressWarnings("unchecked")
 	public void initTableView(){
-		if(Order.getUnhandledOrderList()!=null)
-		for(Order order : Order.getUnhandledOrderList())
-			for(Customer customer : Order.getCustList())
-				if(customer.getCustID().equals(order.getCustID())){
-					order.setName(customer.getName());
-					order.setLastName(customer.getLastName());
-					break;
-				}
+//			System.out.println(order.getName() + " NAME");
+//			for(Customer customer : GeneralMessage.getCustList())
+//				if(customer.getCustID().equals(order.getCustID())){
+//					order.setName(customer.getName());
+//					order.setLastName(customer.getLastName());
+//					System.out.println(customer.getName());
+//					break;
+//				}
+//				}
 		
 		TableColumn<Order, String> customerName = (TableColumn<Order, String>) ordersTableView.getColumns().get(0);
-		customerName.setCellValueFactory(new PropertyValueFactory<>("name"+"lastName"));
+		customerName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		TableColumn<Order, String> custID = (TableColumn<Order, String>) ordersTableView.getColumns().get(1);
 		custID.setCellValueFactory(new PropertyValueFactory<>("clubOrPrivate"));
-		TableColumn<Order, String> name = (TableColumn<Order, String>) ordersTableView.getColumns().get(2);
+		TableColumn<Order, String> name = (TableColumn<Order, String>) ordersTableView.getColumns().get(3);
 		name.setCellValueFactory(new PropertyValueFactory<>("date"));
-		TableColumn<Order, String> description = (TableColumn<Order, String>) ordersTableView.getColumns().get(3);
-		description.setCellValueFactory(new PropertyValueFactory<>("date"));
+		TableColumn<Order, String> description = (TableColumn<Order, String>) ordersTableView.getColumns().get(2);
+		description.setCellValueFactory(new PropertyValueFactory<>("description"));
 		TableColumn<Order, String> date = (TableColumn<Order, String>) ordersTableView.getColumns().get(4);
 		date.setCellValueFactory(new PropertyValueFactory<>("comments"));
-	//	TableColumn<Order, String> comments = (TableColumn<Order, String>) ordersTableView.getColumns().get(5);
-	//	comments.setCellValueFactory(new PropertyValueFactory<>("comments"));
 		
 	}
 
@@ -183,6 +183,19 @@ public class LabOrdersController {
 		doubleClick = 0;
 		if((orderSelected = ordersTableView.getSelectionModel().getSelectedItem())==null)
 			return;
+		OrderInfoController.equipmentCnt = 0;
+		if(orderSelected.getDescription().contains("BCD")){
+			++OrderInfoController.equipmentCnt;
+		}
+		if(orderSelected.getDescription().contains("Regulator")){
+			++OrderInfoController.equipmentCnt;
+		}
+		if(orderSelected.getDescription().contains("Tank")){
+			++OrderInfoController.equipmentCnt;
+		}
+		if(orderSelected.getDescription().contains("CCR")){
+			++OrderInfoController.equipmentCnt;
+		}
 		Main.showMenu("OrderInfo");
 	}
 

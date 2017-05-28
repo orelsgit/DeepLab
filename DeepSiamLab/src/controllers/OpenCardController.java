@@ -4,7 +4,6 @@ package controllers;
 
 import java.util.ArrayList;
 
-import org.apache.commons.io.FileUtils;
 
 import entities.BCD;
 import entities.CCR;

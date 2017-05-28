@@ -21,7 +21,7 @@ public class AddEquipment {
 	volumeTextField, tankManuTextField, bcdDeepNumTextField;
 	@FXML
 	private Text sizeText, bcdModelText, bcdManuText, regModelText, regManuText, interText,
-	volumeText, tankManuText, fileNameText, bcdDeepNumText;
+	volumeText, tankManuText, bcdFileNameText, bcdDeepNumText, regFileNameText, ccrFileNameText, tankFileNameText;
 
 	private BCD bcd;
 	private Tank tank;
@@ -117,7 +117,7 @@ public class AddEquipment {
 		bcd.setManufacturer(bcdManuTextField.getText());
 		bcd.setDeepNum(bcdDeepNumTextField.getText());
 
-		if(fileNameText.getText()==null)
+		if(bcdFileNameText.getText()==null)
 			if(Windows.yesNo("האם אתה בטוח שברצונך להמשיך בלי להעלות קובץ?", "אין קובץ", "העלה קובץ", "המשך בלי להעלות קובץ"))
 				onUploadFileBCD();
 
@@ -170,10 +170,10 @@ public class AddEquipment {
 		if(bcd==null)
 			bcd = new BCD();
 		bcd.getFiles().setFile();
-		fileNameText.setText(bcd.getFiles().getFileName());
-
+		bcdFileNameText.setText(bcd.getFiles().getFileName());
 	}
 
+	
 
 
 	public void onBack(){

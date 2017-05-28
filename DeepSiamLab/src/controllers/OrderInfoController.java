@@ -18,10 +18,10 @@ public class OrderInfoController {
 	private static Order orderSelected;
 	private static Customer customerSelected;
 	private static GeneralMethods GM;
-	public static boolean isBackFromServer,regCheck, bcdCheck, ccrCheck,tankCheck, isFixOrAnnual;/*Avoid initializing while in phone window*/;
-	public static boolean isGotEquipments = false;
+	public static boolean isBackFromServer,regCheck, bcdCheck, ccrCheck,tankCheck, isFixOrAnnual, regDone, bcdDone, ccrDone, tankDone;/*Avoid initializing while in phone window*/;
+	public static boolean isGotEquipments = false, isAnnualDone = false;
 	public static Regulator regChosen;
-
+	protected static int equipmentCnt = 0; // Counts how many equipments are needed to be taken care of, so we can close the order.
 
 	@FXML
 	private Text nameText, phoneNameText;
@@ -46,12 +46,50 @@ public class OrderInfoController {
 		}
 		orderSelected = LabOrdersController.orderSelected;
 		getEquipmentInfo();
-		falseChecks();
+
 		GM = new GeneralMethods();
 		nameText.setText(orderSelected.getName());
 		descriptionTextArea.setText(orderSelected.getDescription());
 		commentsTextArea.setText(orderSelected.getComments());
 		GM.Sleep(10);//Not sure, but if I write checkCheckBox earlier, it throws an exception
+		
+		
+		if(regCheck&&isAnnualDone){
+			--equipmentCnt;
+			regDone = true;
+			isAnnualDone = false;
+			regButton.setVisible(false);
+		}
+		
+		else if(tankCheck&&isAnnualDone){
+			--equipmentCnt;
+			tankDone = true;
+			isAnnualDone = false;
+			tankButton.setVisible(false);
+		}
+		
+		else if(bcdCheck&&isAnnualDone){
+			--equipmentCnt;
+			bcdDone = true;
+			isAnnualDone = false;
+			bcdButton.setVisible(false);
+		}
+		
+		else if(ccrCheck&&isAnnualDone){
+			--equipmentCnt;
+			ccrDone = true;
+			isAnnualDone = false;
+			ccrButton.setVisible(false);
+		}
+		System.out.println("Yo, the cnt is: " + equipmentCnt);
+
+		if(equipmentCnt == 0){
+			GM.sendServer(orderSelected, "OrderHandled");
+			System.out.println("Lel");
+			
+			onBack();
+		}
+		falseChecks();
 		checkCheckBox();
 	}
 
@@ -68,11 +106,11 @@ public class OrderInfoController {
 				String order = orderSelected.getDescription();
 				int index;
 
-				if(order.contains("BCD")){
-					/*BCD bcd = new BCD();
-					index = order.indexOf("BCD");
-					GM.sendServer(bcd, "GetBCD");*/
-				}
+//				if(order.contains("BCD")){
+//					/*BCD bcd = new BCD();
+//					index = order.indexOf("BCD");
+//					GM.sendServer(bcd, "GetBCD");*/
+//				}
 
 				if(orderSelected.getDescription().contains("Regulator")){
 					Regulator reg = new Regulator();
@@ -135,13 +173,16 @@ public class OrderInfoController {
 		tankButton.setVisible(false);
 		ccrButton.setVisible(false);
 		regButton.setVisible(false);
-		if(orderSelected.getDescription().contains("BCD"))
+		if(orderSelected.getDescription().contains("BCD") && !bcdDone ){
 			bcdButton.setVisible(true);
-		if(orderSelected.getDescription().contains("Regulator"))
+		}
+		if(orderSelected.getDescription().contains("Regulator") && !regDone){
 			regButton.setVisible(true);
-		if(orderSelected.getDescription().contains("Tank"))
+		}
+		if(orderSelected.getDescription().contains("Tank") && !tankDone){
 			tankButton.setVisible(true);
-		if(orderSelected.getDescription().contains("CCR")){
+		}
+		if(orderSelected.getDescription().contains("CCR") && !ccrDone){
 			ccrButton.setVisible(true);
 		}
 	}
@@ -185,8 +226,13 @@ public class OrderInfoController {
 		while(!isGotEquipments)// DO NOT TRUST THE USER!
 			GM.Sleep(2);
 		isFixOrAnnual=false;
-		showAnnual();
+		
+		Main.showMenu("Test");
+	//	GM.getPopup(Main.popup2, "Test", "בדיקה שוטפת", "popup2");
 		GM.closePopup(Main.popup);
+		
+		
+
 	}
 
 	/**
@@ -197,8 +243,17 @@ public class OrderInfoController {
 		while(!isGotEquipments)// DO NOT TRUST THE USER!
 			GM.Sleep(2);
 		isFixOrAnnual=false;
-		GM.getPopup(Main.popup2, "Fix", "תיקון וסת", "popup2");
+		GM.getPopup(Main.popup2, "Test", "תיקון ציוד", "popup2");
 		GM.closePopup(Main.popup);
+		if(regCheck){
+			regButton.setVisible(false);
+		}else if(tankCheck){
+			tankButton.setVisible(false);
+		}else if(bcdCheck){
+			bcdButton.setVisible(false);
+		}else if(ccrCheck){
+			ccrButton.setVisible(false);
+		}
 
 	}	
 
@@ -274,7 +329,7 @@ public class OrderInfoController {
 	 */
 	public void showAnnual(){
 		try {
-			TabPane mainLayout = FXMLLoader.load(Main.class.getResource("/GUI/Annual.fxml"));
+			TabPane mainLayout = FXMLLoader.load(Main.class.getResource("/GUI/Test.fxml"));
 			Main.popup2.setScene(new Scene(mainLayout));
 			Main.popup2.setTitle("Annual");
 			Main.popup2.showAndWait();

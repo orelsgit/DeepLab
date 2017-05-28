@@ -46,7 +46,7 @@ public class Server extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		System.out.println("handleMessageFromClient: " + ((GeneralMessage)msg).actionNow);
+		
 		switch(((GeneralMessage)msg).actionNow){
 		case "Login":
 			checkUserInfo((Worker)msg, client);break;
@@ -91,10 +91,32 @@ public class Server extends AbstractServer {
 			getCCROwnersList(client);break;
 		case "Download":
 			download((BCD)msg);break;
+		case "OrderHandled":
+			orderHandled((Order)msg, client);
+			
 
 		}
 	}
 
+	
+	public void orderHandled(Order order, ConnectionToClient client){
+		try{
+			String query = "UPDATE orelDeepdivers.Orders SET Cost = ?, Summary = ?, DateHandled = ?, Handled = ? WHERE OrderNum = ?";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, order.getCost());
+			stmt.setString(2, order.getSummary());
+			stmt.setString(3, GM.getCurrentDate());
+			stmt.setInt(4, 1);
+			stmt.setInt(5, order.getOrderNum());
+			System.out.println(query);
+			stmt.executeUpdate();
+			System.out.println(query);
+			order.actionNow = "RemoveOrder";
+			getNewOrders(client);
+			client.sendToClient(order);
+		}catch(Exception e){e.printStackTrace();}
+	}
+	
 
 	public void download(BCD bcd){
 		byte[] buffer;
@@ -102,17 +124,16 @@ public class Server extends AbstractServer {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(bcd.query);
 			if(rs.next()){
-				System.out.println("HERE~!@#");
 				buffer = rs.getBytes(1);
 				OutputStream targetFile = new FileOutputStream("C://Users//orels//Desktop//TESTYAY.docx");
 				targetFile.write(buffer);
 				targetFile.close();
-				
+
 			}
 		}catch(Exception e){e.printStackTrace();}
 	}
 
-	
+
 	public void getCCROwnersList(ConnectionToClient client){
 		try{
 			ArrayList<CCR> ccrList = new ArrayList<CCR>();
@@ -163,9 +184,8 @@ public class Server extends AbstractServer {
 				pstmt.setBinaryStream(5, null);
 				pstmt.setString(6, null);
 			}
-			System.out.println(bcd.getSize());
 			pstmt.executeUpdate();
-			
+
 			bcd.actionNow = "NewBCD";
 			client.sendToClient(bcd);
 
@@ -244,7 +264,7 @@ public class Server extends AbstractServer {
 			else
 				orderNum=0;
 			orderNum++;
-				
+
 			if(ac.isReg()){
 				pStmt = conn.prepareStatement("insert into orelDeepdivers.CustomersReg(OrderNum, CustID, "
 						+ "Description, Date, Comments, Handled, Cost, IsClubEquipment, SerialNumber, KitChangeDate) values(?,?,?,?,?,?,?,?,?,?);");
@@ -319,14 +339,14 @@ public class Server extends AbstractServer {
 				regList.get(i).setDeepNum(rs3.getString(1));
 				i++;
 			}
-			
+
 			i=0;
 			rs3 = stmt.executeQuery("Select LTRIM(RTRIM(SerialNum)) From orelDeepdivers.Regulators");
 			while(rs3.next() && i<regList.size()){
 				regList.get(i).setSerialNum(rs3.getString(1));
 				i++;
 			}
-			
+
 			if(regList.isEmpty())
 				regList.add(new Regulator());
 			regList.get(0).actionNow = "GotRegs";
@@ -400,21 +420,21 @@ public class Server extends AbstractServer {
 				tankList.get(i).setVolume(rs3.getInt(1));
 				i++;
 			}
-			
+
 			i=0;
 			rs3 = stmt.executeQuery("Select LTRIM(RTRIM(DeepNum)) From orelDeepdivers.Tanks");
 			while(rs3.next() && i<tankList.size()){
 				tankList.get(i).setDeepNum(rs3.getString(1));
 				i++;
 			}
-			
+
 			i=0;
 			rs3 = stmt.executeQuery("Select LTRIM(RTRIM(SerialNum)) From orelDeepdivers.Tanks");
 			while(rs3.next() && i<tankList.size()){
 				tankList.get(i).setSerialNum(rs3.getString(1));
 				i++;
 			}
-			
+
 			if(tankList.isEmpty())
 				tankList.add(new Tank());
 			tankList.get(0).actionNow = "GotTanks";
@@ -447,7 +467,6 @@ public class Server extends AbstractServer {
 			while(rs2.next() && i<ccrList.size()){
 				ccrList.get(i).setSerialNum(rs2.getString(1));
 				i++;
-				System.out.println("yo");
 			}
 			if(ccrList.isEmpty())
 				ccrList.add(new CCR());
@@ -489,7 +508,7 @@ public class Server extends AbstractServer {
 			ArrayList<Customer> custList = new ArrayList<Customer>();
 			while(rs.next())
 				custList.add(new Customer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
-			
+
 			if(custList.isEmpty())
 				custList.add(new Customer());
 			custList.get(0).actionNow = "GotCustomers";
@@ -559,13 +578,7 @@ public class Server extends AbstractServer {
 		ArrayList<Order> orderList = new ArrayList<Order>();
 		try{
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select * from orelDeepdivers.Orders;");
-			while(rs.next())
-				if(rs.getInt(6)==-1)//Add new unhandled order
-					orderList.add(new Order(rs.getInt(6), rs.getString(2).replaceAll("\\s+", "")/*custID*/,
-							rs.getString(3), rs.getString(5), 
-							rs.getString(4), rs.getInt(1)));
-			rs = stmt.executeQuery("Select * from orelDeepdivers.Customers;");
+			ResultSet rs = stmt.executeQuery("Select * from orelDeepdivers.Customers;");
 			String temp;
 			ArrayList<Customer> custList = new ArrayList<Customer>();
 
@@ -578,11 +591,28 @@ public class Server extends AbstractServer {
 				custList.add(customer);
 			}
 
-			for(Order order : orderList)
-				for(Customer customer : custList)
-					if(order.getCustID().equals(customer.getCustID())){
-						order.setName(customer.getName() + " " + customer.getLastName());break;
-					}
+			rs = stmt.executeQuery("Select * from orelDeepdivers.Orders;");
+			int i=0;
+			while(rs.next())
+				if(rs.getInt(6)==-1){//Add new unhandled order
+					orderList.add(new Order(rs.getInt(6), rs.getString(2).replaceAll("\\s+", "")/*custID*/,
+							rs.getString(3), rs.getString(5), 
+							rs.getString(4), rs.getInt(1)));
+					if(rs.getInt(8)==0)
+						orderList.get(i).setClubOrPrivate("ציוד מועדון");
+					else
+						orderList.get(i).setClubOrPrivate("ציוד פרטי");
+					for(Customer cust : custList)
+						if(cust.getCustID().equals(orderList.get(i).getCustID())){
+							orderList.get(i).setName(cust.getName());
+							orderList.get(i).setLastName(cust.getLastName());
+							i++;
+							break;
+						}
+				}
+			
+
+
 			if(orderList.isEmpty())
 				orderList.add(new Order());
 			orderList.get(0).actionNow="OrderListReady";

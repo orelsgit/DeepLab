@@ -1,11 +1,5 @@
 package controllers;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import entities.BCD;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Status;
@@ -15,12 +9,11 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
-import main.Client;
 import main.Main;
 
 public class LoginScreenController {
@@ -28,6 +21,8 @@ public class LoginScreenController {
 	private TextField idTextField, passTextField;
 	@FXML
 	private Pane mainScreenLayout;
+	@FXML
+	ProgressIndicator loginProgressIndicator;
 	private GeneralMethods GM;
 
 
@@ -61,7 +56,7 @@ public class LoginScreenController {
 			}
 		});
 
-		GM.refresh();
+		GM.refresh(null);
 
 	}
 

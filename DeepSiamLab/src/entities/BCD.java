@@ -34,13 +34,7 @@ public BCD(String size){
 	this.size = size;
 }
 
-public Files getFiles(){
-	return super.getFiles();
-}
 
-public void setFiles(Files files){
-	super.setFiles(files);
-}
 
 public String getDeepNum() {
 	return deepNum;

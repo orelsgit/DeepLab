@@ -8,9 +8,9 @@ public class Order extends GeneralMessage {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int orderNum, handled;//HANDLED :  -1 - Not handled, 0 - Not approved by manager, 1-finished and prepared, -2 - to remove
-	private boolean IsClubEquipment;
-	private String custID, description, Comments,date, name, lastName, clubOrPrivate;
+	private int orderNum, handled, cost;//HANDLED :  -1 - Not handled, 0 - Not approved by manager, 1-finished and prepared, -2 - to remove
+	private boolean IsClubEquipment; // 0 - club, 1 - private
+	private String custID, description, comments,date, name, lastName, clubOrPrivate, summary, kitChangeDate;
 	public static Order currentOrder;
 	public Customer customer;
 	private static ArrayList<Order> unHandledOrderList;
@@ -22,7 +22,7 @@ public class Order extends GeneralMessage {
 		this.handled = handled;
 		this.custID = custID;
 		this.description = description;
-		Comments = comments;
+		this.comments = comments;
 		this.date = date;
 	}
 	public Order(int handled, String custID, String description, String comments, String date) {
@@ -30,7 +30,7 @@ public class Order extends GeneralMessage {
 		this.handled = handled;
 		this.custID = custID;
 		this.description = description;
-		Comments = comments;
+		this.comments = comments;
 		this.date = date;
 	}
 	
@@ -62,10 +62,10 @@ public class Order extends GeneralMessage {
 		this.description = description;
 	}
 	public String getComments() {
-		return Comments;
+		return comments;
 	}
 	public void setComments(String comments) {
-		Comments = comments;
+		this.comments = comments;
 	}
 	public String getDate() {
 		return date;
@@ -78,12 +78,16 @@ public class Order extends GeneralMessage {
 	}
 	public void setName(String name) {
 		this.name = name;
+		if(lastName != null)
+			this.name +=" " + lastName;
 	}
 	public String getLastName() {
 		return lastName;
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+		if(name!=null)
+			name+=" " + lastName;
 	}
 	public static ArrayList<Order> getUnhandledOrderList() {
 		return unHandledOrderList;
@@ -106,6 +110,24 @@ public class Order extends GeneralMessage {
 	}
 	public void setClubOrPrivate(String clubOrPrivate) {
 		this.clubOrPrivate = clubOrPrivate;
+	}
+	public int getCost() {
+		return cost;
+	}
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+	public String getSummary() {
+		return summary;
+	}
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+	public String getKitChangeDate() {
+		return kitChangeDate;
+	}
+	public void setKitChangeDate(String kitChangeDate) {
+		this.kitChangeDate = kitChangeDate;
 	}
 
 

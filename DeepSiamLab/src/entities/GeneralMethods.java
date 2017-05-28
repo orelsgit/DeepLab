@@ -1,9 +1,5 @@
 package entities;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -24,9 +20,9 @@ import javax.mail.internet.MimeMessage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.Client;
 import main.Main;
@@ -53,7 +49,7 @@ public class GeneralMethods implements Serializable{
 	 * Refreshes the equipments/orders/customers lists.
 	 * @author orelzman
 	 */
-	public void refresh(){
+	public void refresh(ProgressIndicator pi){
 		Thread thread = new Thread(){
 			public void run(){
 				Order order = new Order();
@@ -64,11 +60,11 @@ public class GeneralMethods implements Serializable{
 				sendServer(order, "GetTank");
 				sendServer(order, "GetCCR");
 				sendServer(cust, "GetCustomers");
-				while(GeneralMessage.getBcdList()!=null
-						&&GeneralMessage.getCcrList()!=null
-						&&GeneralMessage.getCustList()!=null
-						&&GeneralMessage.getRegList()!=null
-						&&GeneralMessage.getTankList()!=null){
+				while(GeneralMessage.getBcdList()==null
+						&&GeneralMessage.getCcrList()==null
+						&&GeneralMessage.getCustList()==null
+						&&GeneralMessage.getRegList()==null
+						&&GeneralMessage.getTankList()==null){
 					Sleep(100);
 				}
 				GeneralMessage.setGotLists(true);
@@ -185,7 +181,7 @@ public class GeneralMethods implements Serializable{
 
 
 	public void sendServer(Object msg, String actionNow){
-			System.out.println("sendserver");
+			System.out.println("sendserver: " + actionNow);
 			((GeneralMessage)msg).actionNow = actionNow;
 			Client client = new Client();
 			try {

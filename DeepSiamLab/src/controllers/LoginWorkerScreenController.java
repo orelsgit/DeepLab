@@ -126,8 +126,10 @@ public class LoginWorkerScreenController{
 	 */
 	public void onTickets(){
 		while(!GeneralMessage.getGotLists()){
+			System.out.println(".asdasdasd.");
 			GM.Sleep(1);
 		}
+
 		if(Worker.getCurrentWorker().getIsManager()==Status.Dalpak)
 			return;
 		if(!newOrders)//Will open only if there are new orders

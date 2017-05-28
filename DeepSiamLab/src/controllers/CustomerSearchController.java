@@ -73,7 +73,7 @@ public class CustomerSearchController {
 		System.out.println("yo");
 		Thread thread = new Thread(){
 			public void run(){
-				GM.refresh();
+				GM.refresh(null);
 			}
 		};thread.start();try {thread.join();} catch (InterruptedException e) {e.printStackTrace();}
 		ObservableList<Customer> customers = FXCollections.observableArrayList(customerList);

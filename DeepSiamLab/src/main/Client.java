@@ -34,13 +34,12 @@ public class Client extends AbstractClient {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void handleMessageFromServer(Object msg) {
-		System.out.println("handleMessageFromServer");
 		if(msg instanceof ArrayList<?>){
 			switch(((ArrayList<GeneralMessage>)msg).get(0).actionNow){
 			case "OrderListReady":
 				for(Order order : (ArrayList<Order>)msg)
 					GeneralMessage.getUnhandledOrders().add(order);
-
+				
 				break;
 				//				LabOrdersController.isBackFromServer=true;break;
 			case "GotCustomers":
@@ -112,7 +111,14 @@ public class Client extends AbstractClient {
 				Order.currentOrder.setCustID(((Order)msg).getCustID());Order.currentOrder.actionNow = "NewClientOrder";break;
 			case "OldClientOrder":
 				Order.currentOrder.actionNow = "OldClientOrder";break;
-				
+			case "RemoveOrder":
+				int i = 0;
+				for(Order order : Order.getUnhandledOrderList()){
+					++i;
+					if(order.getOrderNum() == ((Order)msg).getOrderNum())
+						Order.getUnhandledOrderList().remove(i);
+				}
+
 
 			}
 	}
