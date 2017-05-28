@@ -5,6 +5,7 @@ import entities.GeneralMethods;
 import entities.Order;
 //import entities.SpeechUtils;
 import entities.Status;
+import entities.Windows;
 import entities.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -36,7 +37,7 @@ public class LoginWorkerScreenController{
 	 * @author orelzman
 	 */
 	public void initialize(){//	private int isManager;//1 - manager, 0 - tech, -1 - dalpak
-		
+		//Windows.message("test: iNITIalize loginworkerscreen \n" + GeneralMessage.getUnhandledOrders().get(1).getSummary(), "??");
 		//orderButton.prefWidthProperty().bind(loginAnchorPane.widthProperty());
 		////orderButton.prefHeightProperty().bind(loginAnchorPane.heightProperty());
 		//orderButton.setMaxHeight(100);

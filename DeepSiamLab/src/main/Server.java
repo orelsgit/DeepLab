@@ -46,7 +46,7 @@ public class Server extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		
+
 		switch(((GeneralMessage)msg).actionNow){
 		case "Login":
 			checkUserInfo((Worker)msg, client);break;
@@ -92,15 +92,54 @@ public class Server extends AbstractServer {
 		case "Download":
 			download((BCD)msg);break;
 		case "OrderHandled":
-			orderHandled((Order)msg, client);
-			
+			orderHandled((Order)msg, client);break;
+		case "UpdateOrder":
+			updateOrder((Order)msg, client);break;
+
 
 		}
 	}
 
-	
+	public void updateOrder(Order order, ConnectionToClient client){
+		try{
+			Statement stmt1 = conn.createStatement();
+			ResultSet rs = stmt1.executeQuery("SELECT Summary, Cost from orelDeepdivers.Orders WHERE OrderNum = " + order.getOrderNum());
+			if(rs.next()){
+				System.out.println("YES RSNEXT");
+				if(rs.getString(1) != null){
+					order.setSummary(order.getSummary() + "\n" + rs.getString(1));
+					System.out.println("YES RSNEXT     " + order.getSummary());
+
+				}
+				if(rs.getInt(2) != 0){
+					order.setCost(order.getCost()+rs.getInt(2));
+					System.out.println("YES RSNEXT");
+
+				}
+			}
+
+			String query = "UPDATE orelDeepdivers.Orders SET Cost = ?, Summary = ?, Description = ? WHERE OrderNum = ?";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, order.getCost());
+			stmt.setString(2, order.getSummary());
+			stmt.setString(3, order.getDescription());
+			stmt.setInt(4, order.getOrderNum());
+			stmt.executeUpdate();
+
+		}catch(Exception e){e.printStackTrace();}
+	}
+
 	public void orderHandled(Order order, ConnectionToClient client){
 		try{
+			Statement stmt1 = conn.createStatement();
+			ResultSet rs = stmt1.executeQuery("SELECT Summary, Cost from orelDeepdivers.Orders WHERE OrderNum = " + order.getOrderNum());
+			if(rs.next()){
+				if(rs.getString(1) != null)
+					order.setSummary(order.getSummary() + "\n" + rs.getString(1));
+				if(rs.getInt(2) != 0)
+					order.setCost(order.getCost()+rs.getInt(2));
+			}
+
 			String query = "UPDATE orelDeepdivers.Orders SET Cost = ?, Summary = ?, DateHandled = ?, Handled = ? WHERE OrderNum = ?";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, order.getCost());
@@ -116,7 +155,7 @@ public class Server extends AbstractServer {
 			client.sendToClient(order);
 		}catch(Exception e){e.printStackTrace();}
 	}
-	
+
 
 	public void download(BCD bcd){
 		byte[] buffer;
@@ -597,7 +636,7 @@ public class Server extends AbstractServer {
 				if(rs.getInt(6)==-1){//Add new unhandled order
 					orderList.add(new Order(rs.getInt(6), rs.getString(2).replaceAll("\\s+", "")/*custID*/,
 							rs.getString(3), rs.getString(5), 
-							rs.getString(4), rs.getInt(1)));
+							rs.getString(4), rs.getInt(1), rs.getString(9), rs.getInt(7)));
 					if(rs.getInt(8)==0)
 						orderList.get(i).setClubOrPrivate("ציוד מועדון");
 					else
@@ -610,11 +649,14 @@ public class Server extends AbstractServer {
 							break;
 						}
 				}
-			
 
 
-			if(orderList.isEmpty())
+
+			if(orderList.isEmpty()){
 				orderList.add(new Order());
+				System.out.println("orderempty");
+			}
+			Windows.message(orderList.get(0).getSummary(), "");
 			orderList.get(0).actionNow="OrderListReady";
 			client.sendToClient(orderList);
 

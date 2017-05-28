@@ -1,8 +1,15 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
-import entities.*;
+import entities.Customer;
+import entities.GeneralMessage;
+import entities.GeneralMethods;
+import entities.Order;
+import entities.Regulator;
+import entities.Windows;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,9 +26,11 @@ public class OrderInfoController {
 	private static Customer customerSelected;
 	private static GeneralMethods GM;
 	public static boolean isBackFromServer,regCheck, bcdCheck, ccrCheck,tankCheck, isFixOrAnnual, regDone, bcdDone, ccrDone, tankDone;/*Avoid initializing while in phone window*/;
-	public static boolean isGotEquipments = false, isAnnualDone = false;
+	public static boolean isGotEquipments = false, isAnnualDone = false, doOnce=false;
 	public static Regulator regChosen;
 	protected static int equipmentCnt = 0; // Counts how many equipments are needed to be taken care of, so we can close the order.
+	private ArrayList<Integer> indexes = new ArrayList<>(); 
+
 
 	@FXML
 	private Text nameText, phoneNameText;
@@ -40,12 +49,20 @@ public class OrderInfoController {
 	 *  @author orelzman
 	 */
 	public void initialize(){
+		orderSelected = LabOrdersController.orderSelected;
+		getEquipmentInfo();
+
+		if(!doOnce){
+			orderSelected.setSummary("");
+			orderSelected.setCost(0);
+		}
 		if(isFixOrAnnual){
 			isFixOrAnnual=false;
 			return;
 		}
-		orderSelected = LabOrdersController.orderSelected;
-		getEquipmentInfo();
+		
+		System.out.println("Initialize: " + orderSelected.getSummary());
+
 
 		GM = new GeneralMethods();
 		nameText.setText(orderSelected.getName());
@@ -53,48 +70,100 @@ public class OrderInfoController {
 		commentsTextArea.setText(orderSelected.getComments());
 		GM.Sleep(10);//Not sure, but if I write checkCheckBox earlier, it throws an exception
 		
+		int ccr, bcd, reg, tank, min=10000;
+		ccr = descriptionTextArea.getText().indexOf("CCR");
+		bcd = descriptionTextArea.getText().indexOf("BCD");
+		reg = descriptionTextArea.getText().indexOf("Regulator");
+		tank = descriptionTextArea.getText().indexOf("Tank");
+		indexes.add(reg);
+		indexes.add(tank);
+		indexes.add(bcd);
+		indexes.add(ccr);
+
+		Collections.sort(indexes);
 		
-		if(regCheck&&isAnnualDone){
+		if(regCheck&&isAnnualDone&&reg!=-1){
 			--equipmentCnt;
 			regDone = true;
 			isAnnualDone = false;
 			regButton.setVisible(false);
+			orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
+			if(AnnualController.fixCost!=0){
+				orderSelected.setCost(AnnualController.fixCost);
+				AnnualController.fixCost=0;
+			}
+			updateDescription(reg);
+				
 		}
 		
-		else if(tankCheck&&isAnnualDone){
+		else if(tankCheck&&isAnnualDone&&tank!=-1){
 			--equipmentCnt;
 			tankDone = true;
 			isAnnualDone = false;
 			tankButton.setVisible(false);
+			orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
+			if(AnnualController.fixCost!=0){
+				orderSelected.setCost(AnnualController.fixCost);
+				System.out.println("FixCost is def. not 0");
+				AnnualController.fixCost=0;
+			}
+			updateDescription(tank);
 		}
 		
-		else if(bcdCheck&&isAnnualDone){
+		else if(bcdCheck&&isAnnualDone&&bcd!=-1){
 			--equipmentCnt;
 			bcdDone = true;
 			isAnnualDone = false;
 			bcdButton.setVisible(false);
+			orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
+			if(AnnualController.fixCost!=0){
+				orderSelected.setCost(AnnualController.fixCost);
+				AnnualController.fixCost=0;
+			}
+			updateDescription(bcd);
 		}
 		
-		else if(ccrCheck&&isAnnualDone){
+		else if(ccrCheck&&isAnnualDone&&ccr!=-1){
 			--equipmentCnt;
 			ccrDone = true;
 			isAnnualDone = false;
 			ccrButton.setVisible(false);
+			orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
+			if(AnnualController.fixCost!=0){
+				orderSelected.setCost(AnnualController.fixCost);
+				AnnualController.fixCost=0;
+			}
+			updateDescription(ccr);
 		}
-		System.out.println("Yo, the cnt is: " + equipmentCnt);
 
+		
 		if(equipmentCnt == 0){
-			GM.sendServer(orderSelected, "OrderHandled");
-			System.out.println("Lel");
-			
+			GM.sendServer(orderSelected, "OrderHandled");			
 			onBack();
 		}
 		falseChecks();
 		checkCheckBox();
 	}
+	
+	public void updateDescription(int x){
+		int i=0;
+		for(;i<4;i++)
+			if(indexes.get(i) == x)
+				break;
+
+		String newDes = "", oldDes = descriptionTextArea.getText();
+		for(int j=0;j<x;++j)
+			newDes+=oldDes.charAt(j);
+
+		if(i!=3 && indexes.get(i++)!=-1)
+			for(int j=indexes.get(i);j<oldDes.length();++j)
+				newDes+=oldDes.charAt(j);
+		descriptionTextArea.setText(newDes);
+		orderSelected.setDescription(newDes);
+	}
 
 	/**
-	 * Gets the information about the unreviewed order that was selected ealier.
+	 * Gets the information about the unreviewed order that was selected earlier.
 	 *  @author orelzman
 	 */
 
@@ -226,10 +295,10 @@ public class OrderInfoController {
 		while(!isGotEquipments)// DO NOT TRUST THE USER!
 			GM.Sleep(2);
 		isFixOrAnnual=false;
-		
+		GM.closePopup(Main.popup);
 		Main.showMenu("Test");
 	//	GM.getPopup(Main.popup2, "Test", "בדיקה שוטפת", "popup2");
-		GM.closePopup(Main.popup);
+
 		
 		
 
@@ -243,17 +312,9 @@ public class OrderInfoController {
 		while(!isGotEquipments)// DO NOT TRUST THE USER!
 			GM.Sleep(2);
 		isFixOrAnnual=false;
-		GM.getPopup(Main.popup2, "Test", "תיקון ציוד", "popup2");
 		GM.closePopup(Main.popup);
-		if(regCheck){
-			regButton.setVisible(false);
-		}else if(tankCheck){
-			tankButton.setVisible(false);
-		}else if(bcdCheck){
-			bcdButton.setVisible(false);
-		}else if(ccrCheck){
-			ccrButton.setVisible(false);
-		}
+		Main.showMenu("Fix");
+		
 
 	}	
 
@@ -306,21 +367,27 @@ public class OrderInfoController {
 	}
 
 
-/**
- * Closes the phone window.
- *  @author orelzman
- */
-	public void onBackPhone(){
-		GM.closePopup(Main.popup);
-	}
+///**
+// * Closes the phone window.
+// *  @author orelzman
+// */
+//	public void onBackPhone(){
+//		
+//		GM.closePopup(Main.popup);
+//	}
 	
 	/**
 	 * Closes the LabOrders window and returns to the unreviewed orders window.
 	 *  @author orelzman
 	 */
 	public void onBack(){
-		Main.showMenu("LabOrders");
+		System.out.println("onBack: " + orderSelected.getSummary());
+		if(equipmentCnt != 0){//Update w.e we did so far.
+			GM.sendServer(orderSelected, "UpdateOrder");
+		}
+		
 		GeneralMessage.currentPopup = "";
+		Main.showMenu("LabOrders");
 	}
 
 	/**

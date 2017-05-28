@@ -148,6 +148,7 @@ public class OpenCardController {
 	 * @author orelzman
 	 */
 	public void initManu(){
+		
 		ArrayList<String> bcdsManu = new ArrayList<String>();
 		ArrayList<String> regsManu = new ArrayList<String>();
 		ArrayList<String> tanksManu = new ArrayList<String>();		

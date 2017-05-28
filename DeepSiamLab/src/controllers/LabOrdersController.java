@@ -53,13 +53,6 @@ public class LabOrdersController {
 		
 		orderList = new ArrayList<Order>(GeneralMessage.getUnhandledOrders());
 
-//		Thread thread = new Thread(){
-//			public void run(){
-//				for(Order order : orderList)
-//					order.setCustID(order.getCustID().replaceAll("\\s+", ""));
-//			}
-//		};thread.start();
-
 		ObservableList<Order> orders = FXCollections.observableArrayList(orderList);
 		ordersTableView.setItems(orders);
 		

@@ -16,7 +16,7 @@ public class Order extends GeneralMessage {
 	private static ArrayList<Order> unHandledOrderList;
 	public String modelsToServer;//The serial numbers we send the server when we want to issue an order.
 	
-	public Order(int handled, String custID, String description, String comments, String date, int orderNum) {
+	public Order(int handled, String custID, String description, String comments, String date, int orderNum, String summary,int cost) {
 		super();
 		this.orderNum = orderNum;
 		this.handled = handled;
@@ -24,6 +24,8 @@ public class Order extends GeneralMessage {
 		this.description = description;
 		this.comments = comments;
 		this.date = date;
+		this.summary = summary;
+		this.cost = cost;
 	}
 	public Order(int handled, String custID, String description, String comments, String date) {
 		super();

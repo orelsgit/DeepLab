@@ -34,6 +34,9 @@ public class AnnualController {
 	private CheckBox managerCheckBox, kitCheckBox, checkBox1, checkBox2, checkBox3, checkBox4;
 	@FXML
 	private TextArea commentsTextArea;
+	
+	public static String annualComments;
+	public static int fixCost = 0;
 
 //	private ObservableList<Tab> tabList;
 	private GeneralMethods GM = new GeneralMethods();
@@ -65,7 +68,7 @@ public class AnnualController {
 	public void initialize(){
 //		tabList = annualTabPane.getTabs();
 //		selectionModel = annualTabPane.getSelectionModel();
-		System.out.println("init");
+		System.out.println("init" + AnnualController.annualComments);
 		commentsText.setVisible(false);
 
 
@@ -176,7 +179,7 @@ public class AnnualController {
 	
 	public void onContinueCCR(){
 		int isAllChecked = 0;
-		String annualComments="בדיקה שנתית למערכת סגורה:" + "\n";
+		annualComments="בדיקה שנתית למערכת סגורה:" + "\n";
 		if(checkBox1.isSelected()){
 			isAllChecked++;annualComments+=perfectCCR + "\n";
 		}
@@ -189,11 +192,14 @@ public class AnnualController {
 		}
 		annualComments+="הערות:" + commentsTextArea.getText();
 		Windows.message(annualComments, "annual comments Tank");
+		OrderInfoController.getOrderSelected().setSummary(OrderInfoController.getOrderSelected().getSummary()+annualComments);
+		System.out.println("CCR " + OrderInfoController.getOrderSelected().getSummary());
 	}
+	
 	
 	public void onContinueTank(){
 		int isAllChecked = 0;
-		String annualComments="בדיקה שנתית למיכל:" + "\n";
+		annualComments="בדיקה שנתית למיכל:" + "\n";
 		if(checkBox1.isSelected()){
 			isAllChecked++;annualComments+=perfectTank + "\n";
 		}
@@ -206,6 +212,7 @@ public class AnnualController {
 		}
 		annualComments+="הערות:" + commentsTextArea.getText();
 		Windows.message(annualComments, "annual comments Tank");
+		OrderInfoController.getOrderSelected().setSummary(OrderInfoController.getOrderSelected().getSummary()+annualComments);
 		
 	}
 	
@@ -216,7 +223,7 @@ public class AnnualController {
 
 	public void onContinueBCD(){
 		int isAllChecked = 0;//To check if every checkbox is checked!
-		String annualComments = "בדיקה שנתית למאזן:" + "\n";
+		annualComments = "בדיקה שנתית למאזן:" + "\n";
 		if(checkBox3.isSelected()){
 			isAllChecked++;
 			annualComments+=pressure + "\n";
@@ -249,7 +256,7 @@ public class AnnualController {
 	public void onContinueRegulator(){
 
 		AnnualCheck annualCheck = new AnnualCheck();
-		String annualComments="בדיקה שנתית לוסת:" + "\n";
+		annualComments="בדיקה שנתית לוסת:" + "\n";
 
 		if(!isInterPressure && !isManagerApprove){
 			Windows.message("לחץ הביניים לא אושר. אשר אותו לפניי שתמשיך או שתכניס סיסמת מנהל", "לחץ ביניים לא תקין");
@@ -305,8 +312,7 @@ public class AnnualController {
 //		annualCheck.setOrderNum(OrderInfoController.getOrderSelected().getOrderNum());
 
 		Windows.message(annualComments, "Reg");
-		(OrderInfoController.getOrderSelected()).setSummary(annualComments);
-		
+		OrderInfoController.getOrderSelected().setSummary(OrderInfoController.getOrderSelected().getSummary()+annualComments);
 //		GM.sendServerThread(annualCheck, "AnnualCheck");
 //		GM.closePopup(Main.popup2);
 

@@ -6,7 +6,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -67,10 +69,22 @@ public class GeneralMethods implements Serializable{
 						&&GeneralMessage.getTankList()==null){
 					Sleep(100);
 				}
+
+				removeDuplicates();
+				
 				GeneralMessage.setGotLists(true);
 
 			}
 		};thread.start();
+	}
+	
+	public void removeDuplicates(){
+		
+		Set<Order> hs = new HashSet<>();
+		hs.addAll(GeneralMessage.getUnhandledOrders());
+		GeneralMessage.getUnhandledOrders().clear();
+		GeneralMessage.getUnhandledOrders().addAll(hs);
+		
 	}
 	
 	public void sendMail(String to, String subject, String content, String fr, String pass){
