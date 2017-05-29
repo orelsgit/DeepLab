@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="492.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text fx:id="ccrSerialNumText" layoutX="301.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":מספר ראש" />
+      <Text layoutX="50.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="העלה קובץ" />
+      <Text fx:id="ccrManuText" layoutX="300.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":יצרן" />
+      <Text fx:id="ccrModelText" layoutX="301.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":דגם" />
+      <Button layoutX="171.0" layoutY="416.0" mnemonicParsing="false" onAction="#onBack" prefHeight="31.0" prefWidth="86.0" text="חזור">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="139.0" layoutY="367.0" mnemonicParsing="false" onAction="#onAddCCR" prefHeight="31.0" prefWidth="149.0" text="הוסף מערכת סגורה">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="61.0" layoutY="272.0" mnemonicParsing="false" onAction="#onUploadFileCCR" prefHeight="25.0" prefWidth="28.0">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Upload.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <TextField fx:id="ccrSerialNumTextField" layoutX="139.0" layoutY="240.0" promptText="מספר ראש" />
+      <TextField fx:id="ccrModelTextField" layoutX="139.0" layoutY="201.0" promptText="מודל" />
+      <TextField fx:id="ccrManuTextField" layoutX="139.0" layoutY="161.0" promptText="יצרן" />
+      <Text fill="#2200ff" layoutX="123.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="הוספת מערכת סגורה" wrappingWidth="200.13671875">
+         <font>
+            <Font name="System Bold Italic" size="20.0" />
+         </font>
+      </Text>
+      <Text fx:id="ccrFileNameText" fill="RED" layoutX="29.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="100.0" />
+   </children>
+</AnchorPane>

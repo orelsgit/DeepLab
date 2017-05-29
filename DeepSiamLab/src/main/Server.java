@@ -95,9 +95,26 @@ public class Server extends AbstractServer {
 			orderHandled((Order)msg, client);break;
 		case "UpdateOrder":
 			updateOrder((Order)msg, client);break;
-
+		case "GetInfo":
+			getInfo(client);break;
 
 		}
+	}
+
+	public void getInfo(ConnectionToClient client){
+		try{
+			ArrayList<Order> arr = new ArrayList<Order>();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("Select Summary From orelDeepdivers.Orders;");
+			while(rs.next()){
+				Order order = new Order();
+				order.setSummary(rs.getString(1));
+				arr.add(order);
+			}
+			arr.get(0).actionNow = "GotInfo";
+			client.sendToClient(arr);
+
+		}catch(Exception e){e.printStackTrace();};
 	}
 
 	public void updateOrder(Order order, ConnectionToClient client){
@@ -233,14 +250,20 @@ public class Server extends AbstractServer {
 
 	public void addRegulator(Regulator reg, ConnectionToClient client){
 		try{
+			boolean modelFound = false;
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(Model)) from orelDeepdivers.Regulators");
 			while(rs.next())
-				if(reg.getModel().equals(rs.getString(1))){
+				if(reg.getModel().equals(rs.getString(1)))
+					modelFound = true;
+			rs = stmt.executeQuery("select LTRIM(RTRIM(Manufacturer)) from orelDeepdivers.Regulators WHERE Model = '" + reg.getModel() + "';");
+			while(rs.next())
+				if(reg.getManufacturer().equals(rs.getString(1)) && modelFound){
 					reg.actionNow = "ModelExists";
 					client.sendToClient(reg);
 					return;
 				}
+			
 			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Regulators values (?,?,?);");
 			pstmt.setString(1, reg.getModel());
 			pstmt.setString(2, reg.getManufacturer());
@@ -654,9 +677,7 @@ public class Server extends AbstractServer {
 
 			if(orderList.isEmpty()){
 				orderList.add(new Order());
-				System.out.println("orderempty");
 			}
-			Windows.message(orderList.get(0).getSummary(), "");
 			orderList.get(0).actionNow="OrderListReady";
 			client.sendToClient(orderList);
 

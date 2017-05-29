@@ -34,12 +34,18 @@ public class Client extends AbstractClient {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void handleMessageFromServer(Object msg) {
+
+
+
+
 		if(msg instanceof ArrayList<?>){
+			System.out.println("client: " + ((ArrayList<GeneralMessage>)msg).get(0).actionNow);
 			switch(((ArrayList<GeneralMessage>)msg).get(0).actionNow){
 			case "OrderListReady":
+				GeneralMessage.setUnhandledOrders(new ArrayList<Order>());
 				for(Order order : (ArrayList<Order>)msg)
 					GeneralMessage.getUnhandledOrders().add(order);
-				
+
 				break;
 				//				LabOrdersController.isBackFromServer=true;break;
 			case "GotCustomers":
@@ -55,9 +61,12 @@ public class Client extends AbstractClient {
 			case "GotCCRList"://for opencard owner search
 				CCROwnerSearchController.ccrListSearch = new ArrayList<CCR>((ArrayList<CCR>)msg);
 				CCROwnerSearchController.isBackFromServer = true;break;
+			case "GotInfo":
+				LoginWorkerScreenController.orders = new ArrayList<Order>(((ArrayList<Order>)msg));break;
 			default :
 				System.out.println(((ArrayList<GeneralMessage>)msg).get(0).actionNow);
 			}
+
 		}
 
 		else
@@ -100,13 +109,15 @@ public class Client extends AbstractClient {
 			case "NewCustomer":
 				AddCustomerController.isBackFromServer = true;break;
 			case "ModelExists":
-				Windows.warning("המודל קיים כבר עבור וסת זה. נסה מודל אחר");AddEquipment.isBackFromServer=true;break;
+				Windows.warning("הוסת קיים כבר במערכת");AddEquipment.isBackFromServer=true;break;
 			case "NewRegulator":
 				Windows.message("וסת חדש נוסף למסד הנתונים", "וסת חדש");AddEquipment.isBackFromServer=true;break;
 			case "NewTank":
 				Windows.message("מיכל חדש נוסף למסד הנתונים", "מיכל חדש");AddEquipment.isBackFromServer=true;break;
 			case "NewBCD":
 				Windows.message("מאזן חדש נוסף למסד הנתונים", "מאזן חדש");	AddEquipment.isBackFromServer=true;break;
+			case "NewCCR":
+				Windows.message("מערכת סגורה חדשה נוספה למסד הנתונים", "מערכת סגורה חדשה");	AddEquipment.isBackFromServer=true;break;
 			case "NewClientOrder":
 				Order.currentOrder.setCustID(((Order)msg).getCustID());Order.currentOrder.actionNow = "NewClientOrder";break;
 			case "OldClientOrder":

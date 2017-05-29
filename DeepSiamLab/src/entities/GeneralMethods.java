@@ -84,6 +84,8 @@ public class GeneralMethods implements Serializable{
 		hs.addAll(GeneralMessage.getUnhandledOrders());
 		GeneralMessage.getUnhandledOrders().clear();
 		GeneralMessage.getUnhandledOrders().addAll(hs);
+		for(Order order : GeneralMessage.getUnhandledOrders())
+			System.out.println(order.getCustID());
 		
 	}
 	

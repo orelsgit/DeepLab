@@ -38,7 +38,7 @@ public void onContinue(){
 		 fixComments = "טיפול שוטף למערכת סגורה: " + "\n";
 	
 	fixComments+="הערות הטיפול: " + "\n" + fixTextArea.getText() + "\n";
-	fixComments+="עלות הטיפול: " + costTextField.getText();
+	fixComments+="עלות הטיפול: " + costTextField.getText() + "\n";
 	Windows.message(fixComments, "בדיקה");
 	//OrderInfoController.getOrderSelected().setSummary(OrderInfoController.getOrderSelected().getSummary()+fixComments);
 	//OrderInfoController.getOrderSelected().setCost(OrderInfoController.getOrderSelected().getCost()+Integer.parseInt(costTextField.getText()));

@@ -42,35 +42,33 @@ public class OrderInfoController {
 	private Button regButton, bcdButton, tankButton, ccrButton;
 
 
-
-
+	
 	/**
 	 * Initializes the window's text fields with information from the chosen unreviewed order.
 	 *  @author orelzman
 	 */
 	public void initialize(){
-		orderSelected = LabOrdersController.orderSelected;
-		getEquipmentInfo();
 
 		if(!doOnce){
+			orderSelected = LabOrdersController.orderSelected;
+			getEquipmentInfo();
 			orderSelected.setSummary("");
 			orderSelected.setCost(0);
+			GM = new GeneralMethods();
+			doOnce = true;
 		}
+		
 		if(isFixOrAnnual){
 			isFixOrAnnual=false;
 			return;
 		}
-		
-		System.out.println("Initialize: " + orderSelected.getSummary());
 
-
-		GM = new GeneralMethods();
 		nameText.setText(orderSelected.getName());
 		descriptionTextArea.setText(orderSelected.getDescription());
 		commentsTextArea.setText(orderSelected.getComments());
 		GM.Sleep(10);//Not sure, but if I write checkCheckBox earlier, it throws an exception
 		
-		int ccr, bcd, reg, tank, min=10000;
+		int ccr, bcd, reg, tank;
 		ccr = descriptionTextArea.getText().indexOf("CCR");
 		bcd = descriptionTextArea.getText().indexOf("BCD");
 		reg = descriptionTextArea.getText().indexOf("Regulator");
@@ -82,18 +80,18 @@ public class OrderInfoController {
 
 		Collections.sort(indexes);
 		
+		System.out.println("Initialize2");
 		if(regCheck&&isAnnualDone&&reg!=-1){
 			--equipmentCnt;
 			regDone = true;
 			isAnnualDone = false;
 			regButton.setVisible(false);
-			orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
+			//orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
 			if(AnnualController.fixCost!=0){
-				orderSelected.setCost(AnnualController.fixCost);
+				orderSelected.setCost(orderSelected.getCost()+AnnualController.fixCost);
 				AnnualController.fixCost=0;
 			}
 			updateDescription(reg);
-				
 		}
 		
 		else if(tankCheck&&isAnnualDone&&tank!=-1){
@@ -103,8 +101,7 @@ public class OrderInfoController {
 			tankButton.setVisible(false);
 			orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
 			if(AnnualController.fixCost!=0){
-				orderSelected.setCost(AnnualController.fixCost);
-				System.out.println("FixCost is def. not 0");
+				orderSelected.setCost(orderSelected.getCost()+AnnualController.fixCost);
 				AnnualController.fixCost=0;
 			}
 			updateDescription(tank);
@@ -117,11 +114,12 @@ public class OrderInfoController {
 			bcdButton.setVisible(false);
 			orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
 			if(AnnualController.fixCost!=0){
-				orderSelected.setCost(AnnualController.fixCost);
+				orderSelected.setCost(orderSelected.getCost()+AnnualController.fixCost);
 				AnnualController.fixCost=0;
 			}
 			updateDescription(bcd);
 		}
+		
 		
 		else if(ccrCheck&&isAnnualDone&&ccr!=-1){
 			--equipmentCnt;
@@ -130,11 +128,12 @@ public class OrderInfoController {
 			ccrButton.setVisible(false);
 			orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
 			if(AnnualController.fixCost!=0){
-				orderSelected.setCost(AnnualController.fixCost);
+				orderSelected.setCost(orderSelected.getCost() + AnnualController.fixCost);
 				AnnualController.fixCost=0;
 			}
 			updateDescription(ccr);
 		}
+		
 
 		
 		if(equipmentCnt == 0){
@@ -200,15 +199,6 @@ public class OrderInfoController {
 						regChosen.setModel(reg.getModel());
 
 				}
-
-				if(orderSelected.getDescription().contains("Tank")){
-
-				}
-
-				if(orderSelected.getDescription().contains("CCR")){
-
-				}
-
 
 				isGotEquipments=true;
 			}

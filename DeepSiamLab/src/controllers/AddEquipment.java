@@ -18,9 +18,9 @@ public class AddEquipment {
 
 	@FXML
 	private TextField sizeTextField, bcdModelTextField, bcdManuTextField, regModelTextField, regManuTextField, interTextField,
-	volumeTextField, tankManuTextField, bcdDeepNumTextField;
+	volumeTextField, tankManuTextField, bcdDeepNumTextField, ccrManuTextField, ccrModelTextField, ccrSerialNumTextField;
 	@FXML
-	private Text sizeText, bcdModelText, bcdManuText, regModelText, regManuText, interText,
+	private Text sizeText, bcdModelText, bcdManuText, regModelText, regManuText, interText, ccrManuText, ccrModelText, ccrSerialNumText,
 	volumeText, tankManuText, bcdFileNameText, bcdDeepNumText, regFileNameText, ccrFileNameText, tankFileNameText;
 
 	private BCD bcd;
@@ -40,6 +40,43 @@ public class AddEquipment {
 		ccr = null;
 	}
 
+	
+	public void onAddCCR(){
+		isBackFromServer = false;
+		
+		boolean isFilled=true;
+		
+		ccrModelText.setFill(Color.BLACK);
+		ccrManuText.setFill(Color.BLACK);
+		ccrSerialNumText.setFill(Color.BLACK);
+		
+		if(ccrModelTextField.getText().equals("")){
+			ccrModelText.setFill(Color.RED);isFilled=false;
+		}
+		if(ccrManuTextField.getText().equals("")){
+			ccrManuText.setFill(Color.RED);isFilled=false;
+		}
+		if(ccrSerialNumTextField.getText().equals("")){
+			ccrSerialNumText.setFill(Color.RED);isFilled=false;
+		}
+		
+		if(!isFilled)
+			return;
+		
+		if(!GM.checkText(ccrModelTextField.getText()) 
+				&& !GM.checkText(ccrManuTextField.getText()) && !GM.checkText(ccrSerialNumTextField.getText()))
+			return;
+		
+		CCR ccr = new CCR(ccrModelTextField.getText(), ccrManuTextField.getText(), ccrSerialNumTextField.getText());
+		GM.sendServerThread(ccr, "AddCCR");
+		
+		while(!isBackFromServer)
+			GM.Sleep(2);
+		
+		
+	}
+	
+	
 	public void onAddRegulator(){
 		isBackFromServer=false;
 
@@ -72,11 +109,12 @@ public class AddEquipment {
 
 		Regulator reg = new Regulator(regModelTextField.getText(), regManuTextField.getText(), Float.parseFloat(interTextField.getText()));
 		GM.sendServerThread(reg, "AddRegulator");
-
+		
 		while(!isBackFromServer)
 			GM.Sleep(2);
-
+		
 	}
+	
 	public void onAddBCD(){
 		isBackFromServer=false;
 
@@ -121,7 +159,8 @@ public class AddEquipment {
 			if(Windows.yesNo("האם אתה בטוח שברצונך להמשיך בלי להעלות קובץ?", "אין קובץ", "העלה קובץ", "המשך בלי להעלות קובץ"))
 				onUploadFileBCD();
 
-		GM.sendServerThread(bcd, "AddBCD");
+		
+		GM.sendServer(bcd, "AddBCD");
 
 		while(!isBackFromServer)
 			GM.Sleep(2);
@@ -165,12 +204,33 @@ public class AddEquipment {
 
 
 	}
+	
+	public void onUploadFileTank(){
+		if(tank==null)
+			tank = new Tank();
+		tank.getFiles().setFile();
+		tankFileNameText.setText(tank.getFiles().getFileName());
+	}
 
 	public void onUploadFileBCD(){
 		if(bcd==null)
 			bcd = new BCD();
 		bcd.getFiles().setFile();
 		bcdFileNameText.setText(bcd.getFiles().getFileName());
+	}
+	
+	public void onUploadFileCCR(){
+		if(ccr==null)
+			ccr = new CCR();
+		ccr.getFiles().setFile();
+		ccrFileNameText.setText(ccr.getFiles().getFileName());
+	}
+	
+	public void onUploadFileReg(){
+		if(regulator==null)
+			regulator = new Regulator();
+		regulator.getFiles().setFile();
+		regFileNameText.setText(regulator.getFiles().getFileName());
 	}
 
 	

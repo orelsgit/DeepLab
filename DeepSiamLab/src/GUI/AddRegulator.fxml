@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="367.0" prefWidth="332.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddEquipment">
+<AnchorPane prefHeight="367.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddEquipment">
    <children>
-      <Text fill="#2200ff" layoutX="102.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="הוספת וסת" wrappingWidth="116.13671875">
+      <Text fill="#2200ff" layoutX="125.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="הוספת וסת" wrappingWidth="116.13671875">
          <font>
             <Font name="System Bold Italic" size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="regModelTextField" layoutX="86.0" layoutY="159.0" prefHeight="25.0" prefWidth="149.0" promptText="מודל" />
-      <TextField fx:id="regManuTextField" layoutX="86.0" layoutY="110.0" promptText="יצרן" />
-      <TextField fx:id="interTextField" layoutX="86.0" layoutY="206.0" promptText="לחץ ביניים" />
-      <Button layoutX="100.0" layoutY="249.0" mnemonicParsing="false" onAction="#onAddRegulator" prefHeight="25.0" prefWidth="100.0" text="הוסף וסת">
+      <TextField fx:id="regModelTextField" layoutX="101.0" layoutY="128.0" prefHeight="25.0" prefWidth="149.0" promptText="מודל" />
+      <TextField fx:id="regManuTextField" layoutX="101.0" layoutY="79.0" promptText="יצרן" />
+      <TextField fx:id="interTextField" layoutX="97.0" layoutY="176.0" promptText="לחץ ביניים" />
+      <Button layoutX="127.0" layoutY="274.0" mnemonicParsing="false" onAction="#onAddRegulator" prefHeight="25.0" prefWidth="100.0" text="הוסף וסת">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="116.0" layoutY="297.0" mnemonicParsing="false" onAction="#onBack" prefHeight="17.0" prefWidth="69.0" text="חזור">
+      <Button layoutX="143.0" layoutY="322.0" mnemonicParsing="false" onAction="#onBack" prefHeight="17.0" prefWidth="69.0" text="חזור">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Text fx:id="regModelText" layoutX="248.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":דגם" />
-      <Text fx:id="regManuText" layoutX="248.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":יצרן" />
-      <Text fx:id="interText" layoutX="247.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="לחץ ביניים יצרן:" />
+      <Text fx:id="regModelText" layoutX="263.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":דגם" />
+      <Text fx:id="regManuText" layoutX="263.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":יצרן" />
+      <Text fx:id="interText" layoutX="258.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="לחץ ביניים יצרן:" />
+      <Text fx:id="regFileNameText" fill="RED" layoutX="14.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="100.0" />
+      <Button layoutX="32.0" layoutY="211.0" mnemonicParsing="false" onAction="#onUploadFileReg" prefHeight="25.0" prefWidth="28.0">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Upload.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

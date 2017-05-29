@@ -7,11 +7,11 @@ private String serialNum, manufacturer, owner, model;
 
 	
 
-public CCR(String manufacturer, String owner, String model) {
+public CCR(String manufacturer, String model, String serialNum) {
 	super();
 	this.manufacturer = manufacturer;
-	this.owner = owner;
 	this.model = model;
+	this.serialNum = serialNum;
 }
 
 public CCR(){

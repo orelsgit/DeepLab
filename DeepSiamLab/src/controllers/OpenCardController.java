@@ -48,6 +48,7 @@ public class OpenCardController {
 	@FXML
 	private ComboBox<String> regModelComboBox, bcdModelComboBox, tankModelComboBox, bcdManuComboBox, regManuComboBox, tankManuComboBox, ccrModelComboBox
 	,ccrManuComboBox, ccrSNumComboBox, regSNumComboBox, tankSNumComboBox, bcdSNumComboBox, bcdDNumComboBox, regDNumComboBox, tankDNumComboBox;
+
 	@FXML
 	private Button chooseBCDButton, backButton;
 	@FXML
@@ -75,8 +76,16 @@ public class OpenCardController {
 		privateCheckBox.setSelected(true);
 		GM = new GeneralMethods();
 		GeneralMessage.currentWindow = "OpenCard";
-		
-		
+
+
+
+		setEdits(regModelComboBox, bcdModelComboBox, tankModelComboBox);
+		setEdits(bcdManuComboBox, regManuComboBox, tankManuComboBox);
+		setEdits(regModelComboBox, bcdModelComboBox, tankModelComboBox);
+		setEdits(regSNumComboBox, tankSNumComboBox, bcdSNumComboBox);
+		setEdits(bcdDNumComboBox, regDNumComboBox, tankDNumComboBox);
+		setEdits(ccrModelComboBox, ccrSNumComboBox, ccrManuComboBox);
+
 		onPrivateSelection();
 
 
@@ -148,7 +157,7 @@ public class OpenCardController {
 	 * @author orelzman
 	 */
 	public void initManu(){
-		
+
 		ArrayList<String> bcdsManu = new ArrayList<String>();
 		ArrayList<String> regsManu = new ArrayList<String>();
 		ArrayList<String> tanksManu = new ArrayList<String>();		
@@ -173,6 +182,17 @@ public class OpenCardController {
 		tankManuComboBox.getItems().addAll(tankManuList);
 		ccrManuComboBox.getItems().addAll(ccrManuList);
 	}
+
+
+	public void setEdits(ComboBox<String> x, ComboBox<String> y, ComboBox<String> z){
+		x.setEditable(true);
+		y.setEditable(true);
+		z.setEditable(true);
+		x.getEditor().setEditable(false);
+		y.getEditor().setEditable(false);
+		z.getEditor().setEditable(false);
+	}
+
 	/**
 	 * Initalizes deep number  ComboBoxes.
 	 * @author orelzman
@@ -269,7 +289,7 @@ public class OpenCardController {
 
 		if(privateCheckBox.isSelected()){
 			Order.currentOrder.setIsClubEquipment(false);
-			
+
 			if(!(regManu = regManuComboBox.getEditor().getText()).equals("") && !(regModel = regModelComboBox.getEditor().getText()).equals("")
 					&& !(regSNum = regSNumComboBox.getEditor().getText()).equals("")){
 				description += "Regulator: " + "\n" + "Model: " + regModel + "\n" + "Manufacturer: " + regManu + "\n"
@@ -288,10 +308,10 @@ public class OpenCardController {
 				description += "CCR: " + "\n" + "Model: " + ccrManu + "\n" + "Manufacturer: " + ccrModel + "\n" + "Serial Number: " + ccrSNum + "\n" ;
 			}
 		}//end if
-		
+
 		else{
 			Order.currentOrder.setIsClubEquipment(true);
-			
+
 			if(!(regManu = regManuComboBox.getEditor().getText()).equals("") && !(regModel = regModelComboBox.getEditor().getText()).equals("")
 					&& !(regSNum = regSNumComboBox.getEditor().getText()).equals("") && !(regDNum = regDNumComboBox.getEditor().getText()).equals("")){
 				description += "Regulator: " + "\n" + "Model: " + regModel + "\n" + "Manufacturer: " + regManu + "\n"
@@ -317,14 +337,14 @@ public class OpenCardController {
 
 		if(!commentsTextArea.getText().equals(""))
 			Order.currentOrder.setComments(commentsTextArea.getText());
-		
+
 		Order.currentOrder.customer = new Customer(nameTextField.getText(), lastNameTextField.getText(),idTextField.getText(), emailTextField.getText(), phoneTextField.getText(), 
 				idTextField.getText());
 
 		Order.currentOrder.setName(nameTextField.getText());
 		Order.currentOrder.setLastName(lastNameTextField.getText());
 		Order.currentOrder.setDescription(description);
-		
+
 		GM.sendServer(Order.currentOrder, "IssueOrder");
 		while(Order.currentOrder.actionNow.equals("IssueOrder"))
 			GM.Sleep(2);
@@ -536,17 +556,17 @@ public class OpenCardController {
 	 * @author orelzman
 	 */
 	public void onDeepSelection(){
-		
+
 		if(!deepCheckBox.isSelected()){//JavaFX first changes status then calls this handler
 			deepCheckBox.setSelected(true);
 			return;
 		}
-		
+
 		privateCheckBox.setSelected(false);
-		
-		
+
+
 		deepCheckBox.setSelected(true);
-		
+
 		tankDNumComboBox.setVisible(true);
 		tankDNumComboBox.setEditable(true);
 		regDNumComboBox.setVisible(true);
@@ -567,7 +587,7 @@ public class OpenCardController {
 			privateCheckBox.setSelected(true);
 			return;
 		}
-		
+
 		tankDNumComboBox.setVisible(false);
 		tankDNumComboBox.setEditable(false);
 		regDNumComboBox.setVisible(false);
@@ -609,7 +629,7 @@ public class OpenCardController {
 		ccrManuComboBox.getEditor().setText("");
 		ccrModelComboBox.getEditor().setText("");
 		ccrSNumComboBox.getEditor().setText("");
-		
+
 		idTextField.setText("");
 		nameTextField.setText("");
 		lastNameTextField.setText("");

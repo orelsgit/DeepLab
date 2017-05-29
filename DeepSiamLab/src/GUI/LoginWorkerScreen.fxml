@@ -49,11 +49,11 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="685.0" layoutY="368.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="160.0" text="הוסף מ&quot;ס">
+      <Button layoutX="685.0" layoutY="368.0" mnemonicParsing="false" onAction="#addCCR" prefHeight="39.0" prefWidth="160.0" text="הוסף מ&quot;ס">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="264.0" layoutY="380.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="136.0" text="מצא טיפולי לקוח" />
+      <Button layoutX="148.0" layoutY="278.0" mnemonicParsing="false" onAction="#getInfo" text="קבל מידע" />
    </children>
 </AnchorPane>

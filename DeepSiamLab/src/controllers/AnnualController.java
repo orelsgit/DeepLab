@@ -190,7 +190,7 @@ public class AnnualController {
 			Windows.warning(".לא אישרת בדיקה של כל הדברים הנחוצים והמנהל לא אישר זאת,ולכן לא תוכל להמשיך הלאה");
 			return;
 		}
-		annualComments+="הערות:" + commentsTextArea.getText();
+		annualComments+="הערות:" + commentsTextArea.getText() + "\n";
 		Windows.message(annualComments, "annual comments Tank");
 		OrderInfoController.getOrderSelected().setSummary(OrderInfoController.getOrderSelected().getSummary()+annualComments);
 		System.out.println("CCR " + OrderInfoController.getOrderSelected().getSummary());
@@ -210,9 +210,11 @@ public class AnnualController {
 			Windows.warning(".לא אישרת בדיקה של כל הדברים הנחוצים והמנהל לא אישר זאת,ולכן לא תוכל להמשיך הלאה");
 			return;
 		}
-		annualComments+="הערות:" + commentsTextArea.getText();
+		annualComments+="הערות:" + commentsTextArea.getText() + "\n";
 		Windows.message(annualComments, "annual comments Tank");
 		OrderInfoController.getOrderSelected().setSummary(OrderInfoController.getOrderSelected().getSummary()+annualComments);
+		
+		//Consider doing the changes of the buttons here and notify the other class here~
 		
 	}
 	
@@ -240,7 +242,7 @@ public class AnnualController {
 			Windows.warning(".לא אישרת בדיקה של כל הדברים הנחוצים והמנהל לא אישר זאת,ולכן לא תוכל להמשיך הלאה");
 			return;
 		}
-		annualComments+="הערות:" + commentsTextArea.getText();
+		annualComments+="הערות:" + commentsTextArea.getText() + "\n";
 		Windows.message(annualComments, "annual comments bcd");
 		OrderInfoController.getOrderSelected().setSummary(OrderInfoController.getOrderSelected().getSummary()+annualComments);
 		
@@ -279,9 +281,9 @@ public class AnnualController {
 		}
 
 		if(checkBox1.isSelected())
-			annualComments+=(visual);
+			annualComments+=(visual) + "\n";
 		if(checkBox2.isSelected())
-			annualComments+=("\n" + hoes + "\n");
+			annualComments+=(hoes + "\n");
 		if(checkBox3.isSelected())
 			annualComments+=(seal + "\n");
 		if(checkBox4.isSelected())
@@ -290,9 +292,9 @@ public class AnnualController {
 			annualComments+=(kit + "\n");
 		annualComments+=("לחץ הביניים שנבדק הינו: " + interPressureTextField.getText() + "\n");
 		if(!(commentsTextArea.getText().equals("")))
-			annualComments+=("הערות:" + "\n" + commentsTextArea.getText());
+			annualComments+=("הערות:" + "\n" + commentsTextArea.getText() + "\n");
 
-		Windows.message(annualComments, "");
+		Windows.message(annualComments, "OnContinueRegAnnualController");
 
 //		annualCheck.setAnnualComments(annualComments);
 //		annualCheck.setReg(true);

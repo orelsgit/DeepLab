@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.ArrayList;
+
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Order;
@@ -29,6 +31,9 @@ public class LoginWorkerScreenController{
 	public static boolean newOrders,backFromServer;
 	private static boolean currentWindow;//if currentWindow = false it means we are in another window, therefore the thread in init. wont run.
 	public static String equipment = "";
+	
+	public static ArrayList<Order> orders = null;
+	
 	
 	
 	/**
@@ -71,6 +76,7 @@ public class LoginWorkerScreenController{
 					GM.sendServer(new Order(), "CheckNewOrders");
 					while(!backFromServer)
 						GM.Sleep(2);
+					GM.refresh(null);
 					while(newOrders){
 						redotImageView.setVisible(true);
 						GM.Sleep(400);
@@ -90,9 +96,25 @@ public class LoginWorkerScreenController{
 	}
 	
 	
+
+	
+	public void getInfo(){
+		GM.sendServer(new Order(), "GetInfo");
+		while(orders == null)
+			GM.Sleep(5);
+		for(Order order : orders)
+			Windows.message(order.getSummary(), "summary");
+	}
+	
 	public static void setCurrentWindow(boolean currentWindow){
 		LoginWorkerScreenController.currentWindow = currentWindow;
 	}
+	
+	public void addCCR(){
+		equipment = "CCR";
+		GM.getPopup(Main.popup, "AddCCR", "AddCCR", "popup");
+	}
+	
 	
 	public void onAddRegulator(){
 		equipment = "Regulator";
