@@ -5,14 +5,16 @@ public class Tank extends GeneralMessage{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String serialNum,manufacturer, model, DeepNum;
-	private int volume;
-	public Tank(String model,String manufacturer, int volume)
+	private String serialNum,manufacturer, model, deepNum;
+	private int volume, aluminium;
+	public Tank(String model,String manufacturer, int volume, String serialNum, String deepNum, int aluminium)
 	{
 		this.volume = volume;
 		this.model = model;
 		this.serialNum = serialNum;
 		this.manufacturer = manufacturer;
+		this.deepNum = deepNum;
+		this.aluminium = aluminium;
 	}
 
 	public Tank(){
@@ -53,14 +55,23 @@ public class Tank extends GeneralMessage{
 	}
 
 	public void setModel(String model) {
-		model = model;
+		this.model = model;
 	}
 
 	public String getDeepNum() {
-		return DeepNum;
+		return deepNum;
 	}
 
 	public void setDeepNum(String deepNum) {
-		DeepNum = deepNum;
+		this.deepNum = deepNum;
 	}
+	
+	public int getAluminium(){
+		return aluminium;
+	}
+	
+	public void setAluminium(int aluminium){
+		this.aluminium = aluminium;
+	}
+
 }

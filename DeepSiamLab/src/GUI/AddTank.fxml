@@ -9,30 +9,30 @@
 
 <AnchorPane prefHeight="498.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddEquipment">
    <children>
-      <Text fill="#2200ff" layoutX="137.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="הוספת מיכל" wrappingWidth="116.13671875">
+      <Text fill="#2200ff" layoutX="132.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="הוספת מיכל" wrappingWidth="116.13671875">
          <font>
             <Font name="System Bold Italic" size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="volumeTextField" layoutX="116.0" layoutY="146.0" prefHeight="25.0" prefWidth="149.0" promptText="נפח מיכל" />
-      <TextField fx:id="tankManuTextField" layoutX="116.0" layoutY="110.0" promptText="יצרן" />
-      <Button layoutX="145.0" layoutY="357.0" mnemonicParsing="false" onAction="#onAddTank" prefHeight="25.0" prefWidth="100.0" text="הוסף מיכל">
+      <TextField fx:id="tankManuTextField" layoutX="112.0" layoutY="91.0" promptText="יצרן" />
+      <TextField fx:id="volumeTextField" layoutX="113.0" layoutY="158.0" prefHeight="25.0" prefWidth="149.0" promptText="נפח מיכל" />
+      <TextField fx:id="tankSNumTextField" layoutX="113.0" layoutY="200.0" prefHeight="25.0" prefWidth="149.0" promptText="מספר סידורי" />
+      <TextField fx:id="tankDeepNumTextField" layoutX="113.0" layoutY="241.0" prefHeight="25.0" prefWidth="149.0" promptText="מק&quot;ט מועדון" />
+      <Button layoutX="142.0" layoutY="385.0" mnemonicParsing="false" onAction="#onAddTank" prefHeight="25.0" prefWidth="100.0" text="הוסף מיכל">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="161.0" layoutY="405.0" mnemonicParsing="false" onAction="#onBack" prefHeight="17.0" prefWidth="69.0" text="חזור">
+      <Button layoutX="158.0" layoutY="433.0" mnemonicParsing="false" onAction="#onBack" prefHeight="17.0" prefWidth="69.0" text="חזור">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Text fx:id="volumeText" layoutX="278.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":נפח מיכל" />
-      <Text fx:id="tankManuText" layoutX="277.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":יצרן" />
-      <TextField fx:id="volumeTextField1" layoutX="116.0" layoutY="188.0" prefHeight="25.0" prefWidth="149.0" promptText="נפח מיכל" />
-      <Text fx:id="volumeText1" layoutX="278.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="מספר סידורי:" />
-      <TextField fx:id="volumeTextField11" layoutX="116.0" layoutY="229.0" prefHeight="25.0" prefWidth="149.0" promptText="נפח מיכל" />
-      <Text fx:id="volumeText11" layoutX="278.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="מק&quot;ט מועדון:" />
-      <Button layoutX="63.0" layoutY="270.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="30.0">
+      <Text fx:id="volumeText" layoutX="275.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":נפח מיכל" />
+      <Text fx:id="tankManuText" layoutX="273.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":יצרן" />
+      <Text fx:id="tankSNumText" layoutX="275.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="מספר סידורי:" />
+      <Text fx:id="tankDeepNumText" layoutX="275.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="מק&quot;ט מועדון:" />
+      <Button layoutX="63.0" layoutY="302.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="30.0">
          <graphic>
             <ImageView fitHeight="18.0" fitWidth="21.0" onDragDetected="#onUploadFileTank" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -41,17 +41,19 @@
             </ImageView>
          </graphic>
       </Button>
-      <Text layoutX="51.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="העלה קובץ" wrappingWidth="58.80078125" />
-      <Text fx:id="tankFileNameText" layoutX="141.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="110.0" />
-      <CheckBox layoutX="303.0" layoutY="281.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="פלדה">
+      <Text layoutX="51.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="העלה קובץ" wrappingWidth="58.80078125" />
+      <Text fx:id="tankFileNameText" layoutX="14.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="110.0" />
+      <CheckBox fx:id="steelCheckBox" layoutX="301.0" layoutY="297.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onSteel" text="פלדה">
          <font>
             <Font size="16.0" />
          </font>
       </CheckBox>
-      <CheckBox layoutX="277.0" layoutY="318.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="אלומיניום">
+      <CheckBox fx:id="aluminiumCheckBox" layoutX="275.0" layoutY="334.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onAluminium" text="אלומיניום">
          <font>
             <Font size="16.0" />
          </font>
       </CheckBox>
+      <TextField fx:id="tankModelTextField" layoutX="113.0" layoutY="124.0" promptText="דגם" />
+      <Text fx:id="tankModelText" layoutX="273.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="דגם:" />
    </children>
 </AnchorPane>

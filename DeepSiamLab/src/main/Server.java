@@ -213,10 +213,25 @@ public class Server extends AbstractServer {
 
 	public void addTank(Tank tank, ConnectionToClient client){
 		try{
-			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Tanks values(?,?,?,?);");
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Tanks values(?,?,?,?,?,?,?,?);");
 			pstmt.setString(1, tank.getModel());
 			pstmt.setString(2, tank.getManufacturer());
 			pstmt.setInt(3, tank.getVolume());
+			pstmt.setString(4, tank.getSerialNum());
+			pstmt.setString(5, tank.getDeepNum());
+			pstmt.setInt(6, tank.getAluminium());
+			
+			if(tank.getFiles().getFile()!=null){
+				FileInputStream fis = new FileInputStream(tank.getFiles().getFile());
+				pstmt.setBinaryStream(7, fis, tank.getFiles().getLen());
+				pstmt.setString(8, tank.getFiles().getFileName());
+			}
+			else{
+				pstmt.setBinaryStream(7, null);
+				pstmt.setString(8, null);
+			}
+						
+			
 			pstmt.executeUpdate();
 
 			tank.actionNow = "NewTank";
@@ -264,10 +279,21 @@ public class Server extends AbstractServer {
 					return;
 				}
 			
-			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Regulators values (?,?,?);");
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Regulators values (?,?,?,?,?,?,?);");
 			pstmt.setString(1, reg.getModel());
 			pstmt.setString(2, reg.getManufacturer());
 			pstmt.setFloat(3, reg.getInterPressure());
+			pstmt.setString(4, reg.getDeepNum());
+			pstmt.setString(5, reg.getSerialNum());
+			if(reg.getFiles().getFile()!=null){
+				FileInputStream fis = new FileInputStream(reg.getFiles().getFile());
+				pstmt.setBinaryStream(6, fis, reg.getFiles().getLen());
+				pstmt.setString(7, reg.getFiles().getFileName());
+			}
+			else{
+				pstmt.setBinaryStream(6, null);
+				pstmt.setString(7, null);
+			}
 			pstmt.executeUpdate();
 
 			reg.actionNow = "NewRegulator";

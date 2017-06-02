@@ -1,27 +1,30 @@
 package controllers;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import entities.*;
+import entities.BCD;
+import entities.CCR;
+import entities.GeneralMethods;
+import entities.Regulator;
+import entities.Tank;
+import entities.Windows;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import main.Client;
 import main.Main;
 
 public class AddEquipment {
 
 	@FXML
 	private TextField sizeTextField, bcdModelTextField, bcdManuTextField, regModelTextField, regManuTextField, interTextField,
-	volumeTextField, tankManuTextField, bcdDeepNumTextField, ccrManuTextField, ccrModelTextField, ccrSerialNumTextField;
+	volumeTextField, tankManuTextField, bcdDeepNumTextField, ccrManuTextField, ccrModelTextField, ccrSerialNumTextField,
+	tankModelTextField, tankDeepNumTextField, tankSNumTextField, regSNumTextField, regDeepNumTextField;
 	@FXML
 	private Text sizeText, bcdModelText, bcdManuText, regModelText, regManuText, interText, ccrManuText, ccrModelText, ccrSerialNumText,
-	volumeText, tankManuText, bcdFileNameText, bcdDeepNumText, regFileNameText, ccrFileNameText, tankFileNameText;
+	volumeText, tankManuText, bcdFileNameText, bcdDeepNumText, regFileNameText, ccrFileNameText, tankFileNameText,
+	tankModelText, tankDeepNumText, tankSNumText, regSNumText, regDeepNumText;
+	@FXML
+	private CheckBox aluminiumCheckBox, steelCheckBox;
 
 	private BCD bcd;
 	private Tank tank;
@@ -40,6 +43,16 @@ public class AddEquipment {
 		ccr = null;
 	}
 
+	
+	public void onSteel(){
+		if(aluminiumCheckBox.isSelected())
+			aluminiumCheckBox.setSelected(false);
+	}
+	
+	public void onAluminium(){
+		if(steelCheckBox.isSelected())
+			steelCheckBox.setSelected(false);
+	}
 	
 	public void onAddCCR(){
 		isBackFromServer = false;
@@ -85,6 +98,8 @@ public class AddEquipment {
 		regModelText.setFill(Color.BLACK);
 		regManuText.setFill(Color.BLACK);
 		interText.setFill(Color.BLACK);
+		regSNumText.setFill(Color.BLACK);
+		regDeepNumText.setFill(Color.BLACK);
 
 		if(regModelTextField.getText().equals("")){
 			regModelText.setFill(Color.RED);isFilled=false;
@@ -94,6 +109,12 @@ public class AddEquipment {
 		}
 		if(interTextField.getText().equals("")){
 			interText.setFill(Color.RED);isFilled=false;
+		}
+		if(regSNumTextField.getText().equals("")){
+			regSNumText.setFill(Color.RED);isFilled=false;
+		}
+		if(regDeepNumTextField.getText().equals("")){
+			regDeepNumText.setFill(Color.RED);isFilled=false;
 		}
 
 
@@ -106,8 +127,14 @@ public class AddEquipment {
 			return;
 		if(!GM.checkText(interTextField.getText()))
 			return;
+		if(!GM.checkText(regDeepNumTextField.getText()))
+			return;
+		if(!GM.checkText(regSNumTextField.getText()))
+			return;
 
-		Regulator reg = new Regulator(regModelTextField.getText(), regManuTextField.getText(), Float.parseFloat(interTextField.getText()));
+		
+		Regulator reg = new Regulator(regModelTextField.getText(), regManuTextField.getText(), Float.parseFloat(interTextField.getText()),
+				regSNumTextField.getText(), regDeepNumTextField.getText());
 		GM.sendServerThread(reg, "AddRegulator");
 		
 		while(!isBackFromServer)
@@ -174,6 +201,7 @@ public class AddEquipment {
 
 		volumeText.setFill(Color.BLACK);
 		tankManuText.setFill(Color.BLACK);
+		tankModelText.setFill(Color.BLACK);
 
 
 		boolean isFilled = true;
@@ -187,7 +215,15 @@ public class AddEquipment {
 		if(tankManuTextField.getText().equals("")){
 			tankManuText.setFill(Color.RED);isFilled=false;
 		}
-
+		if(tankModelTextField.getText().equals("")){
+			tankModelText.setFill(Color.RED);isFilled=false;
+		}
+		if(tankSNumTextField.getText().equals("")){
+			tankSNumText.setFill(Color.RED);isFilled=false;
+		}
+		if(tankDeepNumTextField.getText().equals("")){
+			tankDeepNumText.setFill(Color.RED);isFilled=false;
+		}
 		if(!isFilled)
 			return;
 
@@ -195,9 +231,23 @@ public class AddEquipment {
 			return;
 		if(!GM.checkText(volumeTextField.getText()))
 			return;
+		if(!GM.checkText(tankModelTextField.getText()))
+			return;
+		if(!GM.checkText(tankSNumTextField.getText()))
+			return;
+		if(!GM.checkText(tankDeepNumTextField.getText()))
+			return;
+		
+		
+		int a;
+		if(aluminiumCheckBox.isSelected())
+			a=1;
+		else
+			a=0;
 
-		//Tank tank = new Tank(tankModelTextField.getText(), tankManuTextField.getText(), volumeTextField.getText());
-		//GM.sendServerThread(tank, "AddTank");
+		Tank tank = new Tank(tankModelTextField.getText(), tankManuTextField.getText(), Integer.parseInt(volumeTextField.getText()),
+				tankSNumTextField.getText(), tankDeepNumTextField.getText(), a);
+		GM.sendServerThread(tank, "AddTank");
 
 		while(!isBackFromServer)
 			GM.Sleep(2);
