@@ -67,7 +67,7 @@ public class GeneralMethods implements Serializable{
 						&&GeneralMessage.getCustList()==null
 						&&GeneralMessage.getRegList()==null
 						&&GeneralMessage.getTankList()==null){
-					Sleep(100);
+					Sleep(1500, null, 0);
 				}
 
 				removeDuplicates();
@@ -257,8 +257,15 @@ public class GeneralMethods implements Serializable{
 	 * @param time will tell the method for how long will the thread sleep.
 	 * @author orelzman
 	 */
-	public void Sleep(int time){
-		try{Thread.sleep(time);}catch(InterruptedException e){e.printStackTrace();}
+	public boolean Sleep(int time, Error error, int timesCalled){
+		try{Thread.sleep(time);
+			if(time*timesCalled >= 10000){
+				sendServer(error, "Error");
+				Windows.message("ישנה בעיה במערכת ואו באינטרנט. בדוק את החיבור ונסה שוב או פנה למתכנת האחראי", "אירעה תקלה");
+				return false;
+			}
+		}catch(InterruptedException e){e.printStackTrace();}
+		return true;
 	}
 	/**
 	 * Checks if the string the user inserted is compatible with SQL syntax.

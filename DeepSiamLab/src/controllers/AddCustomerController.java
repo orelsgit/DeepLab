@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Customer;
+import entities.Error;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Windows;
@@ -59,8 +60,12 @@ public class AddCustomerController {
 				emailTextField.getText(), idTextField.getText(), dobTextField.getText());
 		isBackFromServer=false;
 		GM.sendServer(customer, "NewCustomer");
-		while(!isBackFromServer)
-			GM.Sleep(100);
+		
+		Error error = new Error("AddCustomerController", "onRegister", 0);
+		int timesCalled = 0;
+		while(!isBackFromServer&&GM.Sleep(70, error, timesCalled++));
+			
+		
 		Windows.message("הלקוח הוסף בהצלחה", "לקוח חדש");
 	}
 /**

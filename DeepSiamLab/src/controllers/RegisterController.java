@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.Error;
 import entities.GeneralMethods;
 import entities.Windows;
 import entities.Worker;
@@ -75,8 +76,11 @@ public class RegisterController {
 		
 		setWorker();
 		GM.sendServer(worker, "AddWorker");
-		while(worker.actionNow.equals("AddWorker"))
-			GM.Sleep(2);
+		
+		Error error = new Error("RegisterController", "onContinue", 0);
+		int timesCalled = 0;
+		while(worker.actionNow.equals("AddWorker")&&GM.Sleep(70, error, timesCalled++));
+			
 		if(worker.actionNow.equals("IDExists"))
 			return;
 		else

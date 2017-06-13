@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import entities.Error;
 import entities.AnnualCheck;
 import entities.BCD;
 import entities.CCR;
@@ -97,9 +98,24 @@ public class Server extends AbstractServer {
 			updateOrder((Order)msg, client);break;
 		case "GetInfo":
 			getInfo(client);break;
-
+		case "Error":
+			error((Error)msg, client);break;
 		}
 	}
+	
+	public void error(Error error, ConnectionToClient client){
+		try{
+			String query = "INSERT INTO orelDeepdivers.Errors VALUES(?,?,?,?);";
+			PreparedStatement pStmt = conn.prepareStatement(query);
+			pStmt.setString(1, error.getClassError());
+			pStmt.setString(2, error.getFunctionError());
+			pStmt.setInt(3, error.getNumberError());
+			pStmt.setString(4, GM.getCurrentDate());
+			pStmt.executeUpdate();
+		}catch(Exception e){e.printStackTrace();}
+		
+		}
+	
 
 	public void getInfo(ConnectionToClient client){
 		try{

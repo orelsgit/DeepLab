@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.Error;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Status;
@@ -103,8 +104,12 @@ public class LoginScreenController {
 					Platform.runLater(new Runnable() {
 						@Override 		
 						public void run(){
-							while(Worker.getCurrentWorker()==null)
-								GM.Sleep(2);
+							
+							Error error = new Error("LoginScreenController", "onLogin", 0);
+							int timesCalled = 1;
+							while(Worker.getCurrentWorker()==null&&GM.Sleep(12000, error, timesCalled++));
+								
+							
 							if(Worker.getCurrentWorker().actionNow==null)
 								return;//No such user
 							Windows.message("ברוך שובך " + Worker.getCurrentWorker().getfName(), "Deepsiam Lab");

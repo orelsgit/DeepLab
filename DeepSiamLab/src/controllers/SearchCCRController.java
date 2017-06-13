@@ -69,7 +69,7 @@ public class SearchCCRController {
 	public void onDoubleClick(){
 		Thread thread = new Thread(){
 			public void run(){
-				GM.Sleep(200);
+				GM.Sleep(200, null, 0);
 				if(newClick){
 					newClick=false;
 					return;

@@ -1,9 +1,7 @@
 package controllers;
 
-import entities.GeneralMessage;
-import entities.GeneralMethods;
-import entities.Windows;
-import entities.Worker;
+import entities.*;
+import entities.Error;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
@@ -54,8 +52,13 @@ public class ManagersPasswordController {
 
 		worker.setManagerPassword(passTextField.getText());
 		GM.sendServer(worker, "ManagerPassword");
-		while(worker.actionNow.equals("ManagerPassword"))
-			GM.Sleep(2);	
+		
+		Error error = new Error("ManagerPasswordController", "onContinue", 0);
+		int timesCalled = 0;
+		while(worker.actionNow.equals("ManagerPassword")&&GM.Sleep(70, error, timesCalled++));
+			
+		
+		
 		if(worker.actionNow.equals("Incorrect")){
 			Windows.threadMessage("סיסמא שגויה! נסה שנית", "wrong pass");
 			return;

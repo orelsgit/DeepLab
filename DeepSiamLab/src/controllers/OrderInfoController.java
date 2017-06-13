@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import entities.Customer;
+import entities.Error;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Order;
@@ -66,7 +67,7 @@ public class OrderInfoController {
 		nameText.setText(orderSelected.getName());
 		descriptionTextArea.setText(orderSelected.getDescription());
 		commentsTextArea.setText(orderSelected.getComments());
-		GM.Sleep(10);//Not sure, but if I write checkCheckBox earlier, it throws an exception
+		GM.Sleep(10, null, 0);//Not sure, but if I write checkCheckBox earlier, it throws an exception
 		
 		int ccr, bcd, reg, tank;
 		ccr = descriptionTextArea.getText().indexOf("CCR");
@@ -191,8 +192,11 @@ public class OrderInfoController {
 						regModel+=order.charAt(index++);
 					reg.setModel(regModel);
 					GM.sendServer(reg, "FindInterPressure");
-					while(!isGotEquipments)
-						GM.Sleep(2);
+					
+					Error error = new Error("OrderInfoController", "getEquipmentInfo", 0);
+					int timesCalled = 0;
+					while(!isGotEquipments&&GM.Sleep(70, error, timesCalled++));
+						
 					if(regChosen.actionNow.equals("InterNotFound"))
 						Windows.warning("!מודל הוסט לא נמצא");
 					else
@@ -261,8 +265,11 @@ public class OrderInfoController {
 		GM.sendServerThread(customerSelected, "GetPhone");
 		Thread thread = new Thread(){
 			public void run(){
-				while(!isBackFromServer)
-					GM.Sleep(2);
+				
+				Error error = new Error("OrderInfoController", "onPhone", 1);
+				int timesCalled = 0;
+				while(!isBackFromServer&&GM.Sleep(70, error, timesCalled++));
+					
 				phoneTextField.setText(customerSelected.getPhone());
 			}
 		};thread.start();
@@ -282,8 +289,12 @@ public class OrderInfoController {
 	 *  @author orelzman
 	 */
 	public void onAnnual(){
-		while(!isGotEquipments)// DO NOT TRUST THE USER!
-			GM.Sleep(2);
+		
+		Error error = new Error("OrderInfoController", "onAnnual", 2);
+		int timesCalled = 0;
+		while(!isGotEquipments&&GM.Sleep(70, error, timesCalled++));// DO NOT TRUST THE USER!
+			
+		
 		isFixOrAnnual=false;
 		GM.closePopup(Main.popup);
 		Main.showMenu("Test");
@@ -299,8 +310,11 @@ public class OrderInfoController {
 	 *  @author orelzman
 	 */
 	public void onFix(){
-		while(!isGotEquipments)// DO NOT TRUST THE USER!
-			GM.Sleep(2);
+		
+		Error error = new Error("OrderInfoController", "onFix", 3);
+		int timesCalled = 0;
+		while(!isGotEquipments&&GM.Sleep(70, error, timesCalled++));// DO NOT TRUST THE USER!
+			
 		isFixOrAnnual=false;
 		GM.closePopup(Main.popup);
 		Main.showMenu("Fix");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import entities.CCR;
 import entities.Customer;
+import entities.Error;
 import entities.GeneralMethods;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,8 +27,12 @@ public class CCROwnerSearchController {
 	public void initialize(){
 		initTableView();
 		GM.sendServerThread(new CCR(), "GetCCROwnersList");
-		while(!isBackFromServer)
-			GM.Sleep(10);
+		
+		Error error = new Error("CCROwnerSearch", "initialize", 0);
+		int timesCalled = 0;
+		while(!isBackFromServer&&GM.Sleep(2, error, timesCalled++));
+			
+		
 		ObservableList<CCR> ccrList = FXCollections.observableArrayList(ccrListSearch);
 		ccrOwnerTableView.setItems(ccrList);
 

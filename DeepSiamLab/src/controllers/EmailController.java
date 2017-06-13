@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.Error;
 import entities.GeneralMethods;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -55,8 +56,12 @@ public class EmailController {
 		emailTo = ".";
 		
 		GM.sendServerJoin(OrderInfoController.getOrderSelected(), "GetMail");
-		while(emailTo.equals("."))
-			GM.Sleep(2);
+		
+		Error error = new Error("EmailController", "initialize", 0);
+		int timesCalled = 0;
+		while(emailTo.equals(".")&&GM.Sleep(2, error, timesCalled++));
+			
+
 		toTextField.setText(emailTo);
 		emailTextField.setText(emailFrom);
 		passwordTextField.setText(password);

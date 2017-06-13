@@ -5,6 +5,7 @@ package controllers;
 import java.util.ArrayList;
 
 
+import entities.Error;
 import entities.BCD;
 import entities.CCR;
 import entities.Customer;
@@ -100,8 +101,11 @@ public class OpenCardController {
 				}
 			}
 		});
-		while(GeneralMessage.getRegList()==null)
-			GM.Sleep(2);
+		
+		Error error = new Error("OpenCardController", "initialize", 0);
+		int timesCalled = 0;
+		while(GeneralMessage.getRegList()==null&&GM.Sleep(70, error, timesCalled++));
+			
 
 
 		//Initialize comboboxes.
@@ -346,8 +350,11 @@ public class OpenCardController {
 		Order.currentOrder.setDescription(description);
 
 		GM.sendServer(Order.currentOrder, "IssueOrder");
-		while(Order.currentOrder.actionNow.equals("IssueOrder"))
-			GM.Sleep(2);
+		
+		Error error = new Error("OpenCardController", "onIssueOrder", 1);
+		int timesCalled = 0;
+		while(Order.currentOrder.actionNow.equals("IssueOrder")&&GM.Sleep(70, error, timesCalled++));
+			
 
 		System.out.println("The order was issued");
 
@@ -534,8 +541,11 @@ public class OpenCardController {
 		isBackFromSearch=false;
 		Thread thread = new Thread(){
 			public void run(){
-				while(!isBackFromSearch)
-					GM.Sleep(20);
+				
+				Error error = new Error("OpenCardController", "onSearch", 2);
+				int timesCalled = 0;
+				while(!isBackFromSearch&&GM.Sleep(70, error, timesCalled++));
+					
 				isBackFromSearch=false;
 				idTextField.setText(customerChosen.getCustID());			
 			}

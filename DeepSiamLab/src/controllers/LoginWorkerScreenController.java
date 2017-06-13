@@ -2,13 +2,9 @@ package controllers;
 
 import java.util.ArrayList;
 
-import entities.GeneralMessage;
-import entities.GeneralMethods;
-import entities.Order;
 //import entities.SpeechUtils;
-import entities.Status;
-import entities.Windows;
-import entities.Worker;
+import entities.*;
+import entities.Error;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -74,14 +70,18 @@ public class LoginWorkerScreenController{
 				while(currentWindow&&Worker.getCurrentWorker().getIsManager()!=Status.Dalpak){
 					backFromServer=false;
 					GM.sendServer(new Order(), "CheckNewOrders");
-					while(!backFromServer)
-						GM.Sleep(2);
+					
+					Error error = new Error("LoginWorkerScreenController", "initialize", 0);
+					int timesCalled = 0;
+					while(!backFromServer&&GM.Sleep(2, error, timesCalled++));
+
+				
 					GM.refresh(null);
 					while(newOrders){
 						redotImageView.setVisible(true);
-						GM.Sleep(400);
+						GM.Sleep(400, null, 0);
 						redotImageView.setVisible(false);
-						GM.Sleep(400);
+						GM.Sleep(400, null, 0);
 						//if(!flag&&Worker.getCurrentWorker().getIsManager()!=Status.Manager){
 						//SpeechUtils work = new SpeechUtils("You have work to do!");
 						//work.speak();
@@ -89,7 +89,7 @@ public class LoginWorkerScreenController{
 						//}
 					}
 						redotImageView.setVisible(false);
-					GM.Sleep(10000);
+					GM.Sleep(10000, null, 0);
 				}this.interrupt();
 			}
 		};thread.start();
@@ -100,8 +100,11 @@ public class LoginWorkerScreenController{
 	
 	public void getInfo(){
 		GM.sendServer(new Order(), "GetInfo");
-		while(orders == null)
-			GM.Sleep(5);
+		
+		Error error = new Error("LoginWorkerScreenController", "getInfo", 1);
+		int timesCalled = 0;
+		while(orders == null&&GM.Sleep(70, error, timesCalled++));
+		
 		for(Order order : orders)
 			Windows.message(order.getSummary(), "summary");
 	}
@@ -148,10 +151,12 @@ public class LoginWorkerScreenController{
 	 * @author orelzman
 	 */
 	public void onTickets(){
-		while(!GeneralMessage.getGotLists()){
-			System.out.println(".asdasdasd.");
-			GM.Sleep(1);
-		}
+		
+		Error error = new Error("LoginWorkerScreenController", "onAddCustomer", 2);
+		int timesCalled = 0;
+		while(!GeneralMessage.getGotLists()&&GM.Sleep(70, error, timesCalled++));
+			
+		
 
 		if(Worker.getCurrentWorker().getIsManager()==Status.Dalpak)
 			return;

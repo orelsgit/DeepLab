@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import main.Main;
+import entities.Error;
 
 public class AddEquipment {
 
@@ -43,26 +44,26 @@ public class AddEquipment {
 		ccr = null;
 	}
 
-	
+
 	public void onSteel(){
 		if(aluminiumCheckBox.isSelected())
 			aluminiumCheckBox.setSelected(false);
 	}
-	
+
 	public void onAluminium(){
 		if(steelCheckBox.isSelected())
 			steelCheckBox.setSelected(false);
 	}
-	
+
 	public void onAddCCR(){
 		isBackFromServer = false;
-		
+
 		boolean isFilled=true;
-		
+
 		ccrModelText.setFill(Color.BLACK);
 		ccrManuText.setFill(Color.BLACK);
 		ccrSerialNumText.setFill(Color.BLACK);
-		
+
 		if(ccrModelTextField.getText().equals("")){
 			ccrModelText.setFill(Color.RED);isFilled=false;
 		}
@@ -72,24 +73,25 @@ public class AddEquipment {
 		if(ccrSerialNumTextField.getText().equals("")){
 			ccrSerialNumText.setFill(Color.RED);isFilled=false;
 		}
-		
+
 		if(!isFilled)
 			return;
-		
+
 		if(!GM.checkText(ccrModelTextField.getText()) 
 				&& !GM.checkText(ccrManuTextField.getText()) && !GM.checkText(ccrSerialNumTextField.getText()))
 			return;
-		
+
 		CCR ccr = new CCR(ccrModelTextField.getText(), ccrManuTextField.getText(), ccrSerialNumTextField.getText());
 		GM.sendServerThread(ccr, "AddCCR");
-		
-		while(!isBackFromServer)
-			GM.Sleep(2);
-		
-		
+
+		Error error = new Error("AddEquipment", "onAddCCR", 0);
+		int timesCalled = 0;
+		while(!isBackFromServer&&GM.Sleep(2, error, timesCalled++));
+
+
 	}
-	
-	
+
+
 	public void onAddRegulator(){
 		isBackFromServer=false;
 
@@ -132,16 +134,19 @@ public class AddEquipment {
 		if(!GM.checkText(regSNumTextField.getText()))
 			return;
 
-		
+
 		Regulator reg = new Regulator(regModelTextField.getText(), regManuTextField.getText(), Float.parseFloat(interTextField.getText()),
 				regSNumTextField.getText(), regDeepNumTextField.getText());
 		GM.sendServerThread(reg, "AddRegulator");
-		
-		while(!isBackFromServer)
-			GM.Sleep(2);
-		
+
+
+		Error error = new Error("AddEquipment", "onAddRegulator", 1);
+		int timesCalled = 0;
+		while(!isBackFromServer&&GM.Sleep(70, error, timesCalled++));
+
+
 	}
-	
+
 	public void onAddBCD(){
 		isBackFromServer=false;
 
@@ -186,12 +191,13 @@ public class AddEquipment {
 			if(Windows.yesNo("האם אתה בטוח שברצונך להמשיך בלי להעלות קובץ?", "אין קובץ", "העלה קובץ", "המשך בלי להעלות קובץ"))
 				onUploadFileBCD();
 
-		
+
 		GM.sendServer(bcd, "AddBCD");
 
-		while(!isBackFromServer)
-			GM.Sleep(2);
-
+		Error error = new Error("AddEquipment", "onAddBCD", 2);
+		int timesCalled = 0;
+		while(!isBackFromServer&&GM.Sleep(70, error, timesCalled++));
+			
 
 
 
@@ -237,8 +243,8 @@ public class AddEquipment {
 			return;
 		if(!GM.checkText(tankDeepNumTextField.getText()))
 			return;
-		
-		
+
+
 		int a;
 		if(aluminiumCheckBox.isSelected())
 			a=1;
@@ -249,12 +255,14 @@ public class AddEquipment {
 				tankSNumTextField.getText(), tankDeepNumTextField.getText(), a);
 		GM.sendServerThread(tank, "AddTank");
 
-		while(!isBackFromServer)
-			GM.Sleep(2);
+		Error error = new Error("AddEquipment", "onAddTank", 3);
+		int timesCalled = 0;
+		while(!isBackFromServer&&GM.Sleep(2, error, timesCalled++));
+			
 
 
 	}
-	
+
 	public void onUploadFileTank(){
 		if(tank==null)
 			tank = new Tank();
@@ -268,14 +276,14 @@ public class AddEquipment {
 		bcd.getFiles().setFile();
 		bcdFileNameText.setText(bcd.getFiles().getFileName());
 	}
-	
+
 	public void onUploadFileCCR(){
 		if(ccr==null)
 			ccr = new CCR();
 		ccr.getFiles().setFile();
 		ccrFileNameText.setText(ccr.getFiles().getFileName());
 	}
-	
+
 	public void onUploadFileReg(){
 		if(regulator==null)
 			regulator = new Regulator();
@@ -283,7 +291,7 @@ public class AddEquipment {
 		regFileNameText.setText(regulator.getFiles().getFileName());
 	}
 
-	
+
 
 
 	public void onBack(){
