@@ -21,6 +21,7 @@ public class GeneralMessage implements Serializable{
 	private static ArrayList<Customer> custList = new ArrayList<Customer>();
 	private static ArrayList<Order> unhandledOrders = new ArrayList<Order>();
 	private static boolean gotLists = false;
+	public static boolean regDone, ccrDone, tankDone, bcdDone;
 	
 	public GeneralMessage(String actionNow){
 		this.actionNow = actionNow;

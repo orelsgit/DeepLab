@@ -55,11 +55,13 @@ public class EmailController {
 		GM = new GeneralMethods();
 		emailTo = ".";
 		
-		GM.sendServerJoin(OrderInfoController.getOrderSelected(), "GetMail");
+		GM.sendServerJoin(LabOrdersController.orderSelected, "GetMail");
 		
 		Error error = new Error("EmailController", "initialize", 0);
 		int timesCalled = 0;
-		while(emailTo.equals(".")&&GM.Sleep(2, error, timesCalled++));
+		while(emailTo.equals("."))
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 			
 
 		toTextField.setText(emailTo);

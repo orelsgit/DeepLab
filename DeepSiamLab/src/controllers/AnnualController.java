@@ -1,8 +1,7 @@
 package controllers;
 
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 
 import entities.AnnualCheck;
 import entities.GeneralMessage;
@@ -23,7 +22,7 @@ import main.Main;
 public class AnnualController {
 
 	@FXML
-	private Text commentsText, interPressureText,interPressureInfoText, titleText;//Helping text for interpressure
+	private Text commentsText, interPressureText,interPressureInfoText, titleText, commentsTextBlue, leaksText;//Helping text for interpressure
 	@FXML
 	private TabPane annualTabPane;
 	@FXML
@@ -31,16 +30,22 @@ public class AnnualController {
 	@FXML
 	private Button overflowButton, checkInterPressureButton;
 	@FXML
-	private CheckBox managerCheckBox, kitCheckBox, checkBox1, checkBox2, checkBox3, checkBox4;
+	private CheckBox managerCheckBox, kitCheckBox, checkBox1, checkBox2, checkBox3, checkBox4, visualCheckBox,
+	hoesCheckBox, sealCheckBox, leakCheckBox, pressureCheckBox, perfectCheckBox, escapeCheckBox;
 	@FXML
-	private TextArea commentsTextArea;
-	
+	private CheckBox checkBox5, checkBox6, checkBox7, checkBox8, checkBox9, checkBox10, checkBox11, checkBox12, checkBox13,
+	checkBox14, checkBox15, checkBox16, checkBox17;
+	private int page = 1;
+	@FXML
+	private TextArea commentsTextArea, leaksTextArea;
+	private ArrayList<CheckBox> checkBoxes = new ArrayList<CheckBox>();
+
 	public static String annualComments;
 	public static int fixCost = 0;
 
-//	private ObservableList<Tab> tabList;
+	private ObservableList<Tab> tabList;
 	private GeneralMethods GM = new GeneralMethods();
-//	private SingleSelectionModel<Tab> selectionModel;
+	private SingleSelectionModel<Tab> selectionModel;
 
 	private String lastInterPressure;
 
@@ -54,8 +59,6 @@ public class AnnualController {
 	private String escape = "בדיקת בריחת אוויר בוצעה";
 	private String perfectTank = "בדיקת שלמות המיכל בוצעה";
 	private String emptyTank = "המיכל היה ריק בתחילת הבדיקה";
-	private String perfectCCR = "בדיקת שלמות המערכת הסגורה בוצעה";
-	private String checkListCCR = "הצ'ק ליסט נבדק וסומן";
 
 	public static boolean isManagerApprove = false, isInterPressure = false;
 
@@ -66,137 +69,198 @@ public class AnnualController {
 	 * @author orelzman
 	 */
 	public void initialize(){
-//		tabList = annualTabPane.getTabs();
-//		selectionModel = annualTabPane.getSelectionModel();
-		System.out.println("init" + AnnualController.annualComments);
+		tabList = annualTabPane.getTabs();
+		selectionModel = annualTabPane.getSelectionModel();
 		commentsText.setVisible(false);
+		isManagerApprove = false;
+		isInterPressure = false;
 
+		int isSelected = -1;
 
-//		if(!OrderInfoController.regCheck){
-//			tabList.get(0).setDisable(true);
-//			text.setVisible(false);
-//		}
-//
-//		if(!OrderInfoController.bcdCheck)
-//
-//		if(!OrderInfoController.tankCheck)
-//			tabList.get(2).setDisable(true);
-//
-//		if(!OrderInfoController.ccrCheck)
-//			tabList.get(3).setDisable(true);
+		if(OrderInfoController.regCheck){
+			isSelected = 0;
+			//setReg();
+		}
 
-		if(OrderInfoController.regCheck)
-			setReg();
-		
-		if(OrderInfoController.bcdCheck)
-			setBCD();		
+		if(OrderInfoController.bcdCheck){
+			isSelected = 1;
+		}
 
-		if(OrderInfoController.tankCheck)
-			setTank();
-		
-		if(OrderInfoController.ccrCheck)
+		if(OrderInfoController.tankCheck){
+			isSelected = 2;
+		}
+
+		if(OrderInfoController.ccrCheck){
+			isSelected = 3;
 			setCCR();
+		}
+
+		for(int i=0;i<4;++i)
+			if(i==isSelected){
+				tabList.get(i).setDisable(false);
+				selectionModel.select(i);
+			}
+			else
+				tabList.get(i).setDisable(true);
+
+
+
+		//		if(OrderInfoController.regCheck)
+		//			setReg();
+		//
+		//		if(OrderInfoController.bcdCheck)
+		//			setBCD();		
+		//
+		//		if(OrderInfoController.tankCheck)
+		//			setTank();
+		//
+		//		if(OrderInfoController.ccrCheck)
+		//			setCCR();
 	}
 
-	
+
 	public void setReg(){
 		interPressureText.setVisible(true);
 		interPressureInfoText.setVisible(true);
 		interPressureTextField.setVisible(true);
 		checkInterPressureButton.setVisible(true);
 		kitCheckBox.setVisible(true);
-		
+
 		checkBox1.setText("בדיקה ויזואלית לפיות");
 		checkBox2.setText("הוסת ללא קרעים בצינורות");
 		checkBox3.setText("הוסת אטום");
 		checkBox4.setText("הוסת ללא דליפות");	
 		titleText.setText("וסת");
 	}
-	
-	public void unsetReg(){
-		interPressureText.setVisible(false);
-		interPressureInfoText.setVisible(false);
-		interPressureTextField.setVisible(false);
-		checkInterPressureButton.setVisible(false);
-		kitCheckBox.setVisible(false);
-	}
-	
-	public void setBCD(){
-		unsetReg();
-		
-		checkBox1.setText("המאזן שלם");
-		checkBox2.setText("המאזן אינו מנפח באופן חופשי");
-		checkBox3.setText("המאזן מחזיק לחץ");
-		checkBox4.setVisible(false);
-		titleText.setText("מאזן");
-	}
-	
+
+
+
+
 	public void setCCR(){
-		unsetReg();
-		checkBox1.setText("המערכת הסגורה שלמה");
-		checkBox2.setText("הצ'ק ליסט בוצע");
-		checkBox3.setVisible(false);
-		checkBox4.setVisible(false);
-		titleText.setText("מאזן");
+		//unsetReg();
+		commentsTextArea.setVisible(false);
+		commentsTextArea.setEditable(false);
+		commentsText.setVisible(false);
+		commentsTextBlue.setVisible(false);
+		managerCheckBox.setDisable(true);
+		setCheckBoxes();
 	}
-	
-	public void setTank(){
-		unsetReg();
-		checkBox1.setText("המיכל היה ריק בתחילת הבדיקה");
-		checkBox2.setText("המיכל שלם חיצונית");
-		checkBox3.setVisible(false);
-		checkBox4.setVisible(false);
-		titleText.setText("מאזן");
-	}
+
 
 	public void onContinue(){
 		if(!isManagerApprove){
 			Windows.warning("המנהל לא אישר את הבדיקה ולכן לא תוכל להמשיך עד לקבלת אישור.");
 			return;
 		}
-		
+
 		if(OrderInfoController.regCheck)
 			onContinueRegulator();
-		
+
 		if(OrderInfoController.bcdCheck)
 			onContinueBCD();		
 
 		if(OrderInfoController.tankCheck)
 			onContinueTank();
-		
+
 		if(OrderInfoController.ccrCheck)
 			onContinueCCR();
-		
+
 		//After a check was finished, we'll reset the vital attributes
 		isManagerApprove = false;
 		isInterPressure = false;
 		OrderInfoController.isAnnualDone = true;
-		
-		
-		
+
+
+
 		Main.showMenu("OrderInfo");
 	}
-	
-	public void onContinueCCR(){
-		int isAllChecked = 0;
-		annualComments="בדיקה שנתית למערכת סגורה:" + "\n";
-		if(checkBox1.isSelected()){
-			isAllChecked++;annualComments+=perfectCCR + "\n";
-		}
-		if(checkBox2.isSelected()){
-			isAllChecked++;annualComments+=checkListCCR + "\n";
-		}
-		if(isAllChecked!=3 && !isManagerApprove){
-			Windows.warning(".לא אישרת בדיקה של כל הדברים הנחוצים והמנהל לא אישר זאת,ולכן לא תוכל להמשיך הלאה");
-			return;
-		}
-		annualComments+="הערות:" + commentsTextArea.getText() + "\n";
-		Windows.message(annualComments, "annual comments Tank");
-		OrderInfoController.getOrderSelected().setSummary(OrderInfoController.getOrderSelected().getSummary()+annualComments);
-		System.out.println("CCR " + OrderInfoController.getOrderSelected().getSummary());
+
+	public void onBackCCR(){
+		if(page == 1)
+			Main.showMenu("OrderInfo");
+		if(page == 2)
+			setPage(1);
 	}
-	
-	
+
+	public void setCheckBoxes(){
+		checkBoxes.add(checkBox1);checkBoxes.add(checkBox2);checkBoxes.add(checkBox3);checkBoxes.add(checkBox4);
+		checkBoxes.add(checkBox5);checkBoxes.add(checkBox6);checkBoxes.add(checkBox7);checkBoxes.add(checkBox8);
+		checkBoxes.add(checkBox9);checkBoxes.add(checkBox10);checkBoxes.add(checkBox11);checkBoxes.add(checkBox12);
+		checkBoxes.add(checkBox13);checkBoxes.add(checkBox14);checkBoxes.add(checkBox15);checkBoxes.add(checkBox16);
+		checkBoxes.add(checkBox17);
+	}
+
+	public void setPage(int page){
+		if(page == 2){
+			this.page = 2;
+			leaksTextArea.setEditable(false);
+			leaksTextArea.setVisible(false);
+			leaksText.setVisible(false);
+			managerCheckBox.setVisible(true);
+			managerCheckBox.setDisable(false);
+			commentsText.setVisible(true);
+			commentsTextBlue.setVisible(true);
+			commentsTextArea.setVisible(true);
+			commentsTextArea.setEditable(true);
+			for(int i=0;i<9;++i){
+				checkBoxes.get(i).setVisible(false);
+				checkBoxes.get(i).setDisable(true);
+			}
+			for(int i=9;i<17;++i){
+				checkBoxes.get(i).setVisible(true);
+				checkBoxes.get(i).setDisable(false);			
+			}
+		}
+
+		else if(page == 1){
+			this.page = 1;
+			setCCR();
+			leaksTextArea.setEditable(true);
+			leaksTextArea.setVisible(true);
+			leaksText.setVisible(true);
+			managerCheckBox.setVisible(false);
+			managerCheckBox.setDisable(true);
+			commentsText.setVisible(false);
+			commentsTextBlue.setVisible(false);
+			commentsTextArea.setVisible(false);
+			commentsTextArea.setEditable(false);
+
+			for(int i=9;i<17;++i){
+				checkBoxes.get(i).setVisible(false);
+				checkBoxes.get(i).setDisable(true);
+			}
+			for(int i=0;i<9;++i){
+				checkBoxes.get(i).setVisible(true);
+				checkBoxes.get(i).setDisable(false);			
+			}
+		}
+	}
+
+	public void onContinueCCR(){
+
+		if(page == 1){
+			setPage(2);return;
+		}
+		else{
+			if(!isManagerApprove){
+				Windows.message("המנהל לא אישר את הבדיקה, ולכן לא תוכל לסיים אותה עד לקבלת האישור.", "אישור מנהל");
+				return;
+			}
+			annualComments="בדיקה שנתית למערכת סגורה:" + "\n";
+			for(int i=0;i<17;i++)
+				if(checkBoxes.get(i).isSelected())
+					annualComments+=((i+1) + "." + checkBoxes.get(i).getText() + "\n");
+		}
+
+
+
+		annualComments+= "\n" + "הערות:" + commentsTextArea.getText() + "\n";
+		Windows.message(annualComments, "annual comments Tank");
+		LabOrdersController.orderSelected.ccrDone = true;
+		doneAnnual(annualComments);
+	}
+
+
 	public void onContinueTank(){
 		int isAllChecked = 0;
 		annualComments="בדיקה שנתית למיכל:" + "\n";
@@ -212,12 +276,13 @@ public class AnnualController {
 		}
 		annualComments+="הערות:" + commentsTextArea.getText() + "\n";
 		Windows.message(annualComments, "annual comments Tank");
-		OrderInfoController.getOrderSelected().setSummary(OrderInfoController.getOrderSelected().getSummary()+annualComments);
-		
+		LabOrdersController.orderSelected.tankDone = true;
+		doneAnnual(annualComments);
+
 		//Consider doing the changes of the buttons here and notify the other class here~
-		
+
 	}
-	
+
 	/**
 	 * Creates a new BCD check if everything was filled correctly
 	 * @author orelzman
@@ -226,15 +291,15 @@ public class AnnualController {
 	public void onContinueBCD(){
 		int isAllChecked = 0;//To check if every checkbox is checked!
 		annualComments = "בדיקה שנתית למאזן:" + "\n";
-		if(checkBox3.isSelected()){
+		if(pressureCheckBox.isSelected()){
 			isAllChecked++;
 			annualComments+=pressure + "\n";
 		}
-		if(checkBox1.isSelected()){
+		if(perfectCheckBox.isSelected()){
 			isAllChecked++;
 			annualComments+=perfectBCD + "\n";
 		}
-		if(checkBox2.isSelected()){
+		if(escapeCheckBox.isSelected()){
 			isAllChecked++;
 			annualComments+=escape + "\n";
 		}
@@ -244,20 +309,22 @@ public class AnnualController {
 		}
 		annualComments+="הערות:" + commentsTextArea.getText() + "\n";
 		Windows.message(annualComments, "annual comments bcd");
-		OrderInfoController.getOrderSelected().setSummary(OrderInfoController.getOrderSelected().getSummary()+annualComments);
-		
-		
+		LabOrdersController.orderSelected.bcdDone = true;
+		doneAnnual(annualComments);
 
 	}
-	
+
+
+
+
 	/**
 	 * Creates the annual comments, according to the checkboxes that were ticked by the tech.
 	 * In addition, it sets an AnnualCheck object with the proper information to send the server and add it into the database.
 	 * @author orelzman
 	 */
 	public void onContinueRegulator(){
+		
 
-		AnnualCheck annualCheck = new AnnualCheck();
 		annualComments="בדיקה שנתית לוסת:" + "\n";
 
 		if(!isInterPressure && !isManagerApprove){
@@ -265,62 +332,42 @@ public class AnnualController {
 			return;
 		}
 
-		int isAllChecked = 0;
-		if(checkBox1.isSelected())
-			isAllChecked++;
-		if(checkBox2.isSelected())
-			isAllChecked++;
-		if(checkBox3.isSelected())
-			isAllChecked++;
-		if(checkBox4.isSelected())
-			isAllChecked++;
-
-		if(isAllChecked != 4){
-			Windows.warning(".לא אישרת בדיקה של כל הדברים הנחוצים והמנהל לא אישר זאת,ולכן לא תוכל להמשיך הלאה");
-			return;
-		}
-
-		if(checkBox1.isSelected())
+		if(visualCheckBox.isSelected())
 			annualComments+=(visual) + "\n";
-		if(checkBox2.isSelected())
+		if(hoesCheckBox.isSelected())
 			annualComments+=(hoes + "\n");
-		if(checkBox3.isSelected())
+		if(sealCheckBox.isSelected())
 			annualComments+=(seal + "\n");
-		if(checkBox4.isSelected())
+		if(leakCheckBox.isSelected())
 			annualComments+=(leak + "\n");
 		if(kitCheckBox.isSelected())
 			annualComments+=(kit + "\n");
+
 		annualComments+=("לחץ הביניים שנבדק הינו: " + interPressureTextField.getText() + "\n");
 		if(!(commentsTextArea.getText().equals("")))
 			annualComments+=("הערות:" + "\n" + commentsTextArea.getText() + "\n");
 
 		Windows.message(annualComments, "OnContinueRegAnnualController");
-
-//		annualCheck.setAnnualComments(annualComments);
-//		annualCheck.setReg(true);
-//		if(kitCheckBox.isSelected())
-//			(OrderInfoController.getOrderSelected()).setKitChangeDate(GM.getCurrentDate());
-//		else
-//			(OrderInfoController.getOrderSelected()).setKitChangeDate(null);
-//		annualCheck.setFixComments(commentsTextArea.getText());
-//		annualCheck.setCustID(OrderInfoController.getOrderSelected().getCustID());
-		if(serialNumTextField.getText().equals("")){
-			Windows.message("הכנס בבקשה את המספר הסידורי של הוסת.", "מספר סידורי");
-			return;
-		}
-//		annualCheck.setSerialNum(serialNumTextField.getText());
-//		annualCheck.setManagerApprove(managerCheckBox.isSelected());
-//		annualCheck.setKit(kitCheckBox.isSelected());
-//		annualCheck.setOrderNum(OrderInfoController.getOrderSelected().getOrderNum());
-
-		Windows.message(annualComments, "Reg");
-		OrderInfoController.getOrderSelected().setSummary(OrderInfoController.getOrderSelected().getSummary()+annualComments);
-//		GM.sendServerThread(annualCheck, "AnnualCheck");
-//		GM.closePopup(Main.popup2);
-
+		
+		LabOrdersController.orderSelected.regDone = true;
+		doneAnnual(annualComments);
 
 	}
 
+	public void doneAnnual(String annualComments){
+			if(AnnualController.fixCost!=0){
+				LabOrdersController.orderSelected.setCost( LabOrdersController.orderSelected.getCost() + AnnualController.fixCost);
+				AnnualController.fixCost=0;
+			}
+		
+		LabOrdersController.orderSelected.setSummary(LabOrdersController.orderSelected.getSummary()+annualComments);
+		OrderInfoController.isAnnualDone = true;
+		Main.showMenu("OrderInfo");
+	}
+	
+	
+	
+	
 	/**
 	 * Sets information about the check button.
 	 * @author orelzman
@@ -396,6 +443,9 @@ public class AnnualController {
 		}
 	}
 
+	public void stop(){
+		System.out.println("stopped.");
+	}
 
 
 	/**

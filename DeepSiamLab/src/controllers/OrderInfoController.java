@@ -23,7 +23,6 @@ import main.Main;
 
 public class OrderInfoController {
 
-	private static Order orderSelected;
 	private static Customer customerSelected;
 	private static GeneralMethods GM;
 	public static boolean isBackFromServer,regCheck, bcdCheck, ccrCheck,tankCheck, isFixOrAnnual, regDone, bcdDone, ccrDone, tankDone;/*Avoid initializing while in phone window*/;
@@ -31,6 +30,7 @@ public class OrderInfoController {
 	public static Regulator regChosen;
 	protected static int equipmentCnt = 0; // Counts how many equipments are needed to be taken care of, so we can close the order.
 	private ArrayList<Integer> indexes = new ArrayList<>(); 
+	private int ccr, bcd, reg, tank;
 
 
 	@FXML
@@ -43,33 +43,38 @@ public class OrderInfoController {
 	private Button regButton, bcdButton, tankButton, ccrButton;
 
 
-	
+
 	/**
 	 * Initializes the window's text fields with information from the chosen unreviewed order.
 	 *  @author orelzman
 	 */
 	public void initialize(){
-
-		if(!doOnce){
-			orderSelected = LabOrdersController.orderSelected;
-			getEquipmentInfo();
-			orderSelected.setSummary("");
-			orderSelected.setCost(0);
-			GM = new GeneralMethods();
-			doOnce = true;
-		}
 		
+		System.out.println("equipmentCnt: " + equipmentCnt);
+
+		
+		if(!doOnce){
+			checkCheckBox();
+			getEquipmentInfo();
+			LabOrdersController.orderSelected.setSummary("");
+			LabOrdersController.orderSelected.setCost(0);
+			GM = new GeneralMethods();
+			doOnce=true;
+		}
+
 		if(isFixOrAnnual){
 			isFixOrAnnual=false;
 			return;
 		}
 
-		nameText.setText(orderSelected.getName());
-		descriptionTextArea.setText(orderSelected.getDescription());
-		commentsTextArea.setText(orderSelected.getComments());
-		GM.Sleep(10, null, 0);//Not sure, but if I write checkCheckBox earlier, it throws an exception
+		//Set fields
+		nameText.setText(LabOrdersController.orderSelected.getName());
+		descriptionTextArea.setText(LabOrdersController.orderSelected.getDescription());
+		commentsTextArea.setText(LabOrdersController.orderSelected.getComments());
+		//Set fields
+
 		
-		int ccr, bcd, reg, tank;
+		//Get indexes
 		ccr = descriptionTextArea.getText().indexOf("CCR");
 		bcd = descriptionTextArea.getText().indexOf("BCD");
 		reg = descriptionTextArea.getText().indexOf("Regulator");
@@ -78,75 +83,82 @@ public class OrderInfoController {
 		indexes.add(tank);
 		indexes.add(bcd);
 		indexes.add(ccr);
-
 		Collections.sort(indexes);
-		
-		System.out.println("Initialize2");
-		if(regCheck&&isAnnualDone&&reg!=-1){
+		System.out.println("ccr: " + ccr + "bcd: " + bcd +  "reg: " + reg + "tank: " + tank);
+		//Get indexes
+
+
+
+		if(LabOrdersController.orderSelected.regDone&&reg!=-1){//reg will be -1 after we finish here.
+			System.out.println("inside reg");
 			--equipmentCnt;
-			regDone = true;
-			isAnnualDone = false;
-			regButton.setVisible(false);
-			//orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
+			LabOrdersController.orderSelected.setSummary(LabOrdersController.orderSelected.getSummary()+AnnualController.annualComments);
 			if(AnnualController.fixCost!=0){
-				orderSelected.setCost(orderSelected.getCost()+AnnualController.fixCost);
+				LabOrdersController.orderSelected.setCost(LabOrdersController.orderSelected.getCost()+AnnualController.fixCost);
 				AnnualController.fixCost=0;
 			}
 			updateDescription(reg);
 		}
-		
-		else if(tankCheck&&isAnnualDone&&tank!=-1){
+
+		else if(LabOrdersController.orderSelected.tankDone&&tank!=-1){
 			--equipmentCnt;
-			tankDone = true;
-			isAnnualDone = false;
-			tankButton.setVisible(false);
-			orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
+			LabOrdersController.orderSelected.setSummary(LabOrdersController.orderSelected.getSummary()+AnnualController.annualComments);
 			if(AnnualController.fixCost!=0){
-				orderSelected.setCost(orderSelected.getCost()+AnnualController.fixCost);
+				LabOrdersController.orderSelected.setCost(LabOrdersController.orderSelected.getCost()+AnnualController.fixCost);
 				AnnualController.fixCost=0;
 			}
 			updateDescription(tank);
 		}
-		
-		else if(bcdCheck&&isAnnualDone&&bcd!=-1){
+
+		else if(LabOrdersController.orderSelected.bcdDone&&bcd!=-1){
 			--equipmentCnt;
-			bcdDone = true;
-			isAnnualDone = false;
-			bcdButton.setVisible(false);
-			orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
+			LabOrdersController.orderSelected.setSummary(LabOrdersController.orderSelected.getSummary()+AnnualController.annualComments);
 			if(AnnualController.fixCost!=0){
-				orderSelected.setCost(orderSelected.getCost()+AnnualController.fixCost);
+				LabOrdersController.orderSelected.setCost(LabOrdersController.orderSelected.getCost()+AnnualController.fixCost);
 				AnnualController.fixCost=0;
 			}
 			updateDescription(bcd);
 		}
-		
-		
-		else if(ccrCheck&&isAnnualDone&&ccr!=-1){
+
+
+		else if(LabOrdersController.orderSelected.ccrDone&&ccr!=-1){
 			--equipmentCnt;
-			ccrDone = true;
-			isAnnualDone = false;
-			ccrButton.setVisible(false);
-			orderSelected.setSummary(orderSelected.getSummary()+AnnualController.annualComments);
+			LabOrdersController.orderSelected.setSummary(LabOrdersController.orderSelected.getSummary()+AnnualController.annualComments);
 			if(AnnualController.fixCost!=0){
-				orderSelected.setCost(orderSelected.getCost() + AnnualController.fixCost);
+				LabOrdersController.orderSelected.setCost(LabOrdersController.orderSelected.getCost() + AnnualController.fixCost);
 				AnnualController.fixCost=0;
 			}
 			updateDescription(ccr);
 		}
-		
 
-		
+
+
 		if(equipmentCnt == 0){
-			GM.sendServer(orderSelected, "OrderHandled");			
+			GM.sendServer(LabOrdersController.orderSelected, "OrderHandled");			
 			onBack();
+			return;
 		}
+
+
 		falseChecks();
-		checkCheckBox();
+	}
+
+	public void updateIndexes(){
+		ccr = descriptionTextArea.getText().indexOf("CCR");
+		bcd = descriptionTextArea.getText().indexOf("BCD");
+		reg = descriptionTextArea.getText().indexOf("Regulator");
+		tank = descriptionTextArea.getText().indexOf("Tank");
+		indexes.add(reg);
+		indexes.add(tank);
+		indexes.add(bcd);
+		indexes.add(ccr);
+		Collections.sort(indexes);
+		System.out.println("ccr: " + ccr + "bcd: " + bcd +  "reg: " + reg + "tank: " + tank);
 	}
 	
 	public void updateDescription(int x){
 		int i=0;
+
 		for(;i<4;i++)
 			if(indexes.get(i) == x)
 				break;
@@ -158,8 +170,10 @@ public class OrderInfoController {
 		if(i!=3 && indexes.get(i++)!=-1)
 			for(int j=indexes.get(i);j<oldDes.length();++j)
 				newDes+=oldDes.charAt(j);
+		System.out.println("NEW DES");
 		descriptionTextArea.setText(newDes);
-		orderSelected.setDescription(newDes);
+		LabOrdersController.orderSelected.setDescription(newDes);
+		updateIndexes();
 	}
 
 	/**
@@ -172,16 +186,10 @@ public class OrderInfoController {
 			public void run(){
 				isGotEquipments = false;
 				regChosen = new Regulator();
-				String order = orderSelected.getDescription();
+				String order = LabOrdersController.orderSelected.getDescription();
 				int index;
 
-//				if(order.contains("BCD")){
-//					/*BCD bcd = new BCD();
-//					index = order.indexOf("BCD");
-//					GM.sendServer(bcd, "GetBCD");*/
-//				}
-
-				if(orderSelected.getDescription().contains("Regulator")){
+				if(LabOrdersController.orderSelected.getDescription().contains("Regulator")){
 					Regulator reg = new Regulator();
 					String regModel="";
 					index = order.indexOf("Model", order.indexOf("Regulator"));
@@ -192,16 +200,12 @@ public class OrderInfoController {
 						regModel+=order.charAt(index++);
 					reg.setModel(regModel);
 					GM.sendServer(reg, "FindInterPressure");
-					
+
 					Error error = new Error("OrderInfoController", "getEquipmentInfo", 0);
 					int timesCalled = 0;
-					while(!isGotEquipments&&GM.Sleep(70, error, timesCalled++));
-						
-					if(regChosen.actionNow.equals("InterNotFound"))
-						Windows.warning("!מודל הוסט לא נמצא");
-					else
-						regChosen.setModel(reg.getModel());
-
+					while(!isGotEquipments)
+						if(!GM.Sleep(70, error, timesCalled++))
+							return;
 				}
 
 				isGotEquipments=true;
@@ -236,17 +240,27 @@ public class OrderInfoController {
 		tankButton.setVisible(false);
 		ccrButton.setVisible(false);
 		regButton.setVisible(false);
-		if(orderSelected.getDescription().contains("BCD") && !bcdDone ){
+
+
+		if(LabOrdersController.orderSelected.getDescription().contains("BCD") && !bcdDone ){
 			bcdButton.setVisible(true);
+			LabOrdersController.orderSelected.isBCD = true;
+			LabOrdersController.orderSelected.bcdDone=false;
 		}
-		if(orderSelected.getDescription().contains("Regulator") && !regDone){
+		if(LabOrdersController.orderSelected.getDescription().contains("Regulator") && !regDone){
 			regButton.setVisible(true);
+			LabOrdersController.orderSelected.isReg = true;
+			LabOrdersController.orderSelected.regDone=false;
 		}
-		if(orderSelected.getDescription().contains("Tank") && !tankDone){
+		if(LabOrdersController.orderSelected.getDescription().contains("Tank") && !tankDone){
 			tankButton.setVisible(true);
+			LabOrdersController.orderSelected.isTank = true;
+			LabOrdersController.orderSelected.tankDone=false;
 		}
-		if(orderSelected.getDescription().contains("CCR") && !ccrDone){
+		if(LabOrdersController.orderSelected.getDescription().contains("CCR") && !ccrDone){
 			ccrButton.setVisible(true);
+			LabOrdersController.orderSelected.isCCR = true;
+			LabOrdersController.orderSelected.ccrDone=false;
 		}
 	}
 
@@ -261,15 +275,17 @@ public class OrderInfoController {
 		if((phoneTextField.getText())!=null&&!phoneTextField.getText().equals(""))
 			return;
 		customerSelected = new Customer();
-		customerSelected.setCustID(orderSelected.getCustID());
+		customerSelected.setCustID(LabOrdersController.orderSelected.getCustID());
 		GM.sendServerThread(customerSelected, "GetPhone");
 		Thread thread = new Thread(){
 			public void run(){
-				
+
 				Error error = new Error("OrderInfoController", "onPhone", 1);
 				int timesCalled = 0;
-				while(!isBackFromServer&&GM.Sleep(70, error, timesCalled++));
-					
+				while(!isBackFromServer)
+					if(!GM.Sleep(70, error, timesCalled++))
+						return;
+
 				phoneTextField.setText(customerSelected.getPhone());
 			}
 		};thread.start();
@@ -289,19 +305,20 @@ public class OrderInfoController {
 	 *  @author orelzman
 	 */
 	public void onAnnual(){
-		
+
 		Error error = new Error("OrderInfoController", "onAnnual", 2);
 		int timesCalled = 0;
-		while(!isGotEquipments&&GM.Sleep(70, error, timesCalled++));// DO NOT TRUST THE USER!
-			
-		
+		while(!isGotEquipments)
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;// DO NOT TRUST THE USER!
+
 		isFixOrAnnual=false;
 		GM.closePopup(Main.popup);
-		Main.showMenu("Test");
-	//	GM.getPopup(Main.popup2, "Test", "בדיקה שוטפת", "popup2");
+		Main.showMenu("Annual");
+		//	GM.getPopup(Main.popup2, "Test", "בדיקה שוטפת", "popup2");
 
-		
-		
+
+
 
 	}
 
@@ -310,15 +327,17 @@ public class OrderInfoController {
 	 *  @author orelzman
 	 */
 	public void onFix(){
-		
+
 		Error error = new Error("OrderInfoController", "onFix", 3);
 		int timesCalled = 0;
-		while(!isGotEquipments&&GM.Sleep(70, error, timesCalled++));// DO NOT TRUST THE USER!
-			
+		while(!isGotEquipments)
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;// DO NOT TRUST THE USER!
+
 		isFixOrAnnual=false;
 		GM.closePopup(Main.popup);
 		Main.showMenu("Fix");
-		
+
 
 	}	
 
@@ -327,11 +346,13 @@ public class OrderInfoController {
 	 *  @author orelzman
 	 */
 	public void onReg(){
+		if(reg == -1)
+			return;
 		falseChecks();
 		regCheck = true;
 		isFixOrAnnual=true;
 		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
-		
+
 	}
 
 	/**
@@ -339,11 +360,13 @@ public class OrderInfoController {
 	 *  @author orelzman
 	 */
 	public void onBCD(){
+		if(bcd == -1)
+			return;
 		falseChecks();
 		isFixOrAnnual=true;
 		bcdCheck = true;
 		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
-		
+
 	}
 
 	/**
@@ -351,18 +374,22 @@ public class OrderInfoController {
 	 *  @author orelzman
 	 */
 	public void onCCR(){
+		if(ccr == -1)
+			return;
 		falseChecks();
 		ccrCheck=true;
 		isFixOrAnnual=true;
 		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
 	}
-	
-	
+
+
 	/**
 	 * Sets the tankCheck flag as true, so the system will write the information into the right table.
 	 *  @author orelzman
 	 */
 	public void onTank(){
+		if(tank == -1)
+			return;
 		falseChecks();
 		isFixOrAnnual=true;
 		tankCheck = true;
@@ -371,27 +398,25 @@ public class OrderInfoController {
 	}
 
 
-///**
-// * Closes the phone window.
-// *  @author orelzman
-// */
-//	public void onBackPhone(){
-//		
-//		GM.closePopup(Main.popup);
-//	}
-	
+	///**
+	// * Closes the phone window.
+	// *  @author orelzman
+	// */
+	//	public void onBackPhone(){
+	//		
+	//		GM.closePopup(Main.popup);
+	//	}
+
 	/**
 	 * Closes the LabOrders window and returns to the unreviewed orders window.
 	 *  @author orelzman
 	 */
 	public void onBack(){
-		System.out.println("onBack: " + orderSelected.getSummary());
-		if(equipmentCnt != 0){//Update w.e we did so far.
-			GM.sendServer(orderSelected, "UpdateOrder");
-		}
-		
-		GeneralMessage.currentPopup = "";
+		if(equipmentCnt != 0)//Update w.e we did so far.			
+			GM.sendServer(LabOrdersController.orderSelected, "UpdateOrder");
+
 		Main.showMenu("LabOrders");
+
 	}
 
 	/**
@@ -415,14 +440,6 @@ public class OrderInfoController {
 
 	public static void setCustomerSelected(Customer customerSelected) {
 		OrderInfoController.customerSelected = customerSelected;
-	}
-	public static Order getOrderSelected() {
-		return orderSelected;
-	}
-
-
-	public static void setOrderSelected(Order orderSelected) {
-		OrderInfoController.orderSelected = orderSelected;
 	}
 }
 

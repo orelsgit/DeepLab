@@ -25,18 +25,23 @@ public void onBack(){
 
 public void onContinue(){
 	String fixComments="";
-	if(OrderInfoController.regCheck)
+	if(OrderInfoController.regCheck){
 		 fixComments = "טיפול שוטף לוסת: " + "\n";
-	
-	if(OrderInfoController.bcdCheck)
+			LabOrdersController.orderSelected.regDone=true;
+
+	}
+	if(OrderInfoController.bcdCheck){
 		 fixComments = "טיפול שוטף למאזן: " + "\n";
-	
-	if(OrderInfoController.tankCheck)
+		 LabOrdersController.orderSelected.bcdDone=true;
+	}
+	if(OrderInfoController.tankCheck){
 		 fixComments = "טיפול שוטף למיכל: " + "\n";
-	
-	if(OrderInfoController.ccrCheck)
+		 LabOrdersController.orderSelected.tankDone=true;
+	}
+	if(OrderInfoController.ccrCheck){
 		 fixComments = "טיפול שוטף למערכת סגורה: " + "\n";
-	
+		 LabOrdersController.orderSelected.ccrDone=true;
+	}
 	fixComments+="הערות הטיפול: " + "\n" + fixTextArea.getText() + "\n";
 	fixComments+="עלות הטיפול: " + costTextField.getText() + "\n";
 	Windows.message(fixComments, "בדיקה");

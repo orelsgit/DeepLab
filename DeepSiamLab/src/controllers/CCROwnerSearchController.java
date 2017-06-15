@@ -30,7 +30,9 @@ public class CCROwnerSearchController {
 		
 		Error error = new Error("CCROwnerSearch", "initialize", 0);
 		int timesCalled = 0;
-		while(!isBackFromServer&&GM.Sleep(2, error, timesCalled++));
+		while(!isBackFromServer)
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 			
 		
 		ObservableList<CCR> ccrList = FXCollections.observableArrayList(ccrListSearch);

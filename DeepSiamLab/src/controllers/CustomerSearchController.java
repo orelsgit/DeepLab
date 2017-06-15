@@ -70,7 +70,6 @@ public class CustomerSearchController {
 
 
 	public void refresh(){
-		System.out.println("yo");
 		Thread thread = new Thread(){
 			public void run(){
 				GM.refresh(null);

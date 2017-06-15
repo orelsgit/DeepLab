@@ -79,7 +79,9 @@ public class RegisterController {
 		
 		Error error = new Error("RegisterController", "onContinue", 0);
 		int timesCalled = 0;
-		while(worker.actionNow.equals("AddWorker")&&GM.Sleep(70, error, timesCalled++));
+		while(worker.actionNow.equals("AddWorker"))
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 			
 		if(worker.actionNow.equals("IDExists"))
 			return;

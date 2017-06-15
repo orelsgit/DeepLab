@@ -73,7 +73,9 @@ public class LoginWorkerScreenController{
 					
 					Error error = new Error("LoginWorkerScreenController", "initialize", 0);
 					int timesCalled = 0;
-					while(!backFromServer&&GM.Sleep(2, error, timesCalled++));
+					while(!backFromServer)
+						if(!GM.Sleep(70, error, timesCalled++))
+							return;
 
 				
 					GM.refresh(null);
@@ -103,7 +105,9 @@ public class LoginWorkerScreenController{
 		
 		Error error = new Error("LoginWorkerScreenController", "getInfo", 1);
 		int timesCalled = 0;
-		while(orders == null&&GM.Sleep(70, error, timesCalled++));
+		while(orders == null)
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 		
 		for(Order order : orders)
 			Windows.message(order.getSummary(), "summary");
@@ -154,7 +158,9 @@ public class LoginWorkerScreenController{
 		
 		Error error = new Error("LoginWorkerScreenController", "onAddCustomer", 2);
 		int timesCalled = 0;
-		while(!GeneralMessage.getGotLists()&&GM.Sleep(70, error, timesCalled++));
+		while(!GeneralMessage.getGotLists())
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 			
 		
 

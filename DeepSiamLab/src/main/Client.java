@@ -24,7 +24,6 @@ public class Client extends AbstractClient {
 		try {
 			this.openConnection();
 		} catch (IOException e) {
-			System.out.println("caught");
 			e.printStackTrace();
 		}
 	}
@@ -39,7 +38,6 @@ public class Client extends AbstractClient {
 
 
 		if(msg instanceof ArrayList<?>){
-			System.out.println("client: " + ((ArrayList<GeneralMessage>)msg).get(0).actionNow);
 			switch(((ArrayList<GeneralMessage>)msg).get(0).actionNow){
 			case "OrderListReady":
 				GeneralMessage.setUnhandledOrders(new ArrayList<Order>());
@@ -63,9 +61,7 @@ public class Client extends AbstractClient {
 				CCROwnerSearchController.isBackFromServer = true;break;
 			case "GotInfo":
 				LoginWorkerScreenController.orders = new ArrayList<Order>(((ArrayList<Order>)msg));break;
-			default :
-				System.out.println(((ArrayList<GeneralMessage>)msg).get(0).actionNow);
-			}
+				}
 
 		}
 
@@ -76,7 +72,7 @@ public class Client extends AbstractClient {
 			case "Correct"://correct login information
 				Worker.setCurrentWorker((Worker)msg);break;
 			case "IssueOrder"://An order was issued by the dalpak
-				Order.currentOrder.actionNow+=",";System.out.println("IssueOrder");break;
+				Order.currentOrder.actionNow+=",";break;
 			case "ManagerPasswordCorrect":
 				ManagersPasswordController.worker.actionNow="Correct";break;
 			case "ManagerPasswordIncorrect":

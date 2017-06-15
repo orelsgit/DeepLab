@@ -55,7 +55,9 @@ public class ManagersPasswordController {
 		
 		Error error = new Error("ManagerPasswordController", "onContinue", 0);
 		int timesCalled = 0;
-		while(worker.actionNow.equals("ManagerPassword")&&GM.Sleep(70, error, timesCalled++));
+		while(worker.actionNow.equals("ManagerPassword"))
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 			
 		
 		

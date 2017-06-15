@@ -104,7 +104,9 @@ public class OpenCardController {
 		
 		Error error = new Error("OpenCardController", "initialize", 0);
 		int timesCalled = 0;
-		while(GeneralMessage.getRegList()==null&&GM.Sleep(70, error, timesCalled++));
+		while(GeneralMessage.getRegList()==null)
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 			
 
 
@@ -353,10 +355,11 @@ public class OpenCardController {
 		
 		Error error = new Error("OpenCardController", "onIssueOrder", 1);
 		int timesCalled = 0;
-		while(Order.currentOrder.actionNow.equals("IssueOrder")&&GM.Sleep(70, error, timesCalled++));
+		while(Order.currentOrder.actionNow.equals("IssueOrder"))
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 			
 
-		System.out.println("The order was issued");
 
 		if(Order.currentOrder.actionNow != null && Order.currentOrder.actionNow.equals("NewClientOrder"))//A new client was added to the db.
 			Windows.message("לקוח חדש נוסף למערכת", "לקוח חדש");
@@ -491,7 +494,6 @@ public class OpenCardController {
 			return;
 
 
-		System.out.println(bcdChosen.getModel() + bcdChosen.getDeepNum());
 
 		bcdModelComboBox.getEditor().setText(bcdChosen.getModel());
 		bcdManuComboBox.getEditor().setText(bcdChosen.getManufacturer());
@@ -544,7 +546,9 @@ public class OpenCardController {
 				
 				Error error = new Error("OpenCardController", "onSearch", 2);
 				int timesCalled = 0;
-				while(!isBackFromSearch&&GM.Sleep(70, error, timesCalled++));
+				while(!isBackFromSearch)
+					if(!GM.Sleep(70, error, timesCalled++))
+						return;
 					
 				isBackFromSearch=false;
 				idTextField.setText(customerChosen.getCustID());			

@@ -63,7 +63,10 @@ public class AddCustomerController {
 		
 		Error error = new Error("AddCustomerController", "onRegister", 0);
 		int timesCalled = 0;
-		while(!isBackFromServer&&GM.Sleep(70, error, timesCalled++));
+		while(!isBackFromServer)
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
+		
 			
 		
 		Windows.message("הלקוח הוסף בהצלחה", "לקוח חדש");
@@ -73,7 +76,6 @@ public class AddCustomerController {
  * @author orelzman
  */
 	public void onBack(){
-		System.out.println(GeneralMessage.currentPopup + GeneralMessage.currentWindow);
 		if(!GeneralMessage.currentPopup.equals("")){
 			switch(GeneralMessage.currentPopup){
 			case "popup":

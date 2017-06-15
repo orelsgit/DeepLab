@@ -9,7 +9,7 @@ public class Order extends GeneralMessage {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int orderNum, handled, cost;//HANDLED :  -1 - Not handled, 0 - Not approved by manager, 1-finished and prepared, -2 - to remove
-	private boolean IsClubEquipment; // 0 - club, 1 - private
+	public boolean IsClubEquipment, ccrDone, regDone, bcdDone, tankDone, isCCR, isReg, isBCD, isTank; //regDone..-To know if it was annualy/shotef isBCD.. to know if BCD is part of the order.
 	private String custID, description, comments,date, name, lastName, clubOrPrivate, summary, kitChangeDate;
 	public static Order currentOrder;
 	public Customer customer;

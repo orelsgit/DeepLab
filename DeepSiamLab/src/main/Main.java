@@ -53,6 +53,7 @@ public class Main extends Application {
 	}
 
 	public static void showMenu(String screen) {
+		primaryStage.close();
 		GeneralMessage.currentWindow = screen;
 		FXMLLoader loader = new FXMLLoader(); 
 		loader.setLocation(Main.class.getResource("/GUI/" + screen + ".fxml"));

@@ -42,7 +42,7 @@ public class LabOrdersController {
 	
 
 	public void initialize(){
-
+		orderSelected = null;
 		doubleClick=0;
 		onNoDate();
 		initTableView();
@@ -189,6 +189,11 @@ public class LabOrdersController {
 		if(orderSelected.getDescription().contains("CCR")){
 			++OrderInfoController.equipmentCnt;
 		}
+		GeneralMessage.ccrDone = false;
+		GeneralMessage.bcdDone = false;
+		GeneralMessage.regDone = false;
+		GeneralMessage.tankDone = false;
+		
 		Main.showMenu("OrderInfo");
 	}
 

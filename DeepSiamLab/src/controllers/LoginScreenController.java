@@ -107,7 +107,9 @@ public class LoginScreenController {
 							
 							Error error = new Error("LoginScreenController", "onLogin", 0);
 							int timesCalled = 1;
-							while(Worker.getCurrentWorker()==null&&GM.Sleep(12000, error, timesCalled++));
+							while(Worker.getCurrentWorker()==null)
+								if(!GM.Sleep(70, error, timesCalled++))
+									return;
 								
 							
 							if(Worker.getCurrentWorker().actionNow==null)

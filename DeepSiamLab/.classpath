@@ -2,16 +2,15 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/pc/Desktop/sqljdbc4-unsigned-2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc/git/DeepLab/freetts-1.2/lib/cmu_time_awb.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc/git/DeepLab/freetts-1.2/lib/cmu_us_kal.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc/git/DeepLab/freetts-1.2/lib/cmudict04.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc/git/DeepLab/freetts-1.2/lib/cmulex.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc/git/DeepLab/freetts-1.2/lib/cmutimelex.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc/git/DeepLab/freetts-1.2/lib/en_us.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc/git/DeepLab/freetts-1.2/lib/freetts.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc/git/DeepLab/freetts-1.2/lib/freetts-jsapi10.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc/git/DeepLab/freetts-1.2/lib/mbrola.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc/git/DeepLab/freetts-1.2/lib/mail-1.5.0-b01.jar"/>
+	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Prototype/Lab7_jdbc/activation.jar"/>
+	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Prototype/Lab7_jdbc/curvesapi-1.04.jar"/>
+	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Prototype/Lab7_jdbc/google-api-services-gmail-v1-rev62-1.22.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Prototype/Lab7_jdbc/google-api-services-gmail-v1-rev62-1.22.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Prototype/Lab7_jdbc/google-api-services-gmail-v1-rev62-1.22.0-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Prototype/Lab7_jdbc/javadoc-6.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Prototype/Lab7_jdbc/mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Prototype/Lab7_jdbc/mysql-connector-java-3.1.11-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Prototype/Lab7_jdbc/sqljdbc4-2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/orels/Desktop/Prototype/Lab7_jdbc/xmlbeans-2.6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

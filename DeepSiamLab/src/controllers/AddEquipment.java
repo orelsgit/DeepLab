@@ -86,7 +86,9 @@ public class AddEquipment {
 
 		Error error = new Error("AddEquipment", "onAddCCR", 0);
 		int timesCalled = 0;
-		while(!isBackFromServer&&GM.Sleep(2, error, timesCalled++));
+		while(!isBackFromServer)
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 
 
 	}
@@ -142,7 +144,9 @@ public class AddEquipment {
 
 		Error error = new Error("AddEquipment", "onAddRegulator", 1);
 		int timesCalled = 0;
-		while(!isBackFromServer&&GM.Sleep(70, error, timesCalled++));
+		while(!isBackFromServer)
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 
 
 	}
@@ -196,7 +200,9 @@ public class AddEquipment {
 
 		Error error = new Error("AddEquipment", "onAddBCD", 2);
 		int timesCalled = 0;
-		while(!isBackFromServer&&GM.Sleep(70, error, timesCalled++));
+		while(!isBackFromServer)
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 			
 
 
@@ -257,7 +263,9 @@ public class AddEquipment {
 
 		Error error = new Error("AddEquipment", "onAddTank", 3);
 		int timesCalled = 0;
-		while(!isBackFromServer&&GM.Sleep(2, error, timesCalled++));
+		while(!isBackFromServer)
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
 			
 
 

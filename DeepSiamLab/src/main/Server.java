@@ -79,7 +79,7 @@ public class Server extends AbstractServer {
 		case "GetCCR":
 			getCCR(client);break;
 		case "AnnualCheck":
-			annualCheck((AnnualCheck)msg, client);break;
+			annualCheck((Order)msg, client);break;
 		case "NewCustomer":
 			newCustomer((Customer)msg, client);break;
 		case "AddRegulator":
@@ -138,15 +138,11 @@ public class Server extends AbstractServer {
 			Statement stmt1 = conn.createStatement();
 			ResultSet rs = stmt1.executeQuery("SELECT Summary, Cost from orelDeepdivers.Orders WHERE OrderNum = " + order.getOrderNum());
 			if(rs.next()){
-				System.out.println("YES RSNEXT");
 				if(rs.getString(1) != null){
 					order.setSummary(order.getSummary() + "\n" + rs.getString(1));
-					System.out.println("YES RSNEXT     " + order.getSummary());
-
 				}
 				if(rs.getInt(2) != 0){
 					order.setCost(order.getCost()+rs.getInt(2));
-					System.out.println("YES RSNEXT");
 
 				}
 			}
@@ -180,9 +176,7 @@ public class Server extends AbstractServer {
 			stmt.setString(3, GM.getCurrentDate());
 			stmt.setInt(4, 1);
 			stmt.setInt(5, order.getOrderNum());
-			System.out.println(query);
 			stmt.executeUpdate();
-			System.out.println(query);
 			order.actionNow = "RemoveOrder";
 			getNewOrders(client);
 			client.sendToClient(order);
@@ -357,7 +351,20 @@ public class Server extends AbstractServer {
 	 * @param client is an object that will send a message back to the client
 	 * @author orelzman 
 	 */
-	public void annualCheck(AnnualCheck ac, ConnectionToClient client ){
+	public void annualCheck(Order order, ConnectionToClient client ){
+		try{
+
+			Statement stmt = conn.createStatement();
+			String summary = "";
+			ResultSet rs = stmt.executeQuery("SELECT Summary From orelDeepdivers.Orders WHERE OrderNum = " + order.getOrderNum() + ";");
+			if(rs.next())
+				summary = rs.getString(1);
+			summary+="\n" + order.getSummary();
+			String query = "UPDATE orelDeepdivers.Orders SET Handled = 1, Summary =  '" + summary + "' WHERE OrderNum = " + order.getOrderNum()  + ";";
+			stmt.execute(query);
+		}catch(Exception e){e.printStackTrace();}
+	}
+		/*System.out.println("AnnualCheck");
 		PreparedStatement pStmt;
 		try{
 			int orderNum;
@@ -393,14 +400,14 @@ public class Server extends AbstractServer {
 					pStmt.setInt(7, 0);
 				pStmt.executeUpdate();
 
-				/** ONLY AFTER ALL THE EQUIPMENTS WERE REVIEWED! **/
-				/*	Statement statement = conn.createStatement();
+				*//** ONLY AFTER ALL THE EQUIPMENTS WERE REVIEWED! **//*
+					Statement statement = conn.createStatement();
 				String query;
 				if(ac.isManagerApprove())//handled = 1
 					query = "UPDATE orelDeepdivers.Orders SET handled = 1 WHERE OrderNum = " + ac.getOrderNum() + ";";
 				else
 					query = "UPDATE orelDeepdivers.Orders SET handled = 0 WHERE OrderNum = " + ac.getOrderNum() + ";";
-				statement.executeUpdate(query);*/
+				statement.executeUpdate(query);
 
 			}
 
@@ -414,7 +421,7 @@ public class Server extends AbstractServer {
 
 		}catch(Exception e){e.printStackTrace();}
 	}
-
+*/
 
 	/**
 	 * Creates a list of all the regulators in the database and sends it back to the server.

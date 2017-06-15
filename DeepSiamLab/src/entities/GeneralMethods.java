@@ -84,8 +84,7 @@ public class GeneralMethods implements Serializable{
 		hs.addAll(GeneralMessage.getUnhandledOrders());
 		GeneralMessage.getUnhandledOrders().clear();
 		GeneralMessage.getUnhandledOrders().addAll(hs);
-		for(Order order : GeneralMessage.getUnhandledOrders())
-			System.out.println(order.getCustID());
+
 		
 	}
 	
@@ -117,7 +116,6 @@ public class GeneralMethods implements Serializable{
 					msg.setSentDate(new Date());
 					Transport.send(msg);
 					Windows.message("!אימייל נשלח", "נשלח");
-					System.out.println("To: " + to + "From: " + from + "Password" + password);
 				}catch (MessagingException e){ e.printStackTrace(); }
 			}
 		};thread.start();
@@ -197,7 +195,6 @@ public class GeneralMethods implements Serializable{
 
 
 	public void sendServer(Object msg, String actionNow){
-			System.out.println("sendserver: " + actionNow);
 			((GeneralMessage)msg).actionNow = actionNow;
 			Client client = new Client();
 			try {
