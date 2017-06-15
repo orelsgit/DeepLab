@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.plaf.synth.SynthSplitPaneUI;
+
 import entities.Error;
 import entities.AnnualCheck;
 import entities.BCD;
@@ -100,9 +102,11 @@ public class Server extends AbstractServer {
 			getInfo(client);break;
 		case "Error":
 			error((Error)msg, client);break;
+		case "AddCCR":
+			addCCR((CCR)msg, client);break;
 		}
 	}
-	
+
 	public void error(Error error, ConnectionToClient client){
 		try{
 			String query = "INSERT INTO orelDeepdivers.Errors VALUES(?,?,?,?);";
@@ -113,9 +117,9 @@ public class Server extends AbstractServer {
 			pStmt.setString(4, GM.getCurrentDate());
 			pStmt.executeUpdate();
 		}catch(Exception e){e.printStackTrace();}
-		
-		}
-	
+
+	}
+
 
 	public void getInfo(ConnectionToClient client){
 		try{
@@ -219,7 +223,27 @@ public class Server extends AbstractServer {
 
 
 
-
+	public void addCCR(CCR ccr, ConnectionToClient client){
+		try{
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO orelDeepdivers.CCR values(?,?,?,?,?);");
+			pstmt.setString(1, ccr.getManufacturer());
+			pstmt.setString(2, ccr.getModel());
+			pstmt.setString(3, ccr.getSerialNum());
+			if(ccr.getFiles().getFile()!=null){
+				FileInputStream fis = new FileInputStream(ccr.getFiles().getFile());
+				pstmt.setBinaryStream(4, fis, ccr.getFiles().getLen());
+				pstmt.setString(5, ccr.getFiles().getFileName());
+			}
+			else{
+				System.out.println("HERE");
+				pstmt.setBinaryStream(4, null);
+				pstmt.setString(5, null);
+			}
+			pstmt.executeUpdate();
+			ccr.actionNow = "NewCCR";
+			client.sendToClient(ccr);
+		}catch(SQLException | IOException e){e.printStackTrace();}
+	}
 
 	public void addTank(Tank tank, ConnectionToClient client){
 		try{
@@ -230,7 +254,7 @@ public class Server extends AbstractServer {
 			pstmt.setString(4, tank.getSerialNum());
 			pstmt.setString(5, tank.getDeepNum());
 			pstmt.setInt(6, tank.getAluminium());
-			
+
 			if(tank.getFiles().getFile()!=null){
 				FileInputStream fis = new FileInputStream(tank.getFiles().getFile());
 				pstmt.setBinaryStream(7, fis, tank.getFiles().getLen());
@@ -240,8 +264,8 @@ public class Server extends AbstractServer {
 				pstmt.setBinaryStream(7, null);
 				pstmt.setString(8, null);
 			}
-						
-			
+
+
 			pstmt.executeUpdate();
 
 			tank.actionNow = "NewTank";
@@ -288,7 +312,7 @@ public class Server extends AbstractServer {
 					client.sendToClient(reg);
 					return;
 				}
-			
+
 			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Regulators values (?,?,?,?,?,?,?);");
 			pstmt.setString(1, reg.getModel());
 			pstmt.setString(2, reg.getManufacturer());
@@ -364,7 +388,7 @@ public class Server extends AbstractServer {
 			stmt.execute(query);
 		}catch(Exception e){e.printStackTrace();}
 	}
-		/*System.out.println("AnnualCheck");
+	/*System.out.println("AnnualCheck");
 		PreparedStatement pStmt;
 		try{
 			int orderNum;
@@ -400,7 +424,7 @@ public class Server extends AbstractServer {
 					pStmt.setInt(7, 0);
 				pStmt.executeUpdate();
 
-				*//** ONLY AFTER ALL THE EQUIPMENTS WERE REVIEWED! **//*
+	 *//** ONLY AFTER ALL THE EQUIPMENTS WERE REVIEWED! **//*
 					Statement statement = conn.createStatement();
 				String query;
 				if(ac.isManagerApprove())//handled = 1
@@ -421,7 +445,7 @@ public class Server extends AbstractServer {
 
 		}catch(Exception e){e.printStackTrace();}
 	}
-*/
+	  */
 
 	/**
 	 * Creates a list of all the regulators in the database and sends it back to the server.
@@ -745,20 +769,16 @@ public class Server extends AbstractServer {
 		Statement stmt;
 		try{
 			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("Select * FROM orelDeepdivers.Workers;");
+			ResultSet rs = stmt.executeQuery("Select LTRIM(RTRIM(ID)) FROM orelDeepdivers.Workers;");
 			String id, email;
 			while(rs.next()){
-				id=rs.getString(3).replaceAll("\\s+","");email=rs.getString(5).replaceAll("\\s+","");//Pulling info from the SQL server appears to dispatch it with spaces.
+				id=rs.getString(1);
 				if(id.equals(worker.getID())){
 					worker.actionNow="IDExists";
 					client.sendToClient(worker);
 					return;
-				}else if(email.equals(worker.getEmail())){
-					worker.actionNow="EmailExists";
-					client.sendToClient(worker);
-					return;
-				}
 
+				}
 			}
 			pStmt = conn.prepareStatement("insert into orelDeepdivers.Workers(Name, LastName, ID, "
 					+ "isManager, Email, Password) values(?,?,?,?,?,?)");
@@ -820,6 +840,7 @@ public class Server extends AbstractServer {
 			max++;
 			preparedStmt.setInt(1, max);
 			if(order.getCustID() == null){
+				System.out.println("SERVER ISSUEORDER NEW CUSTOMER");
 				rs = stmt.executeQuery("SELECT LTRIM(RTRIM(CustID)) FROM OrelDeepdivers.Customers");			
 				if(rs.next()){
 					while(rs.next())
@@ -829,7 +850,6 @@ public class Server extends AbstractServer {
 				}
 				order.customer.setCustID(Integer.toString(max));
 				newCustomer(order.customer, client);
-				//Add a new customer to force the fk constraint.
 				order.setCustID(Integer.toString(max));
 				preparedStmt.setString(2, Integer.toString(max));
 				order.actionNow = "NewClientOrder";
@@ -844,9 +864,9 @@ public class Server extends AbstractServer {
 			preparedStmt.setInt(6, order.getHandled());
 			preparedStmt.setInt(7, 0);
 			if(order.isClubEquipment())
-				preparedStmt.setInt(8, 1);
-			else
 				preparedStmt.setInt(8, 0);
+			else
+				preparedStmt.setInt(8, 1);
 			preparedStmt.executeUpdate();
 			client.sendToClient(order);
 		}catch(Exception e){e.printStackTrace();}

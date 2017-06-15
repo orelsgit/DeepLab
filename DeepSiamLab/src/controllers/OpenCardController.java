@@ -262,20 +262,20 @@ public class OpenCardController {
 
 
 		boolean isFull = true;
-		if(nameTextField.getText().equals("")){
+		if(nameTextField.getText().equals("")&&privateCheckBox.isSelected()){
 			nameText.setFill(Color.RED);
 			isFull = false;
 		}
-		if(lastNameTextField.getText().equals("")){
+		if(lastNameTextField.getText().equals("")&&privateCheckBox.isSelected()){
 			lastNameText.setFill(Color.RED);
 			isFull = false;
 		}
 
-		if(phoneTextField.getText().equals("")){
+		if(phoneTextField.getText().equals("")&&privateCheckBox.isSelected()){
 			phoneText.setFill(Color.RED);
 			isFull = false;
 		}
-		if(idTextField.getText().equals("")){
+		if(idTextField.getText().equals("")&&privateCheckBox.isSelected()){
 			idText.setFill(Color.RED);
 			isFull = false;
 		}
@@ -286,15 +286,20 @@ public class OpenCardController {
 		String description = "", regManu, regModel, tankManu, tankModel, bcdManu, bcdModel, ccrManu, ccrModel, regDNum, regSNum, tankDNum, tankSNum,
 				bcdDNum, ccrSNum;
 		Order.currentOrder = new Order();
-		if(customerChosen != null)
+		if(customerChosen != null){
+			System.out.println("Customer chosen");
 			Order.currentOrder.setCustID(customerChosen.getCustID());
+		}
+		if(deepCheckBox.isSelected())
+			Order.currentOrder.setCustID("0");
+		
 		Order.currentOrder.setDate(GM.getCurrentDate());
 		Order.currentOrder.setHandled(-1);
 
 
 
 		if(privateCheckBox.isSelected()){
-			Order.currentOrder.setIsClubEquipment(false);
+			Order.currentOrder.setIsClubEquipment(false, null);
 
 			if(!(regManu = regManuComboBox.getEditor().getText()).equals("") && !(regModel = regModelComboBox.getEditor().getText()).equals("")
 					&& !(regSNum = regSNumComboBox.getEditor().getText()).equals("")){
@@ -316,7 +321,7 @@ public class OpenCardController {
 		}//end if
 
 		else{
-			Order.currentOrder.setIsClubEquipment(true);
+			Order.currentOrder.setIsClubEquipment(true, null);
 
 			if(!(regManu = regManuComboBox.getEditor().getText()).equals("") && !(regModel = regModelComboBox.getEditor().getText()).equals("")
 					&& !(regSNum = regSNumComboBox.getEditor().getText()).equals("") && !(regDNum = regDNumComboBox.getEditor().getText()).equals("")){
@@ -343,10 +348,12 @@ public class OpenCardController {
 
 		if(!commentsTextArea.getText().equals(""))
 			Order.currentOrder.setComments(commentsTextArea.getText());
-
+		
+		
 		Order.currentOrder.customer = new Customer(nameTextField.getText(), lastNameTextField.getText(),idTextField.getText(), emailTextField.getText(), phoneTextField.getText(), 
 				idTextField.getText());
-
+		
+		
 		Order.currentOrder.setName(nameTextField.getText());
 		Order.currentOrder.setLastName(lastNameTextField.getText());
 		Order.currentOrder.setDescription(description);
@@ -577,10 +584,14 @@ public class OpenCardController {
 		}
 
 		privateCheckBox.setSelected(false);
-
-
 		deepCheckBox.setSelected(true);
 
+		nameTextField.setText("מועדון");
+		lastNameTextField.setText("מועדון");
+		emailTextField.setText("מועדון");
+		phoneTextField.setText("מועדון");
+		idTextField.setText("מועדון");
+		
 		tankDNumComboBox.setVisible(true);
 		tankDNumComboBox.setEditable(true);
 		regDNumComboBox.setVisible(true);
@@ -602,6 +613,12 @@ public class OpenCardController {
 			return;
 		}
 
+		nameTextField.setText("");
+		lastNameTextField.setText("");
+		emailTextField.setText("");
+		phoneTextField.setText("");
+		idTextField.setText("");
+		
 		tankDNumComboBox.setVisible(false);
 		tankDNumComboBox.setEditable(false);
 		regDNumComboBox.setVisible(false);

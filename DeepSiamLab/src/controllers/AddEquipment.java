@@ -80,8 +80,10 @@ public class AddEquipment {
 		if(!GM.checkText(ccrModelTextField.getText()) 
 				&& !GM.checkText(ccrManuTextField.getText()) && !GM.checkText(ccrSerialNumTextField.getText()))
 			return;
+		if(ccr == null)
+			ccr = new CCR();
 
-		CCR ccr = new CCR(ccrModelTextField.getText(), ccrManuTextField.getText(), ccrSerialNumTextField.getText());
+		ccr = new CCR(ccrModelTextField.getText(), ccrManuTextField.getText(), ccrSerialNumTextField.getText());
 		GM.sendServerThread(ccr, "AddCCR");
 
 		Error error = new Error("AddEquipment", "onAddCCR", 0);
@@ -135,11 +137,13 @@ public class AddEquipment {
 			return;
 		if(!GM.checkText(regSNumTextField.getText()))
 			return;
+		
+		if(regulator == null)
+			regulator = new Regulator();
 
-
-		Regulator reg = new Regulator(regModelTextField.getText(), regManuTextField.getText(), Float.parseFloat(interTextField.getText()),
+		regulator = new Regulator(regModelTextField.getText(), regManuTextField.getText(), Float.parseFloat(interTextField.getText()),
 				regSNumTextField.getText(), regDeepNumTextField.getText());
-		GM.sendServerThread(reg, "AddRegulator");
+		GM.sendServerThread(regulator, "AddRegulator");
 
 
 		Error error = new Error("AddEquipment", "onAddRegulator", 1);
@@ -184,8 +188,10 @@ public class AddEquipment {
 			return;
 		if(!GM.checkText(bcdDeepNumTextField.getText()))
 			return;
+		
 		if(bcd == null)//No file was uploaded
 			bcd = new BCD();
+		
 		bcd.setSize(sizeTextField.getText());
 		bcd.setModel(bcdModelTextField.getText());
 		bcd.setManufacturer(bcdManuTextField.getText());
@@ -256,8 +262,11 @@ public class AddEquipment {
 			a=1;
 		else
 			a=0;
-
-		Tank tank = new Tank(tankModelTextField.getText(), tankManuTextField.getText(), Integer.parseInt(volumeTextField.getText()),
+		
+		if(tank == null)
+			tank = new Tank(); 
+		
+		tank = new Tank(tankModelTextField.getText(), tankManuTextField.getText(), Integer.parseInt(volumeTextField.getText()),
 				tankSNumTextField.getText(), tankDeepNumTextField.getText(), a);
 		GM.sendServerThread(tank, "AddTank");
 

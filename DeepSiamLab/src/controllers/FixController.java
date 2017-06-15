@@ -18,6 +18,21 @@ public class FixController {
 	@FXML
 	private TextField costTextField;
 
+	
+	public void initialize(){
+		if(OrderInfoController.regCheck)
+			titleText.setText("וסת");
+
+		if(OrderInfoController.bcdCheck)
+			titleText.setText("מאזן");	
+
+		if(OrderInfoController.tankCheck)
+			titleText.setText("מיכל");
+
+		if(OrderInfoController.ccrCheck)
+			titleText.setText("מערכת סגורה");
+	}
+	
 public void onBack(){
 	Main.showMenu("OrderInfo");
 

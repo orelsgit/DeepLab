@@ -18,6 +18,14 @@ public class Customer extends GeneralMessage{
 		this.id = id;
 	}
 
+	public Customer( String name, String lastName, String email, String phone, String id) {//for customer list
+		this.name = name;
+		this.lastName = lastName;
+		this.custID = custID;
+		this.email = email;
+		this.phone = phone;
+		this.id = id;
+	}
 
 
 	public Customer(){}

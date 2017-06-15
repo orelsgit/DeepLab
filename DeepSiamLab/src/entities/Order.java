@@ -100,13 +100,16 @@ public class Order extends GeneralMessage {
 	public boolean isClubEquipment() {
 		return IsClubEquipment;
 	}
-	public void setIsClubEquipment(boolean isClubEquipment) {
+	
+	public void setIsClubEquipment(boolean isClubEquipment, Order order) {
 		IsClubEquipment = isClubEquipment;
 		if(isClubEquipment)
 			clubOrPrivate = "ציוד מועדון";
 		else
 			clubOrPrivate = "ציוד פרטי";
 	}
+	
+	
 	public String getClubOrPrivate() {
 		return clubOrPrivate;
 	}

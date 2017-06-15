@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="492.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="492.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddEquipment">
    <children>
       <Text fx:id="ccrSerialNumText" layoutX="301.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":מספר ראש" />
       <Text layoutX="50.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="העלה קובץ" />

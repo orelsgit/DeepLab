@@ -124,7 +124,7 @@ public class Client extends AbstractClient {
 					++i;
 					if(order.getOrderNum() == ((Order)msg).getOrderNum())
 						Order.getUnhandledOrderList().remove(i);
-				}
+				}break;
 
 
 			}

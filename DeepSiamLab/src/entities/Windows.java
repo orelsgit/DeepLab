@@ -39,6 +39,12 @@ public class Windows {
 	}
 	
 
+	public static int multipleChoice(String[] options){
+		return JOptionPane.showOptionDialog(null, "בהסתמך על הבדיקה שנעשתה, תוצאות הצילינדר הינן:", "תוצאות צילינדר",
+		        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+		        null, options, options[0]);
+	}
+	
 	public static boolean yesNo(String message, String title){
 		if(JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION)==0)
 			return true;

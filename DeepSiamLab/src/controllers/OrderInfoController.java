@@ -134,7 +134,8 @@ public class OrderInfoController {
 
 
 		if(equipmentCnt == 0){
-			GM.sendServer(LabOrdersController.orderSelected, "OrderHandled");			
+			GM.sendServer(LabOrdersController.orderSelected, "OrderHandled");	
+			Windows.message("הטיפול הושלם והכרטיס נסגר.", "טיפול הושלם");
 			onBack();
 			return;
 		}
