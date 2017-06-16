@@ -25,7 +25,7 @@ public class SearchRegController {
 	private GeneralMethods GM = new GeneralMethods();
 
 	private boolean newClick = true;
-	private int doubleClick = 0, selectedIndex = -1;
+	public int doubleClick = 0, selectedIndex = -1;
 
 
 	public void initialize(){

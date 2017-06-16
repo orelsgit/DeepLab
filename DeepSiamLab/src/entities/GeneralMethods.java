@@ -122,7 +122,7 @@ public class GeneralMethods implements Serializable{
 	
 	}
 	
-	public void setTableViewEmpty(String str, TableView tableView){
+	public void setTableViewEmpty(String str, TableView<?> tableView){
 		tableView.setPlaceholder(new Label(str));
 	}
 	

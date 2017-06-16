@@ -1,6 +1,6 @@
 package controllers;
 
-import entities.GeneralMethods;
+
 import entities.Windows;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -10,7 +10,6 @@ import main.Main;
 
 public class FixController {
 	
-	private GeneralMethods GM =new GeneralMethods();
 	@FXML
 	private Text titleText;
 	@FXML
@@ -34,7 +33,7 @@ public class FixController {
 	}
 	
 public void onBack(){
-	Main.showMenu("OrderInfo");
+	Main.showMenu("OrderInfo", "הזמנה פרטית");
 
 }
 

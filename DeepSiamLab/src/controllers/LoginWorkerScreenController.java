@@ -98,6 +98,10 @@ public class LoginWorkerScreenController{
 	}
 	
 	
+	
+	public void onRefresh(){
+		GM.refresh(null);
+	}
 
 	
 	public void getInfo(){
@@ -119,24 +123,24 @@ public class LoginWorkerScreenController{
 	
 	public void addCCR(){
 		equipment = "CCR";
-		GM.getPopup(Main.popup, "AddCCR", "AddCCR", "popup");
+		GM.getPopup(Main.popup, "AddCCR", "הוספת מערכת סגורה", "popup");
 	}
 	
 	
 	public void onAddRegulator(){
 		equipment = "Regulator";
-		GM.getPopup(Main.popup, "AddRegulator", "AddRegulator", "popup");
+		GM.getPopup(Main.popup, "AddRegulator", "הוספת וסת", "popup");
 	}
 	
 	public void onAddBCD(){
 		equipment = "BCD";
-		GM.getPopup(Main.popup, "AddBCD", "AddBCD", "popup");
+		GM.getPopup(Main.popup, "AddBCD", "הוספת מאזן", "popup");
 
 	}
 	
 	public void onAddTank(){
 		equipment = "Tank";
-		GM.getPopup(Main.popup, "AddTank", "AddTank", "popup");
+		GM.getPopup(Main.popup, "AddTank", "הוספת מיכל", "popup");
 
 	}
 	
@@ -145,7 +149,7 @@ public class LoginWorkerScreenController{
 	 * @author orelzman
 	 */
 	public void onAddCustomer(){
-		GM.getPopup(Main.popup, "AddCustomer", "AddCustomer", "popup");
+		GM.getPopup(Main.popup, "AddCustomer", "הוספת לקוח", "popup");
 		currentWindow=false;
 	}
 	
@@ -169,12 +173,12 @@ public class LoginWorkerScreenController{
 		if(!newOrders)//Will open only if there are new orders
 			return;
 		currentWindow=false;
-		Main.showMenu("LabOrders");
+		Main.showMenu("LabOrders", "מסך הזמנות");
 	}
 	
 	public void onLogout(){
 		currentWindow = false;
-		 Main.showMenu("MainScreen");
+		 Main.showMenu("MainScreen", "מסך ראשי");
 	 }
 	
 	/**
@@ -183,7 +187,7 @@ public class LoginWorkerScreenController{
 	 */
 	public void onCheckEquipment(){
 		currentWindow = false;
-			Main.showMenu("CheckEquipmentScreen");
+			Main.showMenu("CheckEquipmentScreen", "בדיקת ציוד");
 	}
 
 	/**
@@ -194,6 +198,6 @@ public class LoginWorkerScreenController{
 		if(Worker.getCurrentWorker().getIsManager()==Status.Tech)
 			return;
 		currentWindow = false;
-		Main.showMenu("OpenCardScreen");
+		Main.showMenu("OpenCardScreen", "כרטיס חדש");
 	}
 }

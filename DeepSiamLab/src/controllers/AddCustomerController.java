@@ -87,7 +87,7 @@ public class AddCustomerController {
 			}
 		}
 		else if(!GeneralMessage.currentWindow.equals(""))
-			Main.showMenu(GeneralMessage.currentWindow);
+			Main.showMenu(GeneralMessage.currentWindow, "חיפוש לקוח");
 	}
 	
 	/**

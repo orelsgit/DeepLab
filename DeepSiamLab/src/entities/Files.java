@@ -33,6 +33,7 @@ public class Files implements Serializable{
 	}
 	
 
+	@SuppressWarnings("resource")
 	public void setFile(){
 		boolean isType=false;
 		FileChooser fileChooser = new FileChooser();

@@ -2,7 +2,6 @@ package controllers;
 
 import java.util.ArrayList;
 
-import entities.Customer;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Order;
@@ -194,7 +193,7 @@ public class LabOrdersController {
 		GeneralMessage.regDone = false;
 		GeneralMessage.tankDone = false;
 		
-		Main.showMenu("OrderInfo");
+		Main.showMenu("OrderInfo", "הזמנה פרטית");
 	}
 
 	/**
@@ -245,7 +244,7 @@ public class LabOrdersController {
 	 * @author orelzman
 	 */
 	public void onBack(){
-		Main.showMenu("LoginWorkerScreen");
+		Main.showMenu("LoginWorkerScreen", "מסך ניווט");
 	}
 
 }

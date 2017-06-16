@@ -31,7 +31,8 @@ public class EmailController {
 	private GeneralMethods GM;
 	public static String emailTo;
 	
-	private final String password = "00220022", emailFrom = "garbagedeepsiam@gmail.com";
+	//private final String password1 = "00220022", emailFrom1 = "garbagedeepsiam@gmail.com";
+	private final String PASSWORD = "00220022", EMAIL = "garbagedeepsiam@gmail.com";
 	
 	private DoubleProperty number;
 	
@@ -45,9 +46,9 @@ public class EmailController {
 		emailProgressBar.setVisible(false);
 		emailProgressIndicator.setVisible(false);
 		number = new SimpleDoubleProperty(0.0);//Number for the progress bars
-		emailTextField.setStyle("-fx-background: #9A9A9A;");
+		//emailTextField.setStyle("-fx-background: #9A9A9A;");
 		passwordTextField.setVisible(false);
-		toTextField.setStyle("-fx-background #9A9A9A;");
+		//toTextField.setStyle("-fx-background #9A9A9A;");
 		emailTextField.setEditable(false);
 		passwordTextField.setEditable(false);
 		passwordText.setVisible(false);
@@ -65,8 +66,8 @@ public class EmailController {
 			
 
 		toTextField.setText(emailTo);
-		emailTextField.setText(emailFrom);
-		passwordTextField.setText(password);
+		emailTextField.setText(EMAIL);
+		passwordTextField.setText(PASSWORD);
 	}
 	
 	public void onFrom(){
@@ -83,8 +84,8 @@ public class EmailController {
 			passwordTextField.setVisible(false);
 			emailTextField.setEditable(false);
 			passwordTextField.setEditable(false);
-			emailTextField.setText(emailFrom);
-			passwordTextField.setText(password);
+			emailTextField.setText(EMAIL);
+			passwordTextField.setText(PASSWORD);
 			passwordText.setVisible(false);
 		}
 	}
@@ -97,7 +98,7 @@ public class EmailController {
 			return;
 		emailProgressBar.setVisible(true);
 		emailProgressIndicator.setVisible(true);
-		GM.sendMail(toTextField.getText().replaceAll("\\s+", ""), subjectTextField.getText(), msgTextArea.getText(), emailTextField.getText(), passwordTextField.getText());
+		GM.sendMail(toTextField.getText().replaceAll("\\s+", ""), subjectTextField.getText(), msgTextArea.getText(), EMAIL, PASSWORD);
 		activateProgressBar();
 	}
 	

@@ -475,7 +475,7 @@ public class OpenCardController {
 
 
 	public void findCCR(){
-		GM.getPopup(Main.popup, "SearchCCR","SearchCCR", "popup");
+		GM.getPopup(Main.popup, "SearchCCR","חיפוש מערכת סגורה", "popup");
 		if(ccrChosen == null)
 			return;
 
@@ -485,7 +485,7 @@ public class OpenCardController {
 	}
 
 	public void findTank(){
-		GM.getPopup(Main.popup, "SearchTank", "SearchTank", "popup");
+		GM.getPopup(Main.popup, "SearchTank", "חיפוש מיכל", "popup");
 		if(tankChosen == null)
 			return;
 
@@ -496,7 +496,7 @@ public class OpenCardController {
 	}
 
 	public void findBCD(){
-		GM.getPopup(Main.popup, "SearchBCD", "SearchBCD", "popup");
+		GM.getPopup(Main.popup, "SearchBCD", "חיפוש מאזן", "popup");
 		if(bcdChosen == null)
 			return;
 
@@ -511,7 +511,7 @@ public class OpenCardController {
 	}
 
 	public void findReg(){
-		GM.getPopup(Main.popup, "SearchReg", "SearchReg", "popup");
+		GM.getPopup(Main.popup, "SearchReg", "חיפוש וסת", "popup");
 		if(regChosen == null)
 			return;
 
@@ -541,6 +541,8 @@ public class OpenCardController {
 		onMenuChange(bcdModelComboBox, bcdModelList, bcdListSearch);
 
 	}
+	
+
 
 	/**
 	 * Creates a thread that awaits the return of a result from the about-to-open customer search window.
@@ -548,6 +550,8 @@ public class OpenCardController {
 	 */
 	public void onSearch(){	
 		isBackFromSearch=false;
+		
+		@SuppressWarnings("unused")
 		Thread thread = new Thread(){
 			public void run(){
 				
@@ -560,7 +564,7 @@ public class OpenCardController {
 				isBackFromSearch=false;
 				idTextField.setText(customerChosen.getCustID());			
 			}
-		};thread.start();
+		};//thread.start();
 		GM.getPopup(Main.popup, "CustomerSearch", "סיסמת מנהל", "popup");	
 		if(customerChosen == null)
 			return;
@@ -641,7 +645,7 @@ public class OpenCardController {
 	public void onBack(){
 		if(Worker.getCurrentWorker().getIsManager()==Status.Dalpak)
 			return;
-		Main.showMenu("LoginWorkerScreen");
+		Main.showMenu("LoginWorkerScreen", "מסך ניווט");
 	}
 
 	public void onClean(){

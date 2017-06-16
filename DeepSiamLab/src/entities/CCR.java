@@ -24,9 +24,7 @@ public CCR(String manufacturer){
 
 public CCR(String manufacturer,String model) {
 	super();
-	this.serialNum = serialNum;
 	this.manufacturer = manufacturer;
-	this.owner = owner;
 	this.setModel(model);
 }
 

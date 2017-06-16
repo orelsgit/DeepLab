@@ -13,7 +13,7 @@
       <Text fx:id="nameText" layoutX="46.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="שם מלא" wrappingWidth="58.13671875" />
       <Text layoutX="255.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="תיאור" />
       <Text layoutX="515.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="הערות" />
-      <Button layoutX="514.0" layoutY="372.0" mnemonicParsing="false" onAction="#onMail" prefHeight="45.0" prefWidth="123.0" text="צור קשר במייל">
+      <Button disable="true" layoutX="514.0" layoutY="372.0" mnemonicParsing="false" onAction="#onMail" prefHeight="45.0" prefWidth="123.0" text="צור קשר במייל">
          <font>
             <Font size="14.0" />
          </font></Button>

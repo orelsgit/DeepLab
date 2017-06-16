@@ -116,9 +116,9 @@ public class LoginScreenController {
 								return;//No such user
 							Windows.message("ברוך שובך " + Worker.getCurrentWorker().getfName(), "Deepsiam Lab");
 							if(Worker.getCurrentWorker().getIsManager().equals(Status.Dalpak))
-								Main.showMenu("OpenCardScreen");
+								Main.showMenu("OpenCardScreen", "כרטיס חדש");
 							else
-								Main.showMenu("LoginWorkerScreen");
+								Main.showMenu("LoginWorkerScreen", "מסך ניווט");
 						}
 					});
 				}

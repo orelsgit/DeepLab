@@ -1,7 +1,6 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 import entities.BCD;
 import entities.GeneralMessage;
@@ -25,7 +24,8 @@ public class SearchBCDController {
 	
 	private GeneralMethods GM = new GeneralMethods();
 	
-	private static int selectedIndex = -1, doubleClick = 0;
+	private static int selectedIndex = -1;
+	public static int doubleClick = 0;
 	private static boolean newClick = true;
 	
 	public void initialize(){

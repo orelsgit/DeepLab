@@ -3,7 +3,6 @@ package controllers;
 import java.util.ArrayList;
 
 import entities.CCR;
-import entities.Customer;
 import entities.Error;
 import entities.GeneralMethods;
 import javafx.collections.FXCollections;

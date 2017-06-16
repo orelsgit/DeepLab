@@ -8,7 +8,6 @@ import entities.Customer;
 import entities.Error;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
-import entities.Order;
 import entities.Regulator;
 import entities.Windows;
 import javafx.fxml.FXML;
@@ -315,7 +314,7 @@ public class OrderInfoController {
 
 		isFixOrAnnual=false;
 		GM.closePopup(Main.popup);
-		Main.showMenu("Annual");
+		Main.showMenu("Annual", "טיפול שנתי");
 		//	GM.getPopup(Main.popup2, "Test", "בדיקה שוטפת", "popup2");
 
 
@@ -337,7 +336,7 @@ public class OrderInfoController {
 
 		isFixOrAnnual=false;
 		GM.closePopup(Main.popup);
-		Main.showMenu("Fix");
+		Main.showMenu("Fix", "טיפול שוטף");
 
 
 	}	
@@ -352,7 +351,7 @@ public class OrderInfoController {
 		falseChecks();
 		regCheck = true;
 		isFixOrAnnual=true;
-		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
+		GM.getPopup(Main.popup, "FixOrAnnual", "טיפול שוטף או טיפול שנתי", "popup");
 
 	}
 
@@ -366,7 +365,7 @@ public class OrderInfoController {
 		falseChecks();
 		isFixOrAnnual=true;
 		bcdCheck = true;
-		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
+		GM.getPopup(Main.popup, "FixOrAnnual", "טיפול שוטף או טיפול שנתי", "popup");
 
 	}
 
@@ -380,7 +379,7 @@ public class OrderInfoController {
 		falseChecks();
 		ccrCheck=true;
 		isFixOrAnnual=true;
-		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
+		GM.getPopup(Main.popup, "FixOrAnnual", "טיפול שוטף או טיפול שנתי", "popup");
 	}
 
 
@@ -394,7 +393,7 @@ public class OrderInfoController {
 		falseChecks();
 		isFixOrAnnual=true;
 		tankCheck = true;
-		GM.getPopup(Main.popup, "FixOrAnnual", "FixOrAnnual", "popup");
+		GM.getPopup(Main.popup, "FixOrAnnual", "טיפול שוטף או טיפול שנתי", "popup");
 
 	}
 
@@ -416,7 +415,7 @@ public class OrderInfoController {
 		if(equipmentCnt != 0)//Update w.e we did so far.			
 			GM.sendServer(LabOrdersController.orderSelected, "UpdateOrder");
 
-		Main.showMenu("LabOrders");
+		Main.showMenu("LabOrders", "הזמנות");
 
 	}
 

@@ -140,6 +140,11 @@ public class AddEquipment {
 		
 		if(regulator == null)
 			regulator = new Regulator();
+		
+		if(interTextField.getText().contains("[a-zA-Z]+")){
+			Windows.warning("הלחץ החלקי חייב להכיל מספרים בלבד");
+			return;
+		}
 
 		regulator = new Regulator(regModelTextField.getText(), regManuTextField.getText(), Float.parseFloat(interTextField.getText()),
 				regSNumTextField.getText(), regDeepNumTextField.getText());
@@ -265,6 +270,10 @@ public class AddEquipment {
 		
 		if(tank == null)
 			tank = new Tank(); 
+		if(volumeTextField.getText().contains("[a-zA-Z]+")){
+			Windows.warning("הנפח חייב להכיל מספרים בלבד");
+			return;
+		}
 		
 		tank = new Tank(tankModelTextField.getText(), tankManuTextField.getText(), Integer.parseInt(volumeTextField.getText()),
 				tankSNumTextField.getText(), tankDeepNumTextField.getText(), a);

@@ -49,16 +49,16 @@ public class Main extends Application {
 		popup3.initModality(Modality.APPLICATION_MODAL);
 		popup3.initOwner(popup2);
 		popup3.getIcons().add(duck);
-		showMenu("MainScreen");
+		showMenu("MainScreen", "מסך ראשי");
 	}
 
-	public static void showMenu(String screen) {
+	public static void showMenu(String screen, String title) {
 		primaryStage.close();
 		GeneralMessage.currentWindow = screen;
 		FXMLLoader loader = new FXMLLoader(); 
 		loader.setLocation(Main.class.getResource("/GUI/" + screen + ".fxml"));
 		try {mainLayout = loader.load();} catch (IOException e) {e.printStackTrace();}
-		primaryStage.setTitle(screen);
+		primaryStage.setTitle(title);
 		primaryStage.setScene(new Scene(mainLayout));
 		primaryStage.sizeToScene();
 		primaryStage.show();

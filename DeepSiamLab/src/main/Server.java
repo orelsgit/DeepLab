@@ -12,10 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.swing.plaf.synth.SynthSplitPaneUI;
 
 import entities.Error;
-import entities.AnnualCheck;
 import entities.BCD;
 import entities.CCR;
 import entities.Customer;
@@ -456,7 +454,6 @@ public class Server extends AbstractServer {
 		ArrayList<Regulator> regList = new ArrayList<Regulator>();
 		try{
 
-			Regulator reg;
 			Statement stmt = conn.createStatement();
 			ResultSet rs1 = stmt.executeQuery("Select LTRIM(RTRIM(Model)) From orelDeepdivers.Regulators");
 			while(rs1.next())
@@ -585,7 +582,6 @@ public class Server extends AbstractServer {
 	public void getCCR(ConnectionToClient client){
 		ArrayList<CCR> ccrList = new ArrayList<CCR>();
 		try{
-			CCR ccr;
 			Statement stmt = conn.createStatement();
 			ResultSet rs1 = stmt.executeQuery("Select LTRIM(RTRIM(Manufacturer)) From orelDeepdivers.CCR");
 			while(rs1.next())
@@ -770,7 +766,7 @@ public class Server extends AbstractServer {
 		try{
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("Select LTRIM(RTRIM(ID)) FROM orelDeepdivers.Workers;");
-			String id, email;
+			String id;
 			while(rs.next()){
 				id=rs.getString(1);
 				if(id.equals(worker.getID())){
@@ -828,6 +824,7 @@ public class Server extends AbstractServer {
 	 * @author orelzman
 	 */
 	public void issueOrder(Order order, ConnectionToClient client){
+		System.out.println("ISSUE ORDER");
 		PreparedStatement preparedStmt;
 		Statement stmt;
 		int max=0;

@@ -54,5 +54,10 @@
             <Image url="@../../redot.png" />
          </image>
       </ImageView>
+      <Button layoutX="25.0" layoutY="28.0" mnemonicParsing="false" onAction="#onRefresh" text="רענן מידע">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

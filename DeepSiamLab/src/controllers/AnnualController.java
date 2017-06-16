@@ -306,7 +306,7 @@ public class AnnualController {
 
 	public void onBack(){
 		page = 1;
-		Main.showMenu("OrderInfo");
+		Main.showMenu("OrderInfo", "הזמנה פרטית");
 	}
 
 	public void onBackTank(){
@@ -659,7 +659,7 @@ public class AnnualController {
 			return;
 		}
 		GeneralMessage.currentWindow = "AnnualScreen";
-		GM.getPopup(Main.popup3, "ManagersPasswordScreen", "הכנס סיסמת מנהל", "popup2");
+		GM.getPopup(Main.popup3, "ManagersPasswordScreen", "סיסמת מנהל", "popup2");
 		GM.closePopup(Main.popup3);//Will be called after the popup is closed.
 		if(!isManagerApprove)
 			managerCheckBox.setSelected(false);
