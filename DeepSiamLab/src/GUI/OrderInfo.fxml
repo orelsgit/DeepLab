@@ -46,5 +46,10 @@
             <Font name="System Bold Italic" size="15.0" />
          </font>
       </Button>
+      <Text fill="RED" layoutX="30.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="במידה ותחליט לחזור מבלי שסיימת את כל הבדיקות, הבדיקות שנעשו עד עכשיו ישמרו ותוכל להמשיך מאוחר יותר" wrappingWidth="148.5078125">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Text>
    </children>
 </Pane>

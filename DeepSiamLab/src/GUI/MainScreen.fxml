@@ -23,6 +23,6 @@
       <Button layoutX="238.0" layoutY="297.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="25.0" prefWidth="102.0" text="התחבר" />
       <Button layoutX="262.0" layoutY="386.0" mnemonicParsing="false" onAction="#onClose" prefHeight="25.0" prefWidth="54.0" text="סגור" />
       <Button fx:id="registerButton" layoutX="238.0" layoutY="342.0" mnemonicParsing="false" onAction="#onRegister" prefHeight="25.0" prefWidth="102.0" text="רישום עובד" />
-      <ProgressIndicator fx:id="loginProgressIndicator" layoutX="258.0" layoutY="140.0" prefHeight="54.0" prefWidth="77.0" progress="0.0" />
+      <ProgressIndicator fx:id="loginProgressIndicator" layoutX="258.0" layoutY="140.0" prefHeight="54.0" prefWidth="77.0" progress="0.0" visible="false" />
    </children>
 </Pane>

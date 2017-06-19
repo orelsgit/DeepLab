@@ -14,9 +14,10 @@
             <Font name="System Bold Italic" size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="tankManuTextField" layoutX="112.0" layoutY="91.0" promptText="יצרן" />
-      <TextField fx:id="volumeTextField" layoutX="113.0" layoutY="158.0" prefHeight="25.0" prefWidth="149.0" promptText="נפח מיכל" />
-      <TextField fx:id="tankSNumTextField" layoutX="113.0" layoutY="200.0" prefHeight="25.0" prefWidth="149.0" promptText="מספר סידורי" />
+      <TextField fx:id="tankManuTextField" layoutX="110.0" layoutY="65.0" promptText="יצרן" />
+      <TextField fx:id="tankModelTextField" layoutX="111.0" layoutY="98.0" promptText="דגם" />
+      <TextField fx:id="volumeTextField" layoutX="111.0" layoutY="132.0" prefHeight="25.0" prefWidth="149.0" promptText="נפח מיכל" />
+      <TextField fx:id="tankSNumTextField" layoutX="113.0" layoutY="206.0" prefHeight="25.0" prefWidth="149.0" promptText="מספר סידורי" />
       <TextField fx:id="tankDeepNumTextField" layoutX="113.0" layoutY="241.0" prefHeight="25.0" prefWidth="149.0" promptText="מק&quot;ט מועדון" />
       <Button layoutX="142.0" layoutY="385.0" mnemonicParsing="false" onAction="#onAddTank" prefHeight="25.0" prefWidth="100.0" text="הוסף מיכל">
          <font>
@@ -28,9 +29,9 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Text fx:id="volumeText" layoutX="275.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":נפח מיכל" />
-      <Text fx:id="tankManuText" layoutX="273.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":יצרן" />
-      <Text fx:id="tankSNumText" layoutX="275.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="מספר סידורי:" />
+      <Text fx:id="volumeText" layoutX="273.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":נפח מיכל" />
+      <Text fx:id="tankManuText" layoutX="271.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":יצרן" />
+      <Text fx:id="tankSNumText" layoutX="275.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="מספר סידורי:" />
       <Text fx:id="tankDeepNumText" layoutX="275.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="מק&quot;ט מועדון:" />
       <Button layoutX="63.0" layoutY="302.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="30.0">
          <graphic>
@@ -53,7 +54,8 @@
             <Font size="16.0" />
          </font>
       </CheckBox>
-      <TextField fx:id="tankModelTextField" layoutX="113.0" layoutY="124.0" promptText="דגם" />
-      <Text fx:id="tankModelText" layoutX="273.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="דגם:" />
+      <Text fx:id="tankModelText" layoutX="271.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="דגם:" />
+      <Text layoutX="275.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="תאריך הבא לטיפול:" />
+      <DatePicker fx:id="nextDateDatePicker" layoutX="111.0" layoutY="169.0" prefHeight="25.0" prefWidth="149.0" />
    </children>
 </AnchorPane>

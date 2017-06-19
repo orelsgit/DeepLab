@@ -3,15 +3,15 @@ package entities;
 public class CCR extends GeneralMessage{
 
 	private static final long serialVersionUID = 1L;
-private String serialNum, manufacturer, owner, model;
+private String serialNum, manufacturer, owner, model, nextDate;
 
 	
 
-public CCR(String manufacturer, String model, String serialNum) {
-	super();
+public CCR(String manufacturer, String model, String serialNum,String nextDate) {
 	this.manufacturer = manufacturer;
 	this.model = model;
 	this.serialNum = serialNum;
+	this.setNextDate(nextDate);
 }
 
 public CCR(){
@@ -58,5 +58,13 @@ public String getModel() {
 
 public void setModel(String model) {
 	this.model = model;
+}
+
+public String getNextDate() {
+	return nextDate;
+}
+
+public void setNextDate(String nextDate) {
+	this.nextDate = nextDate;
 }
 }

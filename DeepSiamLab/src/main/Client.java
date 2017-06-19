@@ -109,9 +109,9 @@ public class Client extends AbstractClient {
 			case "NewTank":
 				Windows.message("מיכל חדש נוסף למסד הנתונים", "מיכל חדש");AddEquipment.isBackFromServer=true;break;
 			case "NewBCD":
-				Windows.message("מאזן חדש נוסף למסד הנתונים", "מאזן חדש");	AddEquipment.isBackFromServer=true;break;
+				Windows.message("מאזן חדש נוסף למסד הנתונים", "מאזן חדש");AddEquipment.isBackFromServer=true;break;
 			case "NewCCR":
-				Windows.message("מערכת סגורה חדשה נוספה למסד הנתונים", "מערכת סגורה חדשה");	AddEquipment.isBackFromServer=true;break;
+				Windows.message("מערכת סגורה חדשה נוספה למסד הנתונים", "מערכת סגורה חדשה");AddEquipment.isBackFromServer=true;break;
 			case "NewClientOrder":
 				Order.currentOrder.setCustID(((Order)msg).getCustID());Order.currentOrder.actionNow = "NewClientOrder";break;
 			case "OldClientOrder":
@@ -123,6 +123,8 @@ public class Client extends AbstractClient {
 					if(order.getOrderNum() == ((Order)msg).getOrderNum())
 						Order.getUnhandledOrderList().remove(i);
 				}break;
+			case "AlreadyInSystem":
+				AddEquipment.isBackFromServer=true;break;
 
 
 			}

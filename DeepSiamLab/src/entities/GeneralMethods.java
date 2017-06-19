@@ -21,6 +21,7 @@ import javax.mail.internet.MimeMessage;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableView;
@@ -47,6 +48,14 @@ public class GeneralMethods implements Serializable{
 		return df.format(calobj.getTime());
 	}
 	
+	
+	public static String setDatePicker(DatePicker dp){
+		int year = dp.getValue().getYear(), month = dp.getValue().getMonthValue(), day = dp.getValue().getDayOfMonth();
+		if(day<1 || day>31)
+			return null;
+		String date = Integer.toString(year)+"/"+Integer.toString(month)+"/"+Integer.toString(day);
+		return date;
+	}
 	/**
 	 * Refreshes the equipments/orders/customers lists.
 	 * @author orelzman

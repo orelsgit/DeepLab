@@ -5,16 +5,17 @@ public class BCD extends GeneralMessage {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-private String deepNum, size, model, manufacturer;
+private String deepNum, size, model, manufacturer, nextDate;
 
 
 
-public BCD(String size, String model, String manufacturer,String deepNum) {
+public BCD(String size, String model, String manufacturer,String deepNum, String nextDate) {
 	super();
 	this.size = size;
 	this.model = model;
 	this.manufacturer = manufacturer;
 	this.deepNum=deepNum;
+	this.nextDate = nextDate;
 }
 
 
@@ -66,6 +67,16 @@ public String getManufacturer() {
 
 public void setManufacturer(String manufacturer) {
 	this.manufacturer = manufacturer;
+}
+
+
+public String getNextDate() {
+	return nextDate;
+}
+
+
+public void setNextDate(String nextDate) {
+	this.nextDate = nextDate;
 }
 
 }

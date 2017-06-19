@@ -2,30 +2,33 @@ package controllers;
 
 import entities.BCD;
 import entities.CCR;
+import entities.Error;
 import entities.GeneralMethods;
 import entities.Regulator;
 import entities.Tank;
 import entities.Windows;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import main.Main;
-import entities.Error;
 
 public class AddEquipment {
 
 	@FXML
 	private TextField sizeTextField, bcdModelTextField, bcdManuTextField, regModelTextField, regManuTextField, interTextField,
 	volumeTextField, tankManuTextField, bcdDeepNumTextField, ccrManuTextField, ccrModelTextField, ccrSerialNumTextField,
-	tankModelTextField, tankDeepNumTextField, tankSNumTextField, regSNumTextField, regDeepNumTextField;
+	tankModelTextField, tankDeepNumTextField, tankSNumTextField, regSNumTextField, regDeepNumTextField, nextDateTextField;
 	@FXML
 	private Text sizeText, bcdModelText, bcdManuText, regModelText, regManuText, interText, ccrManuText, ccrModelText, ccrSerialNumText,
 	volumeText, tankManuText, bcdFileNameText, bcdDeepNumText, regFileNameText, ccrFileNameText, tankFileNameText,
 	tankModelText, tankDeepNumText, tankSNumText, regSNumText, regDeepNumText;
 	@FXML
 	private CheckBox aluminiumCheckBox, steelCheckBox;
+	@FXML
+	private DatePicker nextDateDatePicker;
 
 	private BCD bcd;
 	private Tank tank;
@@ -56,6 +59,7 @@ public class AddEquipment {
 	}
 
 	public void onAddCCR(){
+
 		isBackFromServer = false;
 
 		boolean isFilled=true;
@@ -83,7 +87,7 @@ public class AddEquipment {
 		if(ccr == null)
 			ccr = new CCR();
 
-		ccr = new CCR(ccrModelTextField.getText(), ccrManuTextField.getText(), ccrSerialNumTextField.getText());
+		ccr = new CCR(ccrModelTextField.getText(), ccrManuTextField.getText(), ccrSerialNumTextField.getText(), GeneralMethods.setDatePicker(nextDateDatePicker));
 		GM.sendServerThread(ccr, "AddCCR");
 
 		Error error = new Error("AddEquipment", "onAddCCR", 0);
@@ -137,17 +141,17 @@ public class AddEquipment {
 			return;
 		if(!GM.checkText(regSNumTextField.getText()))
 			return;
-		
+
 		if(regulator == null)
 			regulator = new Regulator();
-		
-		if(interTextField.getText().contains("[a-zA-Z]+")){
-			Windows.warning("הלחץ החלקי חייב להכיל מספרים בלבד");
+
+
+		if(interTextField.getText().matches("[a-zA-Z]+")){
+			Windows.threadMessage("הלחץ הביניים חייב להכיל מספרים בלבד!", "לחץ הביניים שגוי");
 			return;
 		}
-
 		regulator = new Regulator(regModelTextField.getText(), regManuTextField.getText(), Float.parseFloat(interTextField.getText()),
-				regSNumTextField.getText(), regDeepNumTextField.getText());
+				regSNumTextField.getText(), regDeepNumTextField.getText(), GeneralMethods.setDatePicker(nextDateDatePicker));
 		GM.sendServerThread(regulator, "AddRegulator");
 
 
@@ -193,14 +197,15 @@ public class AddEquipment {
 			return;
 		if(!GM.checkText(bcdDeepNumTextField.getText()))
 			return;
-		
+
 		if(bcd == null)//No file was uploaded
 			bcd = new BCD();
-		
+
 		bcd.setSize(sizeTextField.getText());
 		bcd.setModel(bcdModelTextField.getText());
 		bcd.setManufacturer(bcdManuTextField.getText());
 		bcd.setDeepNum(bcdDeepNumTextField.getText());
+		bcd.setNextDate(GeneralMethods.setDatePicker(nextDateDatePicker));
 
 		if(bcdFileNameText.getText()==null)
 			if(Windows.yesNo("האם אתה בטוח שברצונך להמשיך בלי להעלות קובץ?", "אין קובץ", "העלה קובץ", "המשך בלי להעלות קובץ"))
@@ -214,7 +219,7 @@ public class AddEquipment {
 		while(!isBackFromServer)
 			if(!GM.Sleep(70, error, timesCalled++))
 				return;
-			
+
 
 
 
@@ -267,16 +272,16 @@ public class AddEquipment {
 			a=1;
 		else
 			a=0;
-		
+
 		if(tank == null)
 			tank = new Tank(); 
 		if(volumeTextField.getText().contains("[a-zA-Z]+")){
 			Windows.warning("הנפח חייב להכיל מספרים בלבד");
 			return;
 		}
-		
+
 		tank = new Tank(tankModelTextField.getText(), tankManuTextField.getText(), Integer.parseInt(volumeTextField.getText()),
-				tankSNumTextField.getText(), tankDeepNumTextField.getText(), a);
+				tankSNumTextField.getText(), tankDeepNumTextField.getText(), a, GeneralMethods.setDatePicker(nextDateDatePicker));
 		GM.sendServerThread(tank, "AddTank");
 
 		Error error = new Error("AddEquipment", "onAddTank", 3);
@@ -284,7 +289,7 @@ public class AddEquipment {
 		while(!isBackFromServer)
 			if(!GM.Sleep(70, error, timesCalled++))
 				return;
-			
+
 
 
 	}

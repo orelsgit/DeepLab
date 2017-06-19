@@ -5,17 +5,18 @@ public class Regulator extends GeneralMessage{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String model,manufacturer,serialNum, deepNum;
+	private String model,manufacturer,serialNum, deepNum, nextDate;
 	float interPressure;
 	
 	
-	public Regulator(String model, String manufacturer, float interPressure, String serialNum, String deepNum) {
+	public Regulator(String model, String manufacturer, float interPressure, String serialNum, String deepNum, String nextDate) {
 		super();
 		this.model = model;
 		this.manufacturer = manufacturer;
 		this.interPressure = interPressure;
 		this.serialNum = serialNum;
 		this.deepNum = deepNum;
+		this.nextDate = nextDate;
 		}
 	
 	
@@ -56,6 +57,18 @@ public class Regulator extends GeneralMessage{
 	}
 	public void setInterPressure(float f) {
 		this.interPressure = f;
+	}
+
+
+
+	public String getNextDate() {
+		return nextDate;
+	}
+
+
+
+	public void setNextDate(String nextDate) {
+		this.nextDate = nextDate;
 	}
 	
 }

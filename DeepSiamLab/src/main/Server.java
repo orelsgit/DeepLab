@@ -88,8 +88,8 @@ public class Server extends AbstractServer {
 			addBCD((BCD)msg, client);break;
 		case "AddTank":
 			addTank((Tank)msg, client);break;
-		case "GetCCROwnersList":
-			getCCROwnersList(client);break;
+			//		case "GetCCROwnersList":
+			//			getCCROwnersList(client);break;
 		case "Download":
 			download((BCD)msg);break;
 		case "OrderHandled":
@@ -202,7 +202,7 @@ public class Server extends AbstractServer {
 	}
 
 
-	public void getCCROwnersList(ConnectionToClient client){
+	/*	public void getCCROwnersList(ConnectionToClient client){
 		try{
 			ArrayList<CCR> ccrList = new ArrayList<CCR>();
 			Statement stmt = conn.createStatement();
@@ -219,11 +219,19 @@ public class Server extends AbstractServer {
 		}catch(Exception e){e.printStackTrace();}
 	}
 
-
+	 */
 
 	public void addCCR(CCR ccr, ConnectionToClient client){
 		try{
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO orelDeepdivers.CCR values(?,?,?,?,?);");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(SerialNum)) from orelDeepdivers.CCR WHERE Model = '" + ccr.getSerialNum() + "';");
+			if(rs.next()){
+				Windows.threadWarning("המערכת הסגורה קיימת במערכת");
+				ccr.actionNow="AlreadyInSystem";
+				client.sendToClient(ccr);
+				return;
+			}
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO orelDeepdivers.CCR values(?,?,?,?,?,?);");
 			pstmt.setString(1, ccr.getManufacturer());
 			pstmt.setString(2, ccr.getModel());
 			pstmt.setString(3, ccr.getSerialNum());
@@ -237,6 +245,7 @@ public class Server extends AbstractServer {
 				pstmt.setBinaryStream(4, null);
 				pstmt.setString(5, null);
 			}
+			pstmt.setString(6, ccr.getNextDate());
 			pstmt.executeUpdate();
 			ccr.actionNow = "NewCCR";
 			client.sendToClient(ccr);
@@ -245,7 +254,15 @@ public class Server extends AbstractServer {
 
 	public void addTank(Tank tank, ConnectionToClient client){
 		try{
-			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Tanks values(?,?,?,?,?,?,?,?);");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(DeepNum)) from orelDeepdivers.Tanks WHERE Model = '" + tank.getDeepNum() + "';");
+			if(rs.next()){
+				Windows.threadWarning("המיכל קיים במערכת");
+				tank.actionNow="AlreadyInSystem";
+				client.sendToClient(tank);
+				return;
+			}
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Tanks values(?,?,?,?,?,?,?,?,?);");
 			pstmt.setString(1, tank.getModel());
 			pstmt.setString(2, tank.getManufacturer());
 			pstmt.setInt(3, tank.getVolume());
@@ -262,7 +279,7 @@ public class Server extends AbstractServer {
 				pstmt.setBinaryStream(7, null);
 				pstmt.setString(8, null);
 			}
-
+			pstmt.setString(9, tank.getNextDate());
 
 			pstmt.executeUpdate();
 
@@ -273,7 +290,15 @@ public class Server extends AbstractServer {
 
 	public void addBCD(BCD bcd, ConnectionToClient client){
 		try{
-			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.BCDS values (?,?,?,?,?,?);");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(DeepNum)) from orelDeepdivers.BCDS WHERE Model = '" + bcd.getDeepNum() + "';");
+			if(rs.next()){
+				Windows.threadWarning("המאזן קיים במערכת");
+				bcd.actionNow="AlreadyInSystem";
+				client.sendToClient(bcd);
+				return;
+			}
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.BCDS values (?,?,?,?,?,?,?);");
 			pstmt.setString(1, bcd.getSize());
 			pstmt.setString(2, bcd.getModel());
 			pstmt.setString(3, bcd.getManufacturer());
@@ -287,6 +312,7 @@ public class Server extends AbstractServer {
 				pstmt.setBinaryStream(5, null);
 				pstmt.setString(6, null);
 			}
+			pstmt.setString(7, bcd.getNextDate());
 			pstmt.executeUpdate();
 
 			bcd.actionNow = "NewBCD";
@@ -297,21 +323,17 @@ public class Server extends AbstractServer {
 
 	public void addRegulator(Regulator reg, ConnectionToClient client){
 		try{
-			boolean modelFound = false;
+			System.out.println("addRegulator");
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(Model)) from orelDeepdivers.Regulators");
-			while(rs.next())
-				if(reg.getModel().equals(rs.getString(1)))
-					modelFound = true;
-			rs = stmt.executeQuery("select LTRIM(RTRIM(Manufacturer)) from orelDeepdivers.Regulators WHERE Model = '" + reg.getModel() + "';");
-			while(rs.next())
-				if(reg.getManufacturer().equals(rs.getString(1)) && modelFound){
-					reg.actionNow = "ModelExists";
-					client.sendToClient(reg);
-					return;
-				}
-
-			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Regulators values (?,?,?,?,?,?,?);");
+			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(DeepNum)) from orelDeepdivers.Regulators WHERE DeepNum = '" + reg.getDeepNum() + "';");
+			if(rs.next()){
+				System.out.println(rs.getString(1));
+				Windows.threadWarning("הוסת קיים במערכת");
+				reg.actionNow="AlreadyInSystem";
+				client.sendToClient(reg);
+				return;
+			}
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Regulators values (?,?,?,?,?,?,?,?);");
 			pstmt.setString(1, reg.getModel());
 			pstmt.setString(2, reg.getManufacturer());
 			pstmt.setFloat(3, reg.getInterPressure());
@@ -326,6 +348,7 @@ public class Server extends AbstractServer {
 				pstmt.setBinaryStream(6, null);
 				pstmt.setString(7, null);
 			}
+			pstmt.setString(8, reg.getNextDate());
 			pstmt.executeUpdate();
 
 			reg.actionNow = "NewRegulator";
