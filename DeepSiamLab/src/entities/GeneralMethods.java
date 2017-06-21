@@ -19,12 +19,16 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import main.Client;
@@ -48,13 +52,16 @@ public class GeneralMethods implements Serializable{
 		return df.format(calobj.getTime());
 	}
 	
+
 	
 	public static String setDatePicker(DatePicker dp){
-		int year = dp.getValue().getYear(), month = dp.getValue().getMonthValue(), day = dp.getValue().getDayOfMonth();
+		try{int year = dp.getValue().getYear(), month = dp.getValue().getMonthValue(), day = dp.getValue().getDayOfMonth();
 		if(day<1 || day>31)
 			return null;
 		String date = Integer.toString(year)+"/"+Integer.toString(month)+"/"+Integer.toString(day);
 		return date;
+		}catch(Exception e){Windows.warning("הכנס תאריך מלא");return "false";}
+
 	}
 	/**
 	 * Refreshes the equipments/orders/customers lists.

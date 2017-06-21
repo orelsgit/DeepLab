@@ -22,6 +22,8 @@ public class Worker extends GeneralMessage{
 			this.isManager = Status.Tech;break;
 		case 1:
 			this.isManager = Status.Manager;break;
+		case 2:
+			this.isManager = Status.Programmer;break;
 		}
 	}
 	public String getID() {
@@ -59,13 +61,44 @@ public class Worker extends GeneralMessage{
 			this.isManager = Status.Tech;break;
 		case 1:
 			this.isManager = Status.Manager;break;
+		case 2:
+			this.isManager = Status.Programmer;break;
 		}
 	}
 	public static Worker getCurrentWorker() {
 		return currentWorker;
 	}
-	public static void setCurrentWorker(Worker currentWorker) {
-		Worker.currentWorker = currentWorker;
+	public static void setCurrentWorker(Worker currentWorker) {//(String ID,String fName,String lName,String email,int isManager)
+
+		if(currentWorker == null){
+
+			Worker.currentWorker = null;
+			return;
+		}
+		if(currentWorker.actionNow.equals("Incorrect")){
+			System.out.println("Incorrect");
+			currentWorker = new Worker();
+			return;
+		}
+
+		if(currentWorker.getIsManager() == null)
+			return;
+		int isM=0;
+		switch(currentWorker.getIsManager()){
+		case Dalpak:
+			isM=-1;break;
+		case Tech:
+			isM=0;break;
+		case Manager:
+			isM=1;break;
+		case Programmer:
+			isM=2;break;
+		default:
+			break;
+		}
+		
+		Worker.currentWorker = new Worker(currentWorker.getID(), currentWorker.getfName(), currentWorker.getlName(),currentWorker.getEmail(), isM);
+		Worker.currentWorker.actionNow="";
 	}
 	public String getManagerPassword() {
 		return managerPassword;

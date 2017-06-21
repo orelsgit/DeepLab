@@ -3,6 +3,7 @@ package main;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,20 +13,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
-import entities.Error;
 import entities.BCD;
 import entities.CCR;
 import entities.Customer;
+import entities.Error;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Order;
 import entities.Regulator;
 import entities.Tank;
+import entities.Update;
 import entities.Windows;
 import entities.Worker;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import sun.misc.IOUtils;
 
 public class Server extends AbstractServer {    
 	Connection conn;
@@ -53,7 +55,6 @@ public class Server extends AbstractServer {
 			checkUserInfo((Worker)msg, client);break;
 		case "IssueOrder":
 			issueOrder((Order)msg, client);break;
-			//issueAnOrder((Order)msg, client);break;
 		case "ManagerPassword":
 			managerPassword((Worker)msg, client);break;
 		case "AddWorker":
@@ -88,8 +89,6 @@ public class Server extends AbstractServer {
 			addBCD((BCD)msg, client);break;
 		case "AddTank":
 			addTank((Tank)msg, client);break;
-			//		case "GetCCROwnersList":
-			//			getCCROwnersList(client);break;
 		case "Download":
 			download((BCD)msg);break;
 		case "OrderHandled":
@@ -102,7 +101,76 @@ public class Server extends AbstractServer {
 			error((Error)msg, client);break;
 		case "AddCCR":
 			addCCR((CCR)msg, client);break;
+		case "CheckUpdates":
+			checkUpdates(client);break;
+		case "AddNewUpdate":
+			addNewUpdate((Update)msg, client);break;
+		case "DownloadUpdate":
+			DownloadUpdate((Update)msg, client);break;
 		}
+	}
+
+
+	public void DownloadUpdate(Update update, ConnectionToClient client){
+		try{
+			System.out.println("HERE1");
+			Statement stmt = conn.createStatement();
+			int version = getLatestUpdate();
+			String query = "SELECT UFile FROM orelDeepdivers.Updates WHERE Version = " + version + ";";
+			ResultSet rs = stmt.executeQuery(query);
+			System.out.println("HERE2");
+			FileOutputStream fos = new FileOutputStream((update.getDestination() + "\\מעבדה.exe"));
+			System.out.println("HERE3");
+			if(rs.next()){
+				System.out.println("HERE4");
+				byte[] bytes = rs.getBytes(1);
+				System.out.println("HERE5");
+				fos.write(bytes);
+				System.out.println("HERE6");
+				fos.close();
+			}
+
+		}catch(Exception e){e.printStackTrace();}
+	}
+
+	public void addNewUpdate(Update update, ConnectionToClient client){
+		try{
+			PreparedStatement pStmt = conn.prepareStatement("INSERT INTO orelDeepdivers.Updates VALUES(?,?,?,?);");
+			if(update.getFile().getFile()!=null){
+				pStmt.setBytes(1, update.getFile().getBuffer());
+			}
+			else
+				pStmt.setBinaryStream(1, null);
+			pStmt.setString(2, update.getDescription());
+			int version = getLatestUpdate();
+			++version;
+			pStmt.setInt(3,version);
+			pStmt.setString(4, "מעבדה");
+			pStmt.executeUpdate();
+			Windows.message("העדכון הועלה", "עדכון");
+		}catch(Exception e){e.printStackTrace();}
+	}
+
+	public int getLatestUpdate() throws SQLException{
+		String query = "SELECT MAX(Version) From orelDeepdivers.Updates";
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(query);
+		int version = 1;//First version.
+		if(rs.next())
+			version = rs.getInt(1);
+		if(version <= 0)
+			version = 1;
+		return version;
+	}
+
+	public void checkUpdates(ConnectionToClient client){
+		try{
+			int version = getLatestUpdate();
+			Update update = new Update("", version);
+			update.actionNow = "NewUpdateCheck";
+			client.sendToClient(update);
+
+		}catch(Exception e){e.printStackTrace();}
 	}
 
 	public void error(Error error, ConnectionToClient client){
@@ -224,14 +292,14 @@ public class Server extends AbstractServer {
 	public void addCCR(CCR ccr, ConnectionToClient client){
 		try{
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(SerialNum)) from orelDeepdivers.CCR WHERE Model = '" + ccr.getSerialNum() + "';");
+			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(SerialNum)) from orelDeepdivers.CCR WHERE SerialNum = '" + ccr.getSerialNum() + "';");
 			if(rs.next()){
 				Windows.threadWarning("המערכת הסגורה קיימת במערכת");
 				ccr.actionNow="AlreadyInSystem";
 				client.sendToClient(ccr);
 				return;
 			}
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO orelDeepdivers.CCR values(?,?,?,?,?,?);");
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO orelDeepdivers.CCR values(?,?,?,?,?,?,?);");
 			pstmt.setString(1, ccr.getManufacturer());
 			pstmt.setString(2, ccr.getModel());
 			pstmt.setString(3, ccr.getSerialNum());
@@ -246,6 +314,12 @@ public class Server extends AbstractServer {
 				pstmt.setString(5, null);
 			}
 			pstmt.setString(6, ccr.getNextDate());
+
+			if(ccr.isInStock())
+				pstmt.setInt(7, 1);
+			else
+				pstmt.setInt(7, 0);
+
 			pstmt.executeUpdate();
 			ccr.actionNow = "NewCCR";
 			client.sendToClient(ccr);
@@ -255,14 +329,14 @@ public class Server extends AbstractServer {
 	public void addTank(Tank tank, ConnectionToClient client){
 		try{
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(DeepNum)) from orelDeepdivers.Tanks WHERE Model = '" + tank.getDeepNum() + "';");
+			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(DeepNum)) from orelDeepdivers.Tanks WHERE DeepNum = '" + tank.getDeepNum() + "';");
 			if(rs.next()){
 				Windows.threadWarning("המיכל קיים במערכת");
 				tank.actionNow="AlreadyInSystem";
 				client.sendToClient(tank);
 				return;
 			}
-			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Tanks values(?,?,?,?,?,?,?,?,?);");
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Tanks values(?,?,?,?,?,?,?,?,?,?);");
 			pstmt.setString(1, tank.getModel());
 			pstmt.setString(2, tank.getManufacturer());
 			pstmt.setInt(3, tank.getVolume());
@@ -280,6 +354,10 @@ public class Server extends AbstractServer {
 				pstmt.setString(8, null);
 			}
 			pstmt.setString(9, tank.getNextDate());
+			if(tank.isInStock())
+				pstmt.setInt(10, 1);
+			else
+				pstmt.setInt(10, 0);
 
 			pstmt.executeUpdate();
 
@@ -291,14 +369,14 @@ public class Server extends AbstractServer {
 	public void addBCD(BCD bcd, ConnectionToClient client){
 		try{
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(DeepNum)) from orelDeepdivers.BCDS WHERE Model = '" + bcd.getDeepNum() + "';");
+			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(DeepNum)) from orelDeepdivers.BCDS WHERE DeepNum = '" + bcd.getDeepNum() + "';");
 			if(rs.next()){
 				Windows.threadWarning("המאזן קיים במערכת");
 				bcd.actionNow="AlreadyInSystem";
 				client.sendToClient(bcd);
 				return;
 			}
-			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.BCDS values (?,?,?,?,?,?,?);");
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.BCDS values (?,?,?,?,?,?,?,?);");
 			pstmt.setString(1, bcd.getSize());
 			pstmt.setString(2, bcd.getModel());
 			pstmt.setString(3, bcd.getManufacturer());
@@ -313,6 +391,11 @@ public class Server extends AbstractServer {
 				pstmt.setString(6, null);
 			}
 			pstmt.setString(7, bcd.getNextDate());
+			if(bcd.isInStock())
+				pstmt.setInt(8, 1);
+			else
+				pstmt.setInt(8, 0);
+
 			pstmt.executeUpdate();
 
 			bcd.actionNow = "NewBCD";
@@ -333,12 +416,12 @@ public class Server extends AbstractServer {
 				client.sendToClient(reg);
 				return;
 			}
-			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Regulators values (?,?,?,?,?,?,?,?);");
+			PreparedStatement pstmt = conn.prepareStatement("insert into orelDeepdivers.Regulators values (?,?,?,?,?,?,?,?,?);");
 			pstmt.setString(1, reg.getModel());
 			pstmt.setString(2, reg.getManufacturer());
-			pstmt.setFloat(3, reg.getInterPressure());
+			pstmt.setFloat(3, /*reg.getInterPressure()*/0);
 			pstmt.setString(4, reg.getDeepNum());
-			pstmt.setString(5, reg.getSerialNum());
+			pstmt.setString(5, /*reg.getSerialNum()*/null);
 			if(reg.getFiles().getFile()!=null){
 				FileInputStream fis = new FileInputStream(reg.getFiles().getFile());
 				pstmt.setBinaryStream(6, fis, reg.getFiles().getLen());
@@ -349,6 +432,10 @@ public class Server extends AbstractServer {
 				pstmt.setString(7, null);
 			}
 			pstmt.setString(8, reg.getNextDate());
+			if(reg.isInStock())
+				pstmt.setInt(9, 1);
+			else
+				pstmt.setInt(9, 0);
 			pstmt.executeUpdate();
 
 			reg.actionNow = "NewRegulator";

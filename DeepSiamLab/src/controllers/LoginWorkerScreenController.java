@@ -3,10 +3,20 @@ package controllers;
 import java.util.ArrayList;
 
 //import entities.SpeechUtils;
-import entities.*;
 import entities.Error;
+import entities.Files;
+import entities.GeneralMessage;
+import entities.GeneralMethods;
+import entities.Order;
+import entities.Status;
+import entities.Update;
+import entities.Windows;
+import entities.Worker;
+import entities.Write;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -17,18 +27,21 @@ public class LoginWorkerScreenController{
 	@FXML
 	private ImageView redotImageView;
 	@FXML
-	private Button orderButton, ticketsButton;
+	private Button orderButton, ticketsButton, updateButton, newUpdateButton;
 	@FXML
 	private AnchorPane loginAnchorPane;
+	@FXML
+	private TextArea updateDescriptionTextArea;
 	@FXML
 	private Pane pane;
 	
 	private GeneralMethods GM;
-	public static boolean newOrders,backFromServer;
+	public static boolean newOrders,backFromServer, newUpdates;
 	private static boolean currentWindow;//if currentWindow = false it means we are in another window, therefore the thread in init. wont run.
 	public static String equipment = "";
 	
 	public static ArrayList<Order> orders = null;
+	public static int currentVersion;
 	
 	
 	
@@ -50,7 +63,7 @@ public class LoginWorkerScreenController{
 	//	loginAnchorPane.getChildren().setAll(pane);
 
 		
-		
+		newUpdateButton.setVisible(false);newUpdateButton.setDisable(true);updateDescriptionTextArea.setVisible(false);
 		switch (Worker.getCurrentWorker().getIsManager()){
 		case Manager:
 			break;
@@ -58,12 +71,20 @@ public class LoginWorkerScreenController{
 			orderButton.setStyle("-fx-background-color: #7F7F7F;");break;
 		case Dalpak:
 			ticketsButton.setStyle("-fx-background-color: #7F7F7F;");break;
+		case Programmer:
+			newUpdateButton.setVisible(true);newUpdateButton.setDisable(false);updateDescriptionTextArea.setVisible(true);break;
+		default:
+			break;
 		}
+		GM = new GeneralMethods();
+		
+		checkUpdates();
+		
 		currentWindow = true;
 		newOrders=false;
-		GM = new GeneralMethods();
 		redotImageView.setVisible(false);
 		
+		@SuppressWarnings("unused")
 		Thread thread = new Thread(){
 			public void run(){
 				//boolean flag=false;
@@ -94,10 +115,49 @@ public class LoginWorkerScreenController{
 					GM.Sleep(10000, null, 0);
 				}this.interrupt();
 			}
-		};thread.start();
+		};//thread.start();
 	}
 	
 	
+	public void checkUpdates(){
+		backFromServer=false;
+		newUpdates=false;
+		
+		GM.sendServer(new GeneralMessage(), "CheckUpdates");
+		Error error = new Error("LoginWorkerScreenController", "initialize", -1);
+		int timesCalled = 1;
+		while(!backFromServer)
+			if(!GM.Sleep(70, error, timesCalled++))
+				return;
+
+		if(newUpdates){
+			updateButton.setVisible(true);
+			updateButton.setDisable(false);
+		}
+		else{
+			updateButton.setVisible(false);
+			updateButton.setDisable(true);
+		}
+		backFromServer=false;
+		newUpdates=false;
+	}
+	
+	public void downloadUpdate(){
+		String dest = Files.getDestination();
+		if(dest.equals(""))
+			return;
+		Update update = new Update();
+		update.setDestination(dest);
+		GM.sendServer(update, "DownloadUpdate");
+		/*		Write write = Write.getInstance();
+		int version = ++currentVersion;
+		write.writeVersion(version);*/
+	}
+	public void uploadUpdate(){
+		Update update = new Update(updateDescriptionTextArea.getText(), -1);
+		update.getFile().setFile();
+		GM.sendServer(update, "AddNewUpdate");
+	}
 	
 	public void onRefresh(){
 		GM.refresh(null);

@@ -59,5 +59,16 @@
             <Font size="17.0" />
          </font>
       </Button>
+      <Button fx:id="updateButton" layoutX="416.0" layoutY="28.0" mnemonicParsing="false" onAction="#downloadUpdate" prefHeight="38.0" prefWidth="122.0" style="-fx-background-color: #FF8000;" text="הורד עדכון חדש">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="newUpdateButton" layoutX="35.0" layoutY="409.0" mnemonicParsing="false" onAction="#uploadUpdate" text="העלה עדכון">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <TextArea fx:id="updateDescriptionTextArea" layoutX="11.0" layoutY="440.0" prefHeight="127.0" prefWidth="143.0" />
    </children>
 </AnchorPane>

@@ -7,10 +7,13 @@ import entities.GeneralMethods;
 import entities.Regulator;
 import entities.Tank;
 import entities.Windows;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import main.Main;
@@ -40,6 +43,95 @@ public class AddEquipment {
 
 	private GeneralMethods GM = new GeneralMethods();
 
+	
+	public void initialize(){
+		//Regulator
+		if(regManuTextField != null)
+			setListenerReg(regManuTextField);
+		if(regModelTextField != null)
+			setListenerReg(regModelTextField);
+		if(regDeepNumTextField != null)
+			setListenerReg(regDeepNumTextField);
+		//Regulator
+		
+		//BCD
+		if(bcdManuTextField != null)
+			setListenerReg(bcdManuTextField);
+		if(bcdModelTextField != null)
+			setListenerReg(bcdModelTextField);
+		if(sizeTextField != null)
+			setListenerReg(sizeTextField);
+		if(bcdDeepNumTextField != null)
+			setListenerReg(bcdDeepNumTextField);
+		//BCD
+		
+		//Tank
+		if(tankManuTextField != null)
+			setListenerReg(tankManuTextField);
+		if(tankModelTextField != null)
+			setListenerReg(tankModelTextField);
+		if(volumeTextField != null)
+			setListenerReg(volumeTextField);
+		if(tankSNumTextField != null)
+			setListenerReg(tankSNumTextField);
+		if(tankDeepNumTextField != null)
+			setListenerReg(tankDeepNumTextField);
+		//Tank
+		
+		//CCR
+		if(ccrManuTextField != null)
+			setListenerReg(ccrManuTextField);
+		if(ccrModelTextField != null)
+			setListenerReg(ccrModelTextField);
+		if(ccrSerialNumTextField != null)
+			setListenerReg(ccrSerialNumTextField);
+		//CCR
+
+	
+	}
+	
+
+	public void setListenerBCD(TextField textField){
+		textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				if (keyEvent.getCode() == KeyCode.ENTER)  {
+					onAddBCD();
+				}
+			}
+		});
+	}
+	public void setListenerReg(TextField textField){
+		textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				if (keyEvent.getCode() == KeyCode.ENTER)  {
+					onAddRegulator();
+				}
+			}
+		});
+	}
+	public void setListenerTank(TextField textField){
+		textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				if (keyEvent.getCode() == KeyCode.ENTER)  {
+					onAddTank();
+				}
+			}
+		});
+	}
+	public void setListenerCCR(TextField textField){
+		textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				if (keyEvent.getCode() == KeyCode.ENTER)  {
+					onAddCCR();
+				}
+			}
+		});
+	}
+	
 	public AddEquipment(){
 		bcd = null;
 		tank = null;
@@ -87,7 +179,17 @@ public class AddEquipment {
 		if(ccr == null)
 			ccr = new CCR();
 
-		ccr = new CCR(ccrModelTextField.getText(), ccrManuTextField.getText(), ccrSerialNumTextField.getText(), GeneralMethods.setDatePicker(nextDateDatePicker));
+		String date = "";
+		if((date=GeneralMethods.setDatePicker(nextDateDatePicker)).equals("false"))
+			return;
+		
+		ccr = new CCR(ccrModelTextField.getText(), ccrManuTextField.getText(), ccrSerialNumTextField.getText(), date);
+		
+		if(Windows.yesNo("האם המוצר נמצא במלאי?", "מלאי"))
+			ccr.setInStock(true);
+		else
+			ccr.setInStock(false);
+		
 		GM.sendServerThread(ccr, "AddCCR");
 
 		Error error = new Error("AddEquipment", "onAddCCR", 0);
@@ -104,6 +206,7 @@ public class AddEquipment {
 		isBackFromServer=false;
 
 		boolean isFilled = true;
+		System.out.println("HERE~onAddRegulator");
 
 		regModelText.setFill(Color.BLACK);
 		regManuText.setFill(Color.BLACK);
@@ -117,17 +220,18 @@ public class AddEquipment {
 		if(regManuTextField.getText().equals("")){
 			regManuText.setFill(Color.RED);isFilled=false;
 		}
-		if(interTextField.getText().equals("")){
-			interText.setFill(Color.RED);isFilled=false;
-		}
-		if(regSNumTextField.getText().equals("")){
-			regSNumText.setFill(Color.RED);isFilled=false;
-		}
+//		if(interTextField.getText().equals("")){
+//			interText.setFill(Color.RED);isFilled=false;
+//		}
+//		if(regSNumTextField.getText().equals("")){
+//			regSNumText.setFill(Color.RED);isFilled=false;
+//		}
 		if(regDeepNumTextField.getText().equals("")){
 			regDeepNumText.setFill(Color.RED);isFilled=false;
 		}
 
-
+		System.out.println("HERE~onAddRegulator      " + isFilled);
+		
 		if(!isFilled)
 			return;
 
@@ -139,8 +243,8 @@ public class AddEquipment {
 			return;
 		if(!GM.checkText(regDeepNumTextField.getText()))
 			return;
-		if(!GM.checkText(regSNumTextField.getText()))
-			return;
+//		if(!GM.checkText(regSNumTextField.getText()))
+//			return;
 
 		if(regulator == null)
 			regulator = new Regulator();
@@ -150,8 +254,16 @@ public class AddEquipment {
 			Windows.threadMessage("הלחץ הביניים חייב להכיל מספרים בלבד!", "לחץ הביניים שגוי");
 			return;
 		}
-		regulator = new Regulator(regModelTextField.getText(), regManuTextField.getText(), Float.parseFloat(interTextField.getText()),
-				regSNumTextField.getText(), regDeepNumTextField.getText(), GeneralMethods.setDatePicker(nextDateDatePicker));
+		String date = "";
+		if((date=GeneralMethods.setDatePicker(nextDateDatePicker)).equals("false"))
+			return;
+		regulator = new Regulator(regModelTextField.getText(), regManuTextField.getText(),  0,
+				"", regDeepNumTextField.getText(), date);
+		if(Windows.yesNo("האם המוצר נמצא במלאי?", "מלאי"))
+			regulator.setInStock(true);
+		else
+			regulator.setInStock(false);
+		
 		GM.sendServerThread(regulator, "AddRegulator");
 
 
@@ -205,13 +317,20 @@ public class AddEquipment {
 		bcd.setModel(bcdModelTextField.getText());
 		bcd.setManufacturer(bcdManuTextField.getText());
 		bcd.setDeepNum(bcdDeepNumTextField.getText());
-		bcd.setNextDate(GeneralMethods.setDatePicker(nextDateDatePicker));
+		String date = "";
+		if((date=GeneralMethods.setDatePicker(nextDateDatePicker)).equals("false"))
+			return;
+		bcd.setNextDate(date);
+		
 
-		if(bcdFileNameText.getText()==null)
+/*		if(bcdFileNameText.getText()==null)
 			if(Windows.yesNo("האם אתה בטוח שברצונך להמשיך בלי להעלות קובץ?", "אין קובץ", "העלה קובץ", "המשך בלי להעלות קובץ"))
-				onUploadFileBCD();
-
-
+				onUploadFileBCD();*/
+		if(Windows.yesNo("האם המוצר נמצא במלאי?", "מלאי"))
+			bcd.setInStock(true);
+		else
+			bcd.setInStock(false);
+		
 		GM.sendServer(bcd, "AddBCD");
 
 		Error error = new Error("AddEquipment", "onAddBCD", 2);
@@ -275,13 +394,22 @@ public class AddEquipment {
 
 		if(tank == null)
 			tank = new Tank(); 
-		if(volumeTextField.getText().contains("[a-zA-Z]+")){
+		if(volumeTextField.getText().matches("[a-zA-Z]+")){
 			Windows.warning("הנפח חייב להכיל מספרים בלבד");
 			return;
 		}
 
+		String date = "";
+		if((date=GeneralMethods.setDatePicker(nextDateDatePicker)).equals("false"))
+			return;
 		tank = new Tank(tankModelTextField.getText(), tankManuTextField.getText(), Integer.parseInt(volumeTextField.getText()),
-				tankSNumTextField.getText(), tankDeepNumTextField.getText(), a, GeneralMethods.setDatePicker(nextDateDatePicker));
+				tankSNumTextField.getText(), tankDeepNumTextField.getText(), a, date);
+		
+		if(Windows.yesNo("האם המוצר נמצא במלאי?", "מלאי"))
+			tank.setInStock(true);
+		else
+			tank.setInStock(false);
+		
 		GM.sendServerThread(tank, "AddTank");
 
 		Error error = new Error("AddEquipment", "onAddTank", 3);

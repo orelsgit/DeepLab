@@ -6,6 +6,7 @@ public class BCD extends GeneralMessage {
 	 */
 	private static final long serialVersionUID = 1L;
 private String deepNum, size, model, manufacturer, nextDate;
+private boolean isInStock;
 
 
 
@@ -77,6 +78,16 @@ public String getNextDate() {
 
 public void setNextDate(String nextDate) {
 	this.nextDate = nextDate;
+}
+
+
+public boolean isInStock() {
+	return isInStock;
+}
+
+
+public void setInStock(boolean isInStock) {
+	this.isInStock = isInStock;
 }
 
 }

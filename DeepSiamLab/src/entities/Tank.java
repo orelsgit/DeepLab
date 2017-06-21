@@ -7,6 +7,8 @@ public class Tank extends GeneralMessage{
 	private static final long serialVersionUID = 1L;
 	private String serialNum,manufacturer, model, deepNum, nextDate;
 	private int volume, aluminium;
+	private boolean isInStock;
+	
 	public Tank(String model,String manufacturer, int volume, String serialNum, String deepNum, int aluminium, String nextDate){
 		this.volume = volume;
 		this.model = model;
@@ -80,6 +82,14 @@ public class Tank extends GeneralMessage{
 
 	public void setNextDate(String nextDate) {
 		this.nextDate = nextDate;
+	}
+
+	public boolean isInStock() {
+		return isInStock;
+	}
+
+	public void setInStock(boolean isInStock) {
+		this.isInStock = isInStock;
 	}
 
 }

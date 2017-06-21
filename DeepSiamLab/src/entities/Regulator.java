@@ -7,6 +7,7 @@ public class Regulator extends GeneralMessage{
 	private static final long serialVersionUID = 1L;
 	private String model,manufacturer,serialNum, deepNum, nextDate;
 	float interPressure;
+	private boolean isInStock;
 	
 	
 	public Regulator(String model, String manufacturer, float interPressure, String serialNum, String deepNum, String nextDate) {
@@ -15,6 +16,15 @@ public class Regulator extends GeneralMessage{
 		this.manufacturer = manufacturer;
 		this.interPressure = interPressure;
 		this.serialNum = serialNum;
+		this.deepNum = deepNum;
+		this.nextDate = nextDate;
+		}
+	
+	public Regulator(String model, String manufacturer, float interPressure , String deepNum, String nextDate) {
+		super();
+		this.model = model;
+		this.manufacturer = manufacturer;
+		this.interPressure = interPressure;
 		this.deepNum = deepNum;
 		this.nextDate = nextDate;
 		}
@@ -69,6 +79,14 @@ public class Regulator extends GeneralMessage{
 
 	public void setNextDate(String nextDate) {
 		this.nextDate = nextDate;
+	}
+
+	public boolean isInStock() {
+		return isInStock;
+	}
+
+	public void setInStock(boolean isInStock) {
+		this.isInStock = isInStock;
 	}
 	
 }

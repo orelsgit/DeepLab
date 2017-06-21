@@ -4,6 +4,8 @@ public enum Status {
 
 	Dalpak(),
 	Tech(),
-	Manager();
+	Manager(),
+	Programmer();
+
 	
 }

@@ -302,9 +302,8 @@ public class OpenCardController {
 			Order.currentOrder.setIsClubEquipment(false, null);
 
 			if(!(regManu = regManuComboBox.getEditor().getText()).equals("") && !(regModel = regModelComboBox.getEditor().getText()).equals("")
-					&& !(regSNum = regSNumComboBox.getEditor().getText()).equals("")){
-				description += "Regulator: " + "\n" + "Model: " + regModel + "\n" + "Manufacturer: " + regManu + "\n"
-						+ "Serial Number: " + regSNum + "\n";
+					/*&& !(regSNum = regSNumComboBox.getEditor().getText()).equals("")*/){
+				description += "Regulator: " + "\n" + "Model: " + regModel + "\n" + "Manufacturer: " + regManu + "\n";//+ "Serial Number: " + regSNum + "\n";
 			}
 			if(!(tankManu = tankManuComboBox.getEditor().getText()).equals("") && !(tankModel = tankModelComboBox.getEditor().getText()).equals("")
 					&& !(tankSNum = tankSNumComboBox.getEditor().getText()).equals("")){
@@ -324,9 +323,9 @@ public class OpenCardController {
 			Order.currentOrder.setIsClubEquipment(true, null);
 
 			if(!(regManu = regManuComboBox.getEditor().getText()).equals("") && !(regModel = regModelComboBox.getEditor().getText()).equals("")
-					&& !(regSNum = regSNumComboBox.getEditor().getText()).equals("") && !(regDNum = regDNumComboBox.getEditor().getText()).equals("")){
+					/*&& !(regSNum = regSNumComboBox.getEditor().getText()).equals("")*/ && !(regDNum = regDNumComboBox.getEditor().getText()).equals("")){
 				description += "Regulator: " + "\n" + "Model: " + regModel + "\n" + "Manufacturer: " + regManu + "\n"
-						+ "Serial Number: " + regSNum + "\n" + "Deep Number: " + regDNum + "\n";
+						/*+ "Serial Number: " + regSNum + "\n" */+ "Deep Number: " + regDNum + "\n";
 			}
 			if(!(tankManu = tankManuComboBox.getEditor().getText()).equals("") && !(tankModel = tankModelComboBox.getEditor().getText()).equals("")
 					&& !(tankSNum = tankSNumComboBox.getEditor().getText()).equals("") && !(tankDNum = tankDNumComboBox.getEditor().getText()).equals("")){

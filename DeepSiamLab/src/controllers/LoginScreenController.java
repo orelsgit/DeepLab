@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.Error;
+import entities.Files;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Status;
@@ -25,6 +26,8 @@ public class LoginScreenController {
 	@FXML
 	ProgressIndicator loginProgressIndicator;
 	private GeneralMethods GM;
+	public static boolean isBackFromServer;
+
 
 
 
@@ -39,6 +42,7 @@ public class LoginScreenController {
 		GM = new GeneralMethods();
 		GeneralMessage.currentWindow = "LoginScreen";
 		GeneralMessage.currentPopup = "";
+
 
 		idTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -60,10 +64,6 @@ public class LoginScreenController {
 		GM.refresh(null);
 
 	}
-
-
-
-
 
 	/**
 	 * Creates a popup to require a manager password, in order to add a new worker.
@@ -104,14 +104,15 @@ public class LoginScreenController {
 					Platform.runLater(new Runnable() {
 						@Override 		
 						public void run(){
-							
 							Error error = new Error("LoginScreenController", "onLogin", 0);
 							int timesCalled = 1;
-							while(Worker.getCurrentWorker()==null)
-								if(!GM.Sleep(70, error, timesCalled++))
+							isBackFromServer = false;
+							while(Worker.getCurrentWorker()==null&&!isBackFromServer)
+								if(!GM.Sleep(250, error, timesCalled++)){
 									return;
-								
-							
+								}
+							if(Worker.getCurrentWorker() == null)
+								return;
 							if(Worker.getCurrentWorker().actionNow==null)
 								return;//No such user
 							Windows.message("ברוך שובך " + Worker.getCurrentWorker().getfName(), "Deepsiam Lab");

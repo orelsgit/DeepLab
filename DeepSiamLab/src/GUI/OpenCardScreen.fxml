@@ -150,11 +150,12 @@
          </font>
       </Text>
       <ComboBox fx:id="tankSNumComboBox" editable="true" layoutX="513.0" layoutY="215.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" />
-      <ComboBox fx:id="regSNumComboBox" editable="true" layoutX="304.0" layoutY="214.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" />
+      <ComboBox fx:id="regSNumComboBox" layoutX="304.0" layoutY="214.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" visible="false" />
       <ComboBox fx:id="bcdSNumComboBox" layoutX="707.0" layoutY="213.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" visible="false" />
       <ComboBox fx:id="ccrSNumComboBox" editable="true" layoutX="88.0" layoutY="214.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מספר סידורי" />
       <ComboBox fx:id="bcdDNumComboBox" editable="true" layoutX="707.0" layoutY="214.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מק&quot;ט מועדון" />
       <ComboBox fx:id="tankDNumComboBox" editable="true" layoutX="513.0" layoutY="254.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מק&quot;ט מועדון" />
       <ComboBox fx:id="regDNumComboBox" editable="true" layoutX="304.0" layoutY="254.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" promptText="מק&quot;ט מועדון" />
+      <Text fill="#0004ff" layoutX="432.0" layoutY="524.0" strokeType="OUTSIDE" strokeWidth="0.0" text="רשום בהערות את פריטי הציוד ואילו טיפולים הם דורשים.   טיפול שוטף או טיפול שנתי" wrappingWidth="124.0" />
    </children>
 </AnchorPane>

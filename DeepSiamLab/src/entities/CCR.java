@@ -4,7 +4,7 @@ public class CCR extends GeneralMessage{
 
 	private static final long serialVersionUID = 1L;
 private String serialNum, manufacturer, owner, model, nextDate;
-
+private boolean isInStock;
 	
 
 public CCR(String manufacturer, String model, String serialNum,String nextDate) {
@@ -66,5 +66,13 @@ public String getNextDate() {
 
 public void setNextDate(String nextDate) {
 	this.nextDate = nextDate;
+}
+
+public boolean isInStock() {
+	return isInStock;
+}
+
+public void setInStock(boolean isInStock) {
+	this.isInStock = isInStock;
 }
 }
