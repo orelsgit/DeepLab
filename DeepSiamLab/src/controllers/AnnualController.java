@@ -345,7 +345,6 @@ public class AnnualController {
 			return;
 		}//end Page1
 		if(page == 2){
-			System.out.println("Page 2 ~");
 			this.page =2;
 			for(int i=0;i<16;++i)
 				if(i>=9){
@@ -643,7 +642,6 @@ public class AnnualController {
 	}
 
 	public void stop(){
-		System.out.println("stopped.");
 	}
 
 

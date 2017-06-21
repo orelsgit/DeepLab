@@ -287,7 +287,6 @@ public class OpenCardController {
 				bcdDNum, ccrSNum;
 		Order.currentOrder = new Order();
 		if(customerChosen != null){
-			System.out.println("Customer chosen");
 			Order.currentOrder.setCustID(customerChosen.getCustID());
 		}
 		if(deepCheckBox.isSelected())

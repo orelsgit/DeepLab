@@ -14,9 +14,17 @@ import javax.swing.Timer;
  */
 public class Windows {
 
+	public static void closeCurrentWindow(){
+		JOptionPane.getRootFrame().dispose();
+	}
+	
 	public static void warning(String str){
 		JOptionPane.showMessageDialog(null, str, "Error",
 				JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public static void optionWindow(String context, String title){
+		  JOptionPane.showOptionDialog(null, context,title, JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
 	}
 
 	public static String input(String message, String title){
@@ -54,7 +62,7 @@ public class Windows {
 	public static void threadWarning(String str){
 		Thread thread = new Thread(){
 			public void run(){
-				createCloseTimer(3).start();
+				createCloseTimer(3000).start();
 				JOptionPane.showMessageDialog(null, str, "Error",
 						JOptionPane.ERROR_MESSAGE);
 			}
@@ -65,12 +73,20 @@ public class Windows {
 	public static void threadMessage(String str, String title){
 		Thread thread = new Thread(){
 			public void run(){
-				createCloseTimer(3).start();
+				createCloseTimer(3000).start();
 				JOptionPane.showMessageDialog(null, str, title, JOptionPane.INFORMATION_MESSAGE);
 			}
 		};thread.start();
 	}
 
+	public static void timedThreadMessage(String str, String title, int time){
+		Thread thread = new Thread(){
+			public void run(){
+				createCloseTimer(time).start();
+				JOptionPane.showMessageDialog(null, str, title, JOptionPane.INFORMATION_MESSAGE);
+			}
+		};thread.start();
+	}
 
 	public static void message(String message, String title){
 		JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
@@ -96,7 +112,7 @@ public class Windows {
 			}
 
 		};
-		Timer t = new Timer(seconds * 1000, close);
+		Timer t = new Timer(seconds, close);
 		t.setRepeats(false);
 		return t;
 	}

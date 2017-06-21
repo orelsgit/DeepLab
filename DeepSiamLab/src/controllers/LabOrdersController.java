@@ -64,17 +64,7 @@ public class LabOrdersController {
 	 * @author orelzman
 	 */
 	@SuppressWarnings("unchecked")
-	public void initTableView(){
-//			System.out.println(order.getName() + " NAME");
-//			for(Customer customer : GeneralMessage.getCustList())
-//				if(customer.getCustID().equals(order.getCustID())){
-//					order.setName(customer.getName());
-//					order.setLastName(customer.getLastName());
-//					System.out.println(customer.getName());
-//					break;
-//				}
-//				}
-		
+	public void initTableView(){	
 		TableColumn<Order, String> customerName = (TableColumn<Order, String>) ordersTableView.getColumns().get(0);
 		customerName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		TableColumn<Order, String> custID = (TableColumn<Order, String>) ordersTableView.getColumns().get(1);

@@ -23,7 +23,7 @@ import javafx.scene.layout.Pane;
 import main.Main;
 
 public class LoginWorkerScreenController{
-	
+
 	@FXML
 	private ImageView redotImageView;
 	@FXML
@@ -34,17 +34,17 @@ public class LoginWorkerScreenController{
 	private TextArea updateDescriptionTextArea;
 	@FXML
 	private Pane pane;
-	
+
 	private GeneralMethods GM;
 	public static boolean newOrders,backFromServer, newUpdates;
 	private static boolean currentWindow;//if currentWindow = false it means we are in another window, therefore the thread in init. wont run.
 	public static String equipment = "";
-	
+
 	public static ArrayList<Order> orders = null;
 	public static int currentVersion;
-	
-	
-	
+
+
+
 	/**
 	 * Grays out the buttons that aren't allowed for the current logged in worker and sets a thread to check if there are
 	 * orders that require the tech's attention.
@@ -56,13 +56,13 @@ public class LoginWorkerScreenController{
 		////orderButton.prefHeightProperty().bind(loginAnchorPane.heightProperty());
 		//orderButton.setMaxHeight(100);
 		//orderButton.setMaxWidth(100);
-	//	AnchorPane.setTopAnchor(pane, 100.0);
-	//	AnchorPane.setRightAnchor(pane, 10.0);
-	//	AnchorPane.setLeftAnchor(pane, 10.0);
+		//	AnchorPane.setTopAnchor(pane, 100.0);
+		//	AnchorPane.setRightAnchor(pane, 10.0);
+		//	AnchorPane.setLeftAnchor(pane, 10.0);
 		//AnchorPane.setBottomAnchor(pane, 10.0);
-	//	loginAnchorPane.getChildren().setAll(pane);
+		//	loginAnchorPane.getChildren().setAll(pane);
 
-		
+
 		newUpdateButton.setVisible(false);newUpdateButton.setDisable(true);updateDescriptionTextArea.setVisible(false);
 		switch (Worker.getCurrentWorker().getIsManager()){
 		case Manager:
@@ -77,13 +77,13 @@ public class LoginWorkerScreenController{
 			break;
 		}
 		GM = new GeneralMethods();
-		
+
 		checkUpdates();
-		
+
 		currentWindow = true;
 		newOrders=false;
 		redotImageView.setVisible(false);
-		
+
 		@SuppressWarnings("unused")
 		Thread thread = new Thread(){
 			public void run(){
@@ -91,14 +91,14 @@ public class LoginWorkerScreenController{
 				while(currentWindow&&Worker.getCurrentWorker().getIsManager()!=Status.Dalpak){
 					backFromServer=false;
 					GM.sendServer(new Order(), "CheckNewOrders");
-					
+
 					Error error = new Error("LoginWorkerScreenController", "initialize", 0);
 					int timesCalled = 0;
 					while(!backFromServer)
 						if(!GM.Sleep(70, error, timesCalled++))
 							return;
 
-				
+
 					GM.refresh(null);
 					while(newOrders){
 						redotImageView.setVisible(true);
@@ -111,18 +111,18 @@ public class LoginWorkerScreenController{
 						//flag=true;
 						//}
 					}
-						redotImageView.setVisible(false);
+					redotImageView.setVisible(false);
 					GM.Sleep(10000, null, 0);
 				}this.interrupt();
 			}
 		};//thread.start();
 	}
-	
-	
+
+
 	public void checkUpdates(){
 		backFromServer=false;
 		newUpdates=false;
-		
+
 		GM.sendServer(new GeneralMessage(), "CheckUpdates");
 		Error error = new Error("LoginWorkerScreenController", "initialize", -1);
 		int timesCalled = 1;
@@ -141,7 +141,7 @@ public class LoginWorkerScreenController{
 		backFromServer=false;
 		newUpdates=false;
 	}
-	
+
 	public void downloadUpdate(){
 		String dest = Files.getDestination();
 		if(dest.equals(""))
@@ -149,61 +149,71 @@ public class LoginWorkerScreenController{
 		Update update = new Update();
 		update.setDestination(dest);
 		GM.sendServer(update, "DownloadUpdate");
-		/*		Write write = Write.getInstance();
+		backFromServer = false;
+		Error error = new Error("LoginWorkerScreenController", "downloadUpdate", 3);
+		int timesCalled = 0;
+		while(!backFromServer){
+			Windows.optionWindow("המעבדה בהורדה, אנא המתן...", "מעבדה בהורדה");
+			if(!GM.Sleep(300, error, timesCalled++))
+				return;
+		}
+		backFromServer = false;
+
+		
 		int version = ++currentVersion;
-		write.writeVersion(version);*/
+		Write.getInstance().writeVersion(version);
 	}
 	public void uploadUpdate(){
 		Update update = new Update(updateDescriptionTextArea.getText(), -1);
 		update.getFile().setFile();
 		GM.sendServer(update, "AddNewUpdate");
 	}
-	
+
 	public void onRefresh(){
 		GM.refresh(null);
 	}
 
-	
+
 	public void getInfo(){
 		GM.sendServer(new Order(), "GetInfo");
-		
+
 		Error error = new Error("LoginWorkerScreenController", "getInfo", 1);
 		int timesCalled = 0;
 		while(orders == null)
 			if(!GM.Sleep(70, error, timesCalled++))
 				return;
-		
+
 		for(Order order : orders)
 			Windows.message(order.getSummary(), "summary");
 	}
-	
+
 	public static void setCurrentWindow(boolean currentWindow){
 		LoginWorkerScreenController.currentWindow = currentWindow;
 	}
-	
+
 	public void addCCR(){
 		equipment = "CCR";
 		GM.getPopup(Main.popup, "AddCCR", "הוספת מערכת סגורה", "popup");
 	}
-	
-	
+
+
 	public void onAddRegulator(){
 		equipment = "Regulator";
 		GM.getPopup(Main.popup, "AddRegulator", "הוספת וסת", "popup");
 	}
-	
+
 	public void onAddBCD(){
 		equipment = "BCD";
 		GM.getPopup(Main.popup, "AddBCD", "הוספת מאזן", "popup");
 
 	}
-	
+
 	public void onAddTank(){
 		equipment = "Tank";
 		GM.getPopup(Main.popup, "AddTank", "הוספת מיכל", "popup");
 
 	}
-	
+
 	/**
 	 * Opens a customer registeration window.
 	 * @author orelzman
@@ -212,21 +222,21 @@ public class LoginWorkerScreenController{
 		GM.getPopup(Main.popup, "AddCustomer", "הוספת לקוח", "popup");
 		currentWindow=false;
 	}
-	
-	
+
+
 	/**
 	 * Sets up a window that will contain a TableView with all the unreviewed Orders, as foresaid, the LabOrders
 	 * @author orelzman
 	 */
 	public void onTickets(){
-		
+
 		Error error = new Error("LoginWorkerScreenController", "onAddCustomer", 2);
 		int timesCalled = 0;
 		while(!GeneralMessage.getGotLists())
 			if(!GM.Sleep(70, error, timesCalled++))
 				return;
-			
-		
+
+
 
 		if(Worker.getCurrentWorker().getIsManager()==Status.Dalpak)
 			return;
@@ -235,19 +245,19 @@ public class LoginWorkerScreenController{
 		currentWindow=false;
 		Main.showMenu("LabOrders", "מסך הזמנות");
 	}
-	
+
 	public void onLogout(){
 		currentWindow = false;
-		 Main.showMenu("MainScreen", "מסך ראשי");
-	 }
-	
+		Main.showMenu("MainScreen", "מסך ראשי");
+	}
+
 	/**
 	 * This method shows the equipment check screen.
 	 * @author orelzman
 	 */
 	public void onCheckEquipment(){
 		currentWindow = false;
-			Main.showMenu("CheckEquipmentScreen", "בדיקת ציוד");
+		Main.showMenu("CheckEquipmentScreen", "בדיקת ציוד");
 	}
 
 	/**

@@ -49,7 +49,6 @@ public class OrderInfoController {
 	 */
 	public void initialize(){
 		
-		System.out.println("equipmentCnt: " + equipmentCnt);
 
 		
 		if(!doOnce){
@@ -83,13 +82,11 @@ public class OrderInfoController {
 		indexes.add(bcd);
 		indexes.add(ccr);
 		Collections.sort(indexes);
-		System.out.println("ccr: " + ccr + "bcd: " + bcd +  "reg: " + reg + "tank: " + tank);
 		//Get indexes
 
 
 
 		if(LabOrdersController.orderSelected.regDone&&reg!=-1){//reg will be -1 after we finish here.
-			System.out.println("inside reg");
 			--equipmentCnt;
 			LabOrdersController.orderSelected.setSummary(LabOrdersController.orderSelected.getSummary()+AnnualController.annualComments);
 			if(AnnualController.fixCost!=0){
@@ -153,7 +150,6 @@ public class OrderInfoController {
 		indexes.add(bcd);
 		indexes.add(ccr);
 		Collections.sort(indexes);
-		System.out.println("ccr: " + ccr + "bcd: " + bcd +  "reg: " + reg + "tank: " + tank);
 	}
 	
 	public void updateDescription(int x){
@@ -170,7 +166,6 @@ public class OrderInfoController {
 		if(i!=3 && indexes.get(i++)!=-1)
 			for(int j=indexes.get(i);j<oldDes.length();++j)
 				newDes+=oldDes.charAt(j);
-		System.out.println("NEW DES");
 		descriptionTextArea.setText(newDes);
 		LabOrdersController.orderSelected.setDescription(newDes);
 		updateIndexes();

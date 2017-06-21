@@ -206,7 +206,6 @@ public class AddEquipment {
 		isBackFromServer=false;
 
 		boolean isFilled = true;
-		System.out.println("HERE~onAddRegulator");
 
 		regModelText.setFill(Color.BLACK);
 		regManuText.setFill(Color.BLACK);
@@ -230,7 +229,6 @@ public class AddEquipment {
 			regDeepNumText.setFill(Color.RED);isFilled=false;
 		}
 
-		System.out.println("HERE~onAddRegulator      " + isFilled);
 		
 		if(!isFilled)
 			return;
@@ -338,7 +336,7 @@ public class AddEquipment {
 		while(!isBackFromServer)
 			if(!GM.Sleep(70, error, timesCalled++))
 				return;
-
+		isBackFromServer=false;
 
 
 

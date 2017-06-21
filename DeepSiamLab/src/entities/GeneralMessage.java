@@ -10,6 +10,7 @@ public class GeneralMessage implements Serializable{
 	 */
 	private static final long serialVersionUID = -3047749912580360585L;
 	
+	
 	private Files file=new Files();
 	public String actionNow, query;
 	private String message;

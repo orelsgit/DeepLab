@@ -3,7 +3,6 @@ package main;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +12,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
+import controllers.LoginWorkerScreenController;
 import entities.BCD;
 import entities.CCR;
 import entities.Customer;
@@ -27,7 +29,6 @@ import entities.Windows;
 import entities.Worker;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-import sun.misc.IOUtils;
 
 public class Server extends AbstractServer {    
 	Connection conn;
@@ -112,25 +113,30 @@ public class Server extends AbstractServer {
 
 
 	public void DownloadUpdate(Update update, ConnectionToClient client){
+		FileOutputStream fos = null;
 		try{
-			System.out.println("HERE1");
 			Statement stmt = conn.createStatement();
 			int version = getLatestUpdate();
 			String query = "SELECT UFile FROM orelDeepdivers.Updates WHERE Version = " + version + ";";
 			ResultSet rs = stmt.executeQuery(query);
-			System.out.println("HERE2");
-			FileOutputStream fos = new FileOutputStream((update.getDestination() + "\\מעבדה.exe"));
-			System.out.println("HERE3");
+			fos = new FileOutputStream((update.getDestination() + "\\מעבדה.exe"));
 			if(rs.next()){
-				System.out.println("HERE4");
 				byte[] bytes = rs.getBytes(1);
-				System.out.println("HERE5");
-				fos.write(bytes);
-				System.out.println("HERE6");
+				fos.write(bytes);	
 				fos.close();
+				query = "SELECT LTRIM(RTRIM(Description)) FROM orelDeepdivers.Updates WHERE Version = " + version + ";";
+				rs = stmt.executeQuery(query);
+				rs.next();
+				Windows.message("עדכונים:\n" + rs.getString(1), "מה חדש?");
+				Windows.closeCurrentWindow();
+				LoginWorkerScreenController.backFromServer = true;
+
 			}
 
 		}catch(Exception e){e.printStackTrace();}
+		finally{
+			try {fos.close();} catch (IOException e) {e.printStackTrace();}
+		}
 	}
 
 	public void addNewUpdate(Update update, ConnectionToClient client){
@@ -309,7 +315,6 @@ public class Server extends AbstractServer {
 				pstmt.setString(5, ccr.getFiles().getFileName());
 			}
 			else{
-				System.out.println("HERE");
 				pstmt.setBinaryStream(4, null);
 				pstmt.setString(5, null);
 			}
@@ -406,11 +411,9 @@ public class Server extends AbstractServer {
 
 	public void addRegulator(Regulator reg, ConnectionToClient client){
 		try{
-			System.out.println("addRegulator");
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("select LTRIM(RTRIM(DeepNum)) from orelDeepdivers.Regulators WHERE DeepNum = '" + reg.getDeepNum() + "';");
 			if(rs.next()){
-				System.out.println(rs.getString(1));
 				Windows.threadWarning("הוסת קיים במערכת");
 				reg.actionNow="AlreadyInSystem";
 				client.sendToClient(reg);
@@ -934,7 +937,6 @@ public class Server extends AbstractServer {
 	 * @author orelzman
 	 */
 	public void issueOrder(Order order, ConnectionToClient client){
-		System.out.println("ISSUE ORDER");
 		PreparedStatement preparedStmt;
 		Statement stmt;
 		int max=0;
@@ -947,7 +949,6 @@ public class Server extends AbstractServer {
 			max++;
 			preparedStmt.setInt(1, max);
 			if(order.getCustID() == null){
-				System.out.println("SERVER ISSUEORDER NEW CUSTOMER");
 				rs = stmt.executeQuery("SELECT LTRIM(RTRIM(CustID)) FROM OrelDeepdivers.Customers");			
 				if(rs.next()){
 					while(rs.next())

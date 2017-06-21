@@ -79,7 +79,6 @@ public class Client extends AbstractClient {
 				case "Incorrect"://Incorrect login information
 					Worker worker = new Worker();worker.actionNow="Incorrect;";
 					Windows.warning("Incorrect information. Try again.");Worker.setCurrentWorker(worker);LoginScreenController.isBackFromServer = true;
-					System.out.println("General: " + LoginScreenController.isBackFromServer);break;
 				case "Correct"://correct login information
 					Worker.setCurrentWorker((Worker)msg);break;
 				case "IssueOrder"://An order was issued by the dalpak

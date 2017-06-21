@@ -76,7 +76,6 @@ public class Worker extends GeneralMessage{
 			return;
 		}
 		if(currentWorker.actionNow.equals("Incorrect")){
-			System.out.println("Incorrect");
 			currentWorker = new Worker();
 			return;
 		}

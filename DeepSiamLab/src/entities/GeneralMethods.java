@@ -18,6 +18,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.swing.JOptionPane;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -271,9 +272,13 @@ public class GeneralMethods implements Serializable{
 	 * @author orelzman
 	 */
 	public boolean Sleep(int time, Error error, int timesCalled){
+		int maxTime = 10000;
+		if(error.getFunctionError().equals("downloadUpdate"))
+			maxTime = 60000;
 		try{Thread.sleep(time);
-			if(time*timesCalled >= 10000){
+			if(time*timesCalled >= maxTime){
 				sendServer(error, "Error");
+				Windows.closeCurrentWindow();
 				Windows.message("ישנה בעיה במערכת ואו באינטרנט. בדוק את החיבור ונסה שוב או פנה למתכנת האחראי", "אירעה תקלה");
 				return false;
 			}

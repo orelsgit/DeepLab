@@ -1,12 +1,13 @@
 package controllers;
 
+import entities.Constants;
 import entities.Error;
-import entities.Files;
 import entities.GeneralMessage;
 import entities.GeneralMethods;
 import entities.Status;
 import entities.Windows;
 import entities.Worker;
+import entities.Write;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -43,7 +44,8 @@ public class LoginScreenController {
 		GeneralMessage.currentWindow = "LoginScreen";
 		GeneralMessage.currentPopup = "";
 
-
+		Write.getInstance().writeVersion(Constants.Version);
+		
 		idTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
